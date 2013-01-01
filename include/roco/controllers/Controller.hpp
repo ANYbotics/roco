@@ -42,6 +42,8 @@
 #pragma once
 
 #include "roco/controllers/ControllerInterface.hpp"
+#include <boost/thread.hpp>
+
 #include <string>
 
 namespace roco {
@@ -85,10 +87,18 @@ class Controller: virtual public ControllerInterface {
    */
   virtual const State& getState() const = 0;
 
+  /*! @returns a mutex to protect access to the state.
+   */
+  virtual boost::shared_mutex& getStateMutex() = 0;
+
   /*! @returns the command.
    * This method should be implemented by the adapter.
    */
   virtual const Command& getCommand() const = 0;
+
+  /*! @returns a mutex to protect access to the command.
+   */
+  virtual boost::shared_mutex& getCommandMutex() = 0;
 
   /*! @returns the command.
    * This method should be implemented by the adapter.
@@ -119,13 +129,13 @@ class Controller: virtual public ControllerInterface {
   std::string name_;
 
   //! Indicates if the controller is created.
-  bool isCreated_;
+  boost::atomic<bool> isCreated_;
 
   //! Indicates if the controller is initialized.
-  bool isInitialized_;
+  boost::atomic<bool> isInitialized_;
 
   //! Indicates if the controller is running.
-  bool isRunning_;
+  boost::atomic<bool> isRunning_;
 
 };
 
