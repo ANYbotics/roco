@@ -27,3 +27,5 @@ install_manifest.txt
 .directory
 
 build/*
+bin/*
+lib/*
