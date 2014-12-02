@@ -8,14 +8,15 @@
 #
 #-------------------------------------------------------------------------------
 cmake_minimum_required (VERSION 2.8)  
-message("      Including robotControllers/common")
+message("      Including robotControllers/time")
 
 
 ###############
 ### SOURCES ###
 ###############
 set(CTRLS_SRCS ${CTRLS_SRCS} 
-	${CMAKE_CURRENT_SOURCE_DIR}/ControllerImpl.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Time.cpp  
+    ${CMAKE_CURRENT_SOURCE_DIR}/TimeStd.cpp  
 PARENT_SCOPE)
 
 

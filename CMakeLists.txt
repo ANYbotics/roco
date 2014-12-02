@@ -41,7 +41,7 @@ include_directories(include)
 
 
 add_subdirectory(src/common)
-
+add_subdirectory(src/time)
 
 add_library(robotControllers SHARED ${CTRLS_SRCS})
 target_link_libraries(robotControllers ${CTRLS_LIBS})

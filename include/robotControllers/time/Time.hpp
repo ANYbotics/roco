@@ -33,39 +33,31 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerInterface.hpp
+* @file     Time.hpp
 * @author   Christian Gehring
 * @date     Dec, 2014
 * @brief
 */
 #pragma once
 
-#include <string>
-#include <robotControllers/time/Time.hpp>
+#include <cstdint>
+#include <ostream>
+#include <iomanip> // std::setw
 
 namespace robotControllers {
 
-//! Abstract interface class for controllers.
-/*!
- *
- */
-class ControllerInterface
+class Time
 {
  public:
-  ControllerInterface() {};
-  virtual ~ControllerInterface() {};
-  virtual const std::string& getName() const = 0;
-  virtual bool isInitialized() const = 0;
-  virtual bool isCreated() const = 0;
-  virtual bool isRealRobot() const = 0;
-
-  virtual bool createController(double dt) = 0;
-  virtual bool initializeController(double dt) = 0;
-  virtual bool advanceController(double dt) = 0;
-  virtual bool cleanupController() = 0;
-
-  virtual const Time& getTime() const = 0;
-  virtual void setTime(const Time& time) = 0;
+  Time() {}
+  virtual ~Time() {}
+  virtual Time& fromSec(double t) = 0;
+  virtual double toSec() const = 0;
+  virtual uint32_t getSec() const = 0;
+  virtual uint32_t getNSec() const = 0;
+  friend std::ostream& operator<<(std::ostream& out, const Time& rhs);
 };
 
-} /* namespace robot_controllers */
+
+
+} /* namespace robotControllers */
