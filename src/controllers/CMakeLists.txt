@@ -15,7 +15,6 @@ message("      Including robotControllers/controllers")
 ### SOURCES ###
 ###############
 set(CTRLS_SRCS ${CTRLS_SRCS} 
-	${CMAKE_CURRENT_SOURCE_DIR}/Controller.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ControllerAdapterInterface.cpp
 PARENT_SCOPE)
 

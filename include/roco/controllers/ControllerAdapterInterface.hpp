@@ -63,6 +63,10 @@ class ControllerAdapterInterface
 
   virtual bool isCheckingRobotState() const = 0;
   virtual void setIsCheckingRobotState(bool isChecking) = 0;
+
+  //! @returns true if the real robot is controlled.
+  virtual bool isRealRobot() const = 0;
+
 };
 
 } /* namespace roco */

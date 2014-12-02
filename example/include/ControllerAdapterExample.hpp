@@ -54,10 +54,18 @@ template<typename Controller_>
 class ControllerAdapterExample:  public ControllerAdapterInterface, public Controller_
 {
  public:
-  ControllerAdapterExample() :
+  typedef Controller_ Controller;
+  typedef typename Controller::State State;
+  typedef typename Controller::Command Command;
+ public:
+  ControllerAdapterExample(State& state, Command& command) :
+    Controller(),
+    isRealRobot_(false),
     isCheckingCommands_(true),
     isCheckingRobotState_(true),
-    time_()
+    time_(),
+    state_(state),
+    command_(command)
    {};
   virtual ~ControllerAdapterExample() {};
 
@@ -87,6 +95,7 @@ class ControllerAdapterExample:  public ControllerAdapterInterface, public Contr
       this->isInitialized_ = false;
     }
     time_.fromSec(0.0);
+    state_ = 0.0;
     return this->isInitialized();
   }
 
@@ -95,6 +104,7 @@ class ControllerAdapterExample:  public ControllerAdapterInterface, public Contr
       return false;
     }
     time_ += dt;
+    state_ += 1.0;
     try {
       return this->advance(dt);
     }
@@ -140,10 +150,31 @@ class ControllerAdapterExample:  public ControllerAdapterInterface, public Contr
     isCheckingRobotState_ = isChecking;
   }
 
+  virtual bool isRealRobot() const {
+    return isRealRobot_;
+  }
+
+  virtual const State& getState() const {
+    return state_;
+  }
+
+  virtual const Command& getCommand() const {
+    return command_;
+  }
+
+  virtual Command& getCommand() {
+    return command_;
+  }
+
+
  private:
+  //! Indicates if the real robot is controller or only a simulated version.
+  bool isRealRobot_;
   bool isCheckingCommands_;
   bool isCheckingRobotState_;
   TimeStd time_;
+  State& state_;
+  Command& command_;
 };
 
 } /* namespace roco */

@@ -50,9 +50,15 @@ namespace roco {
 /*! Derive this class and implement your own controller.
  *
  */
+template<typename State_, typename Command_>
 class Controller: public virtual ControllerInterface {
  public:
-  Controller(const std::string& name = std::string{""}, bool isRealRobot = false);
+  //! Typedef of the state of the robot.
+  typedef State_ State;
+  //! Typedef of the command of the robot.
+  typedef Command_ Command;
+ public:
+  Controller(const std::string& name);
   virtual ~Controller();
 
   /*! @returns the name of the controller
@@ -70,9 +76,20 @@ class Controller: public virtual ControllerInterface {
   //! @returns true if the controller has been created.
   bool isCreated() const;
 
-  //! @returns true if the real robot is controlled.
-  bool isRealRobot() const;
+  /*! @returns the state of the robot.
+   * This method should be implemented by the adapter.
+   */
+  virtual const State& getState() const = 0;
 
+  /*! @returns the command.
+   * This method should be implemented by the adapter.
+   */
+  virtual const Command& getCommand() const = 0;
+
+  /*! @returns the command.
+   * This method should be implemented by the adapter.
+   */
+  virtual Command& getCommand() = 0;
  protected:
   /*! Use this method instead of the constructor to create objects.
    * This method is only called once during the whole lifetime of the controller.
@@ -93,14 +110,15 @@ class Controller: public virtual ControllerInterface {
  protected:
   //! Name of the controller
   std::string name_;
+
   //! Indicates if the controller is created.
   bool isCreated_;
+
   //! Indicates if the controller is initialized.
   bool isInitialized_;
-  //! Indicates if the real robot is controller or only a simulated version.
-  bool isRealRobot_;
+
 };
 
+} /* namespace roco */
 
-} /* namespace robotControllers */
-
+#include "Controller.tpp"

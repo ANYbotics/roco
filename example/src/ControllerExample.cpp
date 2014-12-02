@@ -44,7 +44,7 @@
 
 namespace roco {
 
-ControllerExample::ControllerExample():Controller("ControllerExample")
+ControllerExample::ControllerExample():Controller(std::string{"ControllerExample"})
 {
 
 }
@@ -66,8 +66,11 @@ bool ControllerExample::initialize(double dt)
 
 bool ControllerExample::advance(double dt)
 {
-  ROCO_FATAL("uuups");
+//  ROCO_FATAL("uuups");
   std::cout << "time: " << getTime().toSec() << std::endl;
+  std::cout << "state: " << getState() << std::endl;
+  getCommand() = 2.0;
+  std::cout << "command: " << getCommand() << std::endl;
   return true;
 }
 

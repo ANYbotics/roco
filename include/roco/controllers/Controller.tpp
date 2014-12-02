@@ -33,48 +33,48 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     Controller.cpp
+* @file     Controller.tpp
 * @author   Christian Gehring
 * @date     Dec, 2014
 * @brief
 */
 
-#include "roco/controllers/Controller.hpp"
 
 namespace roco {
 
-Controller::Controller(const std::string& name, bool isRealRobot):
+template<typename State_, typename Command_>
+Controller<State_, Command_>::Controller(const std::string& name):
   name_(name),
   isCreated_(false),
-  isInitialized_(false),
-  isRealRobot_(isRealRobot)
+  isInitialized_(false)
 {
 
 }
 
-Controller::~Controller()
+template<typename State_, typename Command_>
+Controller<State_, Command_>::~Controller()
 {
 
 }
 
-const std::string& Controller::getName() const {
+template<typename State_, typename Command_>
+const std::string& Controller<State_, Command_>::getName() const {
   return name_;
 }
 
-void Controller::setName(std::string& name) {
+template<typename State_, typename Command_>
+void Controller<State_, Command_>::setName(std::string& name) {
   name_ = name;
 }
 
-bool Controller::isInitialized() const {
+template<typename State_, typename Command_>
+bool Controller<State_, Command_>::isInitialized() const {
   return isInitialized_;
 }
 
-bool Controller::isCreated() const {
+template<typename State_, typename Command_>
+bool Controller<State_, Command_>::isCreated() const {
   return isCreated_;
 }
 
-bool Controller::isRealRobot() const {
-  return isRealRobot_;
-}
-
-} /* namespace robot_controllers */
+} /* namespace roco */

@@ -50,10 +50,12 @@ int main(int argc, char** argv) {
 
   std::string test{"hello"};
   ROCO_INFO_STREAM(test);
-  ROCO_ERROR("test %lf", 0.1);
+//  ROCO_ERROR("test %lf", 0.1);
 
+  double state = 0.0;
+  double command = 0.0;
+  ControllerAdapterExample<ControllerExample> controller(state, command);
 
-  ControllerAdapterExample<ControllerExample> controller;
   std::cout << controller.getName() << std::endl;
   if (!controller.createController(dt)) {
     std::cout << "Could not create controller!\n";

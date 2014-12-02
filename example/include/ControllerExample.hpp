@@ -44,7 +44,7 @@
 
 namespace roco {
 
-class ControllerExample: public Controller
+class ControllerExample: public Controller<double, double>
 {
  public:
   ControllerExample();
