@@ -9,7 +9,7 @@
 #-------------------------------------------------------------------------------
 cmake_minimum_required (VERSION 2.8)
 
-project(robotControllers)
+project(roco)
 
 
 set(EXECUTABLE_OUTPUT_PATH 	${PROJECT_SOURCE_DIR}/bin)
@@ -40,11 +40,11 @@ include_directories(${Kindr_INCLUDE_DIRS})
 include_directories(include)
 
 
-add_subdirectory(src/common)
+add_subdirectory(src/controllers)
 add_subdirectory(src/time)
 
-add_library(robotControllers SHARED ${CTRLS_SRCS})
-target_link_libraries(robotControllers ${CTRLS_LIBS})
+add_library(roco SHARED ${CTRLS_SRCS})
+target_link_libraries(roco ${CTRLS_LIBS})
 
 
 # Add Doxygen documentation
@@ -55,27 +55,27 @@ endif (BUILD_DOC)
 
 
 # Generate FindRobotUtils.cmake file
-file(WRITE cmake/FindRobotControllers.cmake
+file(WRITE cmake/FindRoco.cmake
 "# This file was automatically generated during the installation of the robot utils library
 # and can be used through cmake to find the corresponding header files. A copy of this
 # file was created in ${CMAKE_ROOT}/Modules (depending on the CMAKE_ROOT variable).
 
-set(RobotControllers_INCLUDE_DIRS
-    ${CMAKE_INSTALL_PREFIX}/include/robotControllers/include
+set(ROCO_INCLUDE_DIRS
+    ${CMAKE_INSTALL_PREFIX}/include/roco/include
 )
 
-set(robotControllers_LIBRARIES robotControllers)
+set(ROCO_LIBRARIES roco)
 
-set(robotControllers_FOUND TRUE)
+set(ROCO_FOUND TRUE)
 "
 )
 
 
 # Setting for make install
-install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_INSTALL_PREFIX}/include/robotControllers)")
-install(DIRECTORY include DESTINATION ${CMAKE_INSTALL_PREFIX}/include/robotControllers)
-install(FILES cmake/FindrobotControllers.cmake DESTINATION ${CMAKE_ROOT}/Modules)
-install(FILES lib/librobotControllers.so DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_INSTALL_PREFIX}/include/roco)")
+install(DIRECTORY include DESTINATION ${CMAKE_INSTALL_PREFIX}/include/roco)
+install(FILES cmake/FindRoco.cmake DESTINATION ${CMAKE_ROOT}/Modules)
+install(FILES lib/libroco.so DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 
 if (BUILD_EXAMPLE)
 add_subdirectory(example example)

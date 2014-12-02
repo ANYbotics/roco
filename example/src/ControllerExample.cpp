@@ -33,49 +33,50 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerTest.cpp
+* @file     ControllerExample.cpp
 * @author   Christian Gehring
 * @date     Dec, 2014
 * @brief
 */
-#include "ControllerTest.hpp"
+#include "ControllerExample.hpp"
 #include <stdexcept>
 #include <iostream>
 
-namespace robotControllers {
+namespace roco {
 
-ControllerTest::ControllerTest():ControllerImpl("ControllerTest")
+ControllerExample::ControllerExample():Controller("ControllerExample")
 {
 
 }
 
-ControllerTest::~ControllerTest()
+ControllerExample::~ControllerExample()
 {
 }
 
-bool ControllerTest::create(double dt)
+bool ControllerExample::create(double dt)
 {
  return true;
 }
 
-bool ControllerTest::initialize(double dt)
+bool ControllerExample::initialize(double dt)
 {
 //  throw std::runtime_error("ControllerTest: could not init\n");
   return true;
 }
 
-bool ControllerTest::advance(double dt)
+bool ControllerExample::advance(double dt)
 {
+  ROCO_FATAL("uuups");
   std::cout << "time: " << getTime().toSec() << std::endl;
   return true;
 }
 
-bool ControllerTest::cleanup()
+bool ControllerExample::cleanup()
 {
   return true;
 }
 
-bool ControllerTest::reset()
+bool ControllerExample::reset()
 {
   return true;
 }

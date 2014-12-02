@@ -33,61 +33,28 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerImpl.hpp
+* @file     ControllerExample.hpp
 * @author   Christian Gehring
 * @date     Dec, 2014
 * @brief
 */
-
 #pragma once
 
-#include "robotControllers/common/ControllerInterface.hpp"
-#include <string>
+#include <roco/controllers/Controller.hpp>
 
-namespace robotControllers {
+namespace roco {
 
-//! Controller Implementation
-/*! Derive this class and implement your own controller.
- *
- */
-class ControllerImpl: public virtual ControllerInterface {
+class ControllerExample: public Controller
+{
  public:
-  ControllerImpl(const std::string& name = std::string{""}, bool isRealRobot = false);
-  virtual ~ControllerImpl();
-
-  const std::string& getName() const;
-  bool isInitialized() const;
-  bool isCreated() const;
-  bool isRealRobot() const;
-
- protected:
-  /*! Use this method instead of the constructor to create objects.
-   * This method is only called once during the whole lifetime of the controller.
-   * @param dt  time step [s]
-   * @returns true if successful
-   */
-  virtual bool create(double dt) = 0;
-
-  /*! This method is invoked
-   * @param dt  time step [s]
-   * @returns true if successful
-   */
-  virtual bool initialize(double dt) = 0;
-  virtual bool advance(double dt) = 0;
-  virtual bool cleanup() = 0;
-  virtual bool reset() = 0;
-
- protected:
-  //! Name of the controller
-  std::string name_;
-  //! Indicates if the controller is created.
-  bool isCreated_;
-  //! Indicates if the controller is initialized.
-  bool isInitialized_;
-
-  bool isRealRobot_;
+  ControllerExample();
+  virtual ~ControllerExample();
+protected:
+  virtual bool create(double dt);
+  virtual bool initialize(double dt);
+  virtual bool advance(double dt);
+  virtual bool cleanup();
+  virtual bool reset();
 };
 
-
 } /* namespace robotControllers */
-

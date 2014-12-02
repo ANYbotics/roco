@@ -44,7 +44,7 @@
 #include <ostream>
 #include <iomanip> // std::setw
 
-namespace robotControllers {
+namespace roco {
 
 class Time
 {

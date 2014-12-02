@@ -33,39 +33,48 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerInterface.hpp
+* @file     Controller.cpp
 * @author   Christian Gehring
 * @date     Dec, 2014
 * @brief
 */
-#pragma once
 
-#include <string>
-#include <robotControllers/time/Time.hpp>
+#include "roco/controllers/Controller.hpp"
 
-namespace robotControllers {
+namespace roco {
 
-//! Abstract interface class for controllers.
-/*!
- *
- */
-class ControllerInterface
+Controller::Controller(const std::string& name, bool isRealRobot):
+  name_(name),
+  isCreated_(false),
+  isInitialized_(false),
+  isRealRobot_(isRealRobot)
 {
- public:
-  ControllerInterface() {};
-  virtual ~ControllerInterface() {};
-  virtual const std::string& getName() const = 0;
-  virtual bool isInitialized() const = 0;
-  virtual bool isCreated() const = 0;
-  virtual bool isRealRobot() const = 0;
 
-  virtual bool createController(double dt) = 0;
-  virtual bool initializeController(double dt) = 0;
-  virtual bool advanceController(double dt) = 0;
-  virtual bool cleanupController() = 0;
+}
 
-  virtual const Time& getTime() const = 0;
-  virtual void setTime(const Time& time) = 0;
-};
+Controller::~Controller()
+{
+
+}
+
+const std::string& Controller::getName() const {
+  return name_;
+}
+
+void Controller::setName(std::string& name) {
+  name_ = name;
+}
+
+bool Controller::isInitialized() const {
+  return isInitialized_;
+}
+
+bool Controller::isCreated() const {
+  return isCreated_;
+}
+
+bool Controller::isRealRobot() const {
+  return isRealRobot_;
+}
 
 } /* namespace robot_controllers */

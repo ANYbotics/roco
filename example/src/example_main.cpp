@@ -39,16 +39,21 @@
 * @brief
 */
 
-#include "ControllerAdapter.hpp"
-#include "ControllerTest.hpp"
+#include "ControllerAdapterExample.hpp"
+#include "ControllerExample.hpp"
 
 #include <iostream>
 
 int main(int argc, char** argv) {
-  using namespace robotControllers;
+  using namespace roco;
   double dt = 0.1;
 
-  ControllerAdapter<ControllerTest> controller;
+  std::string test{"hello"};
+  ROCO_INFO_STREAM(test);
+  ROCO_ERROR("test %lf", 0.1);
+
+
+  ControllerAdapterExample<ControllerExample> controller;
   std::cout << controller.getName() << std::endl;
   if (!controller.createController(dt)) {
     std::cout << "Could not create controller!\n";

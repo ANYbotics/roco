@@ -33,44 +33,24 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerImpl.cpp
+* @file     ControllerAdapterInterface.hpp
 * @author   Christian Gehring
 * @date     Dec, 2014
 * @brief
 */
 
-#include "robotControllers/common/ControllerImpl.hpp"
+#include "roco/controllers/ControllerAdapterInterface.hpp"
 
-namespace robotControllers {
+namespace roco {
 
-ControllerImpl::ControllerImpl(const std::string& name, bool isRealRobot):
-  name_(name),
-  isCreated_(false),
-  isInitialized_(false),
-  isRealRobot_(isRealRobot)
+ControllerAdapterInterface::ControllerAdapterInterface()
 {
 
 }
 
-ControllerImpl::~ControllerImpl()
+ControllerAdapterInterface::~ControllerAdapterInterface()
 {
 
 }
 
-const std::string& ControllerImpl::getName() const {
-  return name_;
-}
-
-bool ControllerImpl::isInitialized() const {
-  return isInitialized_;
-}
-
-bool ControllerImpl::isCreated() const {
-  return isCreated_;
-}
-
-bool ControllerImpl::isRealRobot() const {
-  return isRealRobot_;
-}
-
-} /* namespace robot_controllers */
+} /* namespace roco */

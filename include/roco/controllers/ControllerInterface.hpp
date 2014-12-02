@@ -33,19 +33,50 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     Time.cpp
+* @file     ControllerInterface.hpp
 * @author   Christian Gehring
 * @date     Dec, 2014
 * @brief
 */
+#pragma once
 
-#include "roco/time/Time.hpp"
+#include <string>
+#include <roco/time/Time.hpp>
+#include <roco/common/assert_macros.hpp>
+#include <roco/common/log_messages.hpp>
 
 namespace roco {
 
-std::ostream& operator<<(std::ostream& out, const Time& rhs) {
-  out << rhs.getSec() << "." << std::setw(9) << std::setfill('0') << rhs.getNSec();
-  return out;
-}
+//! Abstract interface class for controllers.
+/*!
+ *
+ */
+class ControllerInterface
+{
+ public:
+  ControllerInterface() {};
+  virtual ~ControllerInterface() {};
 
-} // namespace robotControllers
+  virtual const std::string& getName() const = 0;
+  virtual void setName(std::string& name) = 0;
+
+  virtual bool isInitialized() const = 0;
+  virtual bool isCreated() const = 0;
+  virtual bool isRealRobot() const = 0;
+
+  virtual bool createController(double dt) = 0;
+  virtual bool initializeController(double dt) = 0;
+  virtual bool advanceController(double dt) = 0;
+  virtual bool cleanupController() = 0;
+
+  virtual const Time& getTime() const = 0;
+  virtual void setTime(const Time& time) = 0;
+
+  virtual bool isCheckingCommands() const = 0;
+  virtual void setIsCheckingCommands(bool isChecking) = 0;
+
+  virtual bool isCheckingRobotState() const = 0;
+  virtual void setIsCheckingRobotState(bool isChecking) = 0;
+};
+
+} /* namespace robot_controllers */

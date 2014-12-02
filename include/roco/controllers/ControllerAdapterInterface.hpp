@@ -33,19 +33,38 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     Time.cpp
+* @file     ControllerAdapterInterface.hpp
 * @author   Christian Gehring
 * @date     Dec, 2014
 * @brief
 */
 
-#include "roco/time/Time.hpp"
+#pragma once
+
+#include <roco/time/Time.hpp>
 
 namespace roco {
 
-std::ostream& operator<<(std::ostream& out, const Time& rhs) {
-  out << rhs.getSec() << "." << std::setw(9) << std::setfill('0') << rhs.getNSec();
-  return out;
-}
+//! Abstract interface class for controller adapters.
+/*!
+ * Derive this class and implement your own controller adapter.
+ */
+class ControllerAdapterInterface
+{
+ public:
+  ControllerAdapterInterface();
+  virtual ~ControllerAdapterInterface();
 
-} // namespace robotControllers
+  virtual const Time& getTime() const = 0;
+  virtual void setTime(const Time& time) = 0;
+
+  virtual bool isCheckingCommands() const = 0;
+  virtual void setIsCheckingCommands(bool isChecking) = 0;
+
+  virtual bool isCheckingRobotState() const = 0;
+  virtual void setIsCheckingRobotState(bool isChecking) = 0;
+};
+
+} /* namespace roco */
+
+

@@ -33,28 +33,74 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerTest.hpp
+* @file     Controller.hpp
 * @author   Christian Gehring
 * @date     Dec, 2014
 * @brief
 */
+
 #pragma once
 
-#include <robotControllers/common/ControllerImpl.hpp>
+#include "roco/controllers/ControllerInterface.hpp"
+#include <string>
 
-namespace robotControllers {
+namespace roco {
 
-class ControllerTest: public ControllerImpl
-{
+//! Controller Implementation
+/*! Derive this class and implement your own controller.
+ *
+ */
+class Controller: public virtual ControllerInterface {
  public:
-  ControllerTest();
-  virtual ~ControllerTest();
-protected:
-  virtual bool create(double dt);
-  virtual bool initialize(double dt);
-  virtual bool advance(double dt);
-  virtual bool cleanup();
-  virtual bool reset();
+  Controller(const std::string& name = std::string{""}, bool isRealRobot = false);
+  virtual ~Controller();
+
+  /*! @returns the name of the controller
+   */
+  virtual const std::string& getName() const;
+
+  /*! Sets the name of the controller.
+   * @param name
+   */
+  virtual void setName(std::string& name);
+
+  //! @returns true if the controller is initialized.
+  bool isInitialized() const;
+
+  //! @returns true if the controller has been created.
+  bool isCreated() const;
+
+  //! @returns true if the real robot is controlled.
+  bool isRealRobot() const;
+
+ protected:
+  /*! Use this method instead of the constructor to create objects.
+   * This method is only called once during the whole lifetime of the controller.
+   * @param dt  time step [s]
+   * @returns true if successful
+   */
+  virtual bool create(double dt) = 0;
+
+  /*! This initializes the controller before the advance method is called.
+   * @param dt  time step [s]
+   * @returns true if successful
+   */
+  virtual bool initialize(double dt) = 0;
+  virtual bool advance(double dt) = 0;
+  virtual bool cleanup() = 0;
+  virtual bool reset() = 0;
+
+ protected:
+  //! Name of the controller
+  std::string name_;
+  //! Indicates if the controller is created.
+  bool isCreated_;
+  //! Indicates if the controller is initialized.
+  bool isInitialized_;
+  //! Indicates if the real robot is controller or only a simulated version.
+  bool isRealRobot_;
 };
 
+
 } /* namespace robotControllers */
+

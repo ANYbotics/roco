@@ -8,14 +8,15 @@
 #
 #-------------------------------------------------------------------------------
 cmake_minimum_required (VERSION 2.8)  
-message("      Including robotControllers/common")
+message("      Including robotControllers/controllers")
 
 
 ###############
 ### SOURCES ###
 ###############
 set(CTRLS_SRCS ${CTRLS_SRCS} 
-	${CMAKE_CURRENT_SOURCE_DIR}/ControllerImpl.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Controller.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ControllerAdapterInterface.cpp
 PARENT_SCOPE)
 
 

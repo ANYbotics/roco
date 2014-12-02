@@ -71,11 +71,11 @@
 * @date     Dec, 2014
 * @brief
 */
-#include "robotControllers/time/TimeStd.hpp"
+#include "roco/time/TimeStd.hpp"
 #include <boost/math/special_functions/round.hpp>
 #include <iomanip> // std::setw
 
-namespace robotControllers {
+namespace roco {
 
 TimeStd::TimeStd():
     sec_(0),

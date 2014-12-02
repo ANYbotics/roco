@@ -33,7 +33,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerAdapter.hpp
+* @file     ControllerAdapterExample.hpp
 * @author   Christian Gehring
 * @date     Dec, 2014
 * @brief
@@ -43,17 +43,23 @@
 #include <iostream>
 #include <exception>      // std::exception
 
-#include <robotControllers/time/Time.hpp>
-#include <robotControllers/time/TimeStd.hpp>
+#include <roco/time/Time.hpp>
+#include <roco/time/TimeStd.hpp>
 
-namespace robotControllers {
+#include <roco/controllers/ControllerAdapterInterface.hpp>
+
+namespace roco {
 
 template<typename Controller_>
-class ControllerAdapter: public Controller_
+class ControllerAdapterExample:  public ControllerAdapterInterface, public Controller_
 {
  public:
-  ControllerAdapter() {};
-  virtual ~ControllerAdapter() {};
+  ControllerAdapterExample() :
+    isCheckingCommands_(true),
+    isCheckingRobotState_(true),
+    time_()
+   {};
+  virtual ~ControllerAdapterExample() {};
 
   virtual bool createController(double dt) {
     if (this->isCreated()) {
@@ -80,6 +86,7 @@ class ControllerAdapter: public Controller_
       std::cout << "exception caught: " << e.what() << '\n';
       this->isInitialized_ = false;
     }
+    time_.fromSec(0.0);
     return this->isInitialized();
   }
 
@@ -113,13 +120,32 @@ class ControllerAdapter: public Controller_
   virtual const Time& getTime() const {
     return static_cast<const Time&>(time_);
   }
+
   virtual void setTime(const Time& time) {
      time_ = time;
-   }
+  }
+
+  virtual bool isCheckingCommands() const {
+    return isCheckingCommands_;
+  }
+  virtual void setIsCheckingCommands(bool isChecking) {
+    isCheckingCommands_ = isChecking;
+  }
+
+  virtual bool isCheckingRobotState() const {
+    return isCheckingRobotState_;
+  }
+
+  virtual void setIsCheckingRobotState(bool isChecking) {
+    isCheckingRobotState_ = isChecking;
+  }
+
  private:
+  bool isCheckingCommands_;
+  bool isCheckingRobotState_;
   TimeStd time_;
 };
 
-} /* namespace robotControllers */
+} /* namespace roco */
 
 

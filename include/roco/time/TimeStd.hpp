@@ -74,9 +74,9 @@
 #pragma once
 
 #include <cstdint>
-#include <robotControllers/time/Time.hpp>
+#include <roco/time/Time.hpp>
 
-namespace robotControllers {
+namespace roco {
 
 class TimeStd: virtual public Time
 {
