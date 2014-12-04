@@ -79,8 +79,12 @@ bool ControllerExample::cleanup()
   return true;
 }
 
-bool ControllerExample::reset()
+bool ControllerExample::reset(double dt)
 {
+  return true;
+}
+
+bool ControllerExample::change() {
   return true;
 }
 

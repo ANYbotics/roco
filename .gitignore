@@ -29,3 +29,4 @@ install_manifest.txt
 build/*
 bin/*
 lib/*
+cmake/FindRoco.cmake

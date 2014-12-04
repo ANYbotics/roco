@@ -48,4 +48,4 @@ std::ostream& operator<<(std::ostream& out, const Time& rhs) {
   return out;
 }
 
-} // namespace robotControllers
+} // namespace roco

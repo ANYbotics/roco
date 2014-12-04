@@ -47,6 +47,7 @@
 #include <roco/time/TimeStd.hpp>
 
 #include <roco/controllers/ControllerAdapterInterface.hpp>
+#include <roco/common/log_messages.hpp>
 
 namespace roco {
 
@@ -61,8 +62,8 @@ class ControllerAdapterExample:  public ControllerAdapterInterface, public Contr
   ControllerAdapterExample(State& state, Command& command) :
     Controller(),
     isRealRobot_(false),
-    isCheckingCommands_(true),
-    isCheckingRobotState_(true),
+    isCheckingCommand_(true),
+    isCheckingState_(true),
     time_(),
     state_(state),
     command_(command)
@@ -77,7 +78,7 @@ class ControllerAdapterExample:  public ControllerAdapterInterface, public Contr
       this->isCreated_ = this->create(dt);
     }
     catch (std::exception& e) {
-      std::cout << "exception caught: " << e.what() << '\n';
+      ROCO_WARN_STREAM("Exception caught: " << e.what());
       this->isCreated_ = false;
     }
     return this->isCreated();
@@ -91,7 +92,7 @@ class ControllerAdapterExample:  public ControllerAdapterInterface, public Contr
       this->isInitialized_ = this->initialize(dt);
     }
     catch (std::exception& e) {
-      std::cout << "exception caught: " << e.what() << '\n';
+      ROCO_WARN_STREAM("Exception caught: " << e.what());
       this->isInitialized_ = false;
     }
     time_.fromSec(0.0);
@@ -109,7 +110,7 @@ class ControllerAdapterExample:  public ControllerAdapterInterface, public Contr
       return this->advance(dt);
     }
     catch (std::exception& e) {
-      std::cout << "exception caught: " << e.what() << '\n';
+      ROCO_WARN_STREAM("Exception caught: " << e.what());
     }
     return false;
   }
@@ -122,7 +123,37 @@ class ControllerAdapterExample:  public ControllerAdapterInterface, public Contr
       return this->cleanup();
     }
     catch (std::exception& e) {
-      std::cout << "exception caught: " << e.what() << '\n';
+      ROCO_WARN_STREAM("Exception caught: " << e.what());
+    }
+    return false;
+  }
+
+  virtual bool resetController(double dt) {
+    if (!this->isCreated()) {
+       return false;
+    }
+    if (!this->isInitialized()) {
+       return initializeController(dt);
+    }
+
+    try {
+      return this->reset(dt);
+    }
+    catch (std::exception& e) {
+      ROCO_WARN_STREAM("Exception caught: " << e.what());
+    }
+    return false;
+  }
+
+  virtual bool changeController() {
+    if (!this->isInitialized()) {
+       return false;
+    }
+    try {
+      return this->change();
+    }
+    catch (std::exception& e) {
+       ROCO_WARN_STREAM("Exception caught: " << e.what());
     }
     return false;
   }
@@ -135,23 +166,26 @@ class ControllerAdapterExample:  public ControllerAdapterInterface, public Contr
      time_ = time;
   }
 
-  virtual bool isCheckingCommands() const {
-    return isCheckingCommands_;
+  virtual bool isCheckingCommand() const {
+    return isCheckingCommand_;
   }
-  virtual void setIsCheckingCommands(bool isChecking) {
-    isCheckingCommands_ = isChecking;
-  }
-
-  virtual bool isCheckingRobotState() const {
-    return isCheckingRobotState_;
+  virtual void setIsCheckingCommand(bool isChecking) {
+    isCheckingCommand_ = isChecking;
   }
 
-  virtual void setIsCheckingRobotState(bool isChecking) {
-    isCheckingRobotState_ = isChecking;
+  virtual bool isCheckingState() const {
+    return isCheckingState_;
+  }
+
+  virtual void setIsCheckingState(bool isChecking) {
+    isCheckingState_ = isChecking;
   }
 
   virtual bool isRealRobot() const {
     return isRealRobot_;
+  }
+  virtual void setIsRealRobot(bool isRealRobot) {
+    isRealRobot_ = isRealRobot;
   }
 
   virtual const State& getState() const {
@@ -170,8 +204,8 @@ class ControllerAdapterExample:  public ControllerAdapterInterface, public Contr
  private:
   //! Indicates if the real robot is controller or only a simulated version.
   bool isRealRobot_;
-  bool isCheckingCommands_;
-  bool isCheckingRobotState_;
+  bool isCheckingCommand_;
+  bool isCheckingState_;
   TimeStd time_;
   State& state_;
   Command& command_;

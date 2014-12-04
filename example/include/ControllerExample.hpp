@@ -53,8 +53,9 @@ protected:
   virtual bool create(double dt);
   virtual bool initialize(double dt);
   virtual bool advance(double dt);
+  virtual bool reset(double dt);
   virtual bool cleanup();
-  virtual bool reset();
+  virtual bool change();
 };
 
 } /* namespace robotControllers */

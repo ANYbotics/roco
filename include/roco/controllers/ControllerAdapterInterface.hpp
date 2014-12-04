@@ -55,17 +55,26 @@ class ControllerAdapterInterface
   ControllerAdapterInterface();
   virtual ~ControllerAdapterInterface();
 
+  virtual bool createController(double dt) = 0;
+  virtual bool initializeController(double dt) = 0;
+  virtual bool advanceController(double dt) = 0;
+  virtual bool cleanupController() = 0;
+  virtual bool resetController(double dt) = 0;
+  virtual bool changeController() = 0;
+
+
   virtual const Time& getTime() const = 0;
   virtual void setTime(const Time& time) = 0;
 
-  virtual bool isCheckingCommands() const = 0;
-  virtual void setIsCheckingCommands(bool isChecking) = 0;
+  virtual bool isCheckingCommand() const = 0;
+  virtual void setIsCheckingCommand(bool isChecking) = 0;
 
-  virtual bool isCheckingRobotState() const = 0;
-  virtual void setIsCheckingRobotState(bool isChecking) = 0;
+  virtual bool isCheckingState() const = 0;
+  virtual void setIsCheckingState(bool isChecking) = 0;
 
   //! @returns true if the real robot is controlled.
   virtual bool isRealRobot() const = 0;
+  virtual void setIsRealRobot(bool isRealRobot) = 0;
 
 };
 

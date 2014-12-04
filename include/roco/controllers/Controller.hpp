@@ -51,7 +51,7 @@ namespace roco {
  *
  */
 template<typename State_, typename Command_>
-class Controller: public virtual ControllerInterface {
+class Controller: virtual public ControllerInterface {
  public:
   //! Typedef of the state of the robot.
   typedef State_ State;
@@ -104,8 +104,9 @@ class Controller: public virtual ControllerInterface {
    */
   virtual bool initialize(double dt) = 0;
   virtual bool advance(double dt) = 0;
+  virtual bool reset(double dt) = 0;
   virtual bool cleanup() = 0;
-  virtual bool reset() = 0;
+  virtual bool change() = 0;
 
  protected:
   //! Name of the controller
