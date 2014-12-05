@@ -49,63 +49,97 @@ namespace common {
 ROCO_DEFINE_EXCEPTION(roco_fatal, std::runtime_error)
 ROCO_DEFINE_EXCEPTION(roco_error, std::runtime_error)
 
+const std::string black     = "\033[0;30m";
+const std::string red       = "\033[0;31m";
+const std::string green     = "\033[0;32m";
+const std::string yellow    = "\033[0;33m";
+const std::string blue      = "\033[0;34m";
+const std::string magenta   = "\033[0;35m";
+const std::string cyan      = "\033[0;36m";
+const std::string white     = "\033[0;37m";
+const std::string def       = "\033[0m";
+
+const std::string colorFatal = red;
+const std::string colorError = red;
+const std::string colorWarn = magenta;
+const std::string colorInfo = green;
+const std::string colorDebug = blue;
 
 #define ROCO_FATAL(...) \
     std::stringstream roco_assert_stringstream;             \
-    roco_assert_stringstream << roco::common::internal::roco_string_format(__VA_ARGS__); \
+    roco_assert_stringstream << roco::common::colorFatal << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::common::def; \
     roco::common::internal::roco_throw_exception<roco::common::roco_fatal>("[CTRL FATAL] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str());
 
 #define ROCO_FATAL_STREAM(message) \
     std::stringstream roco_assert_stringstream;             \
-    roco_assert_stringstream << message; \
+    roco_assert_stringstream << roco::common::colorFatal << message << roco::common::def; \
     roco::common::internal::roco_throw_exception<roco::common::roco_fatal>("[CTRL FATAL] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str());
 
 #define ROCO_ERROR(...) \
     std::stringstream roco_assert_stringstream;             \
-    roco_assert_stringstream << roco::common::internal::roco_string_format(__VA_ARGS__); \
+    roco_assert_stringstream << roco::common::colorError << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::common::def; \
     roco::common::internal::roco_throw_exception<roco::common::roco_fatal>("[CTRL ERROR] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str());
 
 #define ROCO_ERROR_STREAM(message) \
     std::stringstream roco_assert_stringstream;             \
-    roco_assert_stringstream << message; \
+    roco_assert_stringstream << roco::common::colorError << message << roco::common::def; \
     roco::common::internal::roco_throw_exception<roco::common::roco_error>("[CTRL ERROR] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str());
 
-#define ROCO_INFO(...) \
+#define ROCO_WARN_FP(...) \
     std::stringstream roco_stringstream; \
     roco::common::internal::source_file_pos sfp(__FUNCTION__,__FILE__,__LINE__); \
-    roco_stringstream << "[CTRL INFO] " <<  sfp.toString() << " " << roco::common::internal::roco_string_format(__VA_ARGS__); \
-    std::cout << roco_stringstream.str() << std::endl;
-
-#define ROCO_INFO_STREAM(message) \
-    std::stringstream roco_stringstream; \
-    roco::common::internal::source_file_pos sfp(__FUNCTION__,__FILE__,__LINE__); \
-    roco_stringstream << "[CTRL INFO] " <<  sfp.toString() << " " << message; \
+    roco_stringstream << roco::common::colorWarn << "[CTRL WARN] " <<  sfp.toString() << " " << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::common::def; \
     std::cout << roco_stringstream.str() << std::endl;
 
 #define ROCO_WARN(...) \
     std::stringstream roco_stringstream; \
+    roco_stringstream << roco::common::colorWarn << "[CTRL WARN] " << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::common::def; \
+    std::cout << roco_stringstream.str() << std::endl;
+
+#define ROCO_WARN_STREAM_FP(message) \
+    std::stringstream roco_stringstream; \
     roco::common::internal::source_file_pos sfp(__FUNCTION__,__FILE__,__LINE__); \
-    roco_stringstream << "[CTRL WARN] " <<  sfp.toString() << " " << roco::common::internal::roco_string_format(__VA_ARGS__); \
+    roco_stringstream << roco::common::colorWarn << "[CTRL WARN] " <<  sfp.toString() << " " << message  << roco::common::def; \
     std::cout << roco_stringstream.str() << std::endl;
 
 #define ROCO_WARN_STREAM(message) \
     std::stringstream roco_stringstream; \
-    roco::common::internal::source_file_pos sfp(__FUNCTION__,__FILE__,__LINE__); \
-    roco_stringstream << "[CTRL WARN] " <<  sfp.toString() << " " << message; \
+    roco_stringstream << roco::common::colorWarn << "[CTRL WARN] " << message  << roco::common::def; \
     std::cout << roco_stringstream.str() << std::endl;
 
+#define ROCO_INFO_FP(...) \
+    std::stringstream roco_stringstream; \
+    roco::common::internal::source_file_pos sfp(__FUNCTION__,__FILE__,__LINE__); \
+    roco_stringstream << roco::common::colorInfo << "[CTRL INFO] " <<  sfp.toString() << " " << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::common::def; \
+    std::cout << roco_stringstream.str() << std::endl;
+
+#define ROCO_INFO(...) \
+    std::stringstream roco_stringstream; \
+    roco_stringstream << roco::common::colorInfo << "[CTRL INFO] " << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::common::def; \
+    std::cout << roco_stringstream.str() << std::endl;
+
+#define ROCO_INFO_STREAM_FP(message) \
+    std::stringstream roco_stringstream; \
+    roco::common::internal::source_file_pos sfp(__FUNCTION__,__FILE__,__LINE__); \
+    roco_stringstream << roco::common::colorInfo << "[CTRL INFO] " <<  sfp.toString() << " " << message << roco::common::def; \
+    std::cout << roco_stringstream.str() << std::endl;
+
+#define ROCO_INFO_STREAM(message) \
+    std::stringstream roco_stringstream; \
+    roco_stringstream << roco::common::colorInfo << "[CTRL INFO] " << message << roco::common::def; \
+    std::cout << roco_stringstream.str() << std::endl;
 
 #ifndef NDEBUG
 #define ROCO_DEBUG(...) \
     std::stringstream roco_stringstream; \
     roco::common::internal::source_file_pos sfp(__FUNCTION__,__FILE__,__LINE__); \
-    roco_stringstream << "[CTRL DEBUG] " <<  sfp.toString() << " " << roco::common::internal::roco_string_format(__VA_ARGS__); \
+    roco_stringstream << roco::common::colorDebug << "[CTRL DEBUG] " <<  sfp.toString() << " " << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::common::def; \
     std::cout << roco_stringstream.str() << std::endl;
 
 #define ROCO_DEBUG_STREAM(message) \
     std::stringstream roco_stringstream; \
     roco::common::internal::source_file_pos sfp(__FUNCTION__,__FILE__,__LINE__); \
-    roco_stringstream << "[CTRL DEBUG] " <<  sfp.toString() << " " << message; \
+    roco_stringstream  << roco::common::colorDebug << "[CTRL DEBUG] " <<  sfp.toString() << " " << message << roco::common::def; \
     std::cout << roco_stringstream.str() << std::endl;
 #else
 #define ROCO_DEBUG(...)
