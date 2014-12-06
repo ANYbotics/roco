@@ -62,8 +62,8 @@ const std::string def       = "\033[0m";
 const std::string colorFatal = red;
 const std::string colorError = red;
 const std::string colorWarn = magenta;
-const std::string colorInfo = green;
-const std::string colorDebug = blue;
+const std::string colorInfo = blue;
+const std::string colorDebug = cyan;
 
 #define ROCO_FATAL(...) \
     std::stringstream roco_assert_stringstream;             \
