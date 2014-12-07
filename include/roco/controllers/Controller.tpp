@@ -41,6 +41,8 @@
 
 
 namespace roco {
+namespace controllers {
+
 
 template<typename State_, typename Command_>
 Controller<State_, Command_>::Controller(const std::string& name):
@@ -77,4 +79,5 @@ bool Controller<State_, Command_>::isCreated() const {
   return isCreated_;
 }
 
+} /* namespace controllers */
 } /* namespace roco */

@@ -45,6 +45,7 @@
 #include <string>
 
 namespace roco {
+namespace controllers {
 
 //! Controller Implementation
 /*! Derive this class and implement your own controller.
@@ -120,6 +121,7 @@ class Controller: virtual public ControllerInterface {
 
 };
 
+} /* namespace controllers */
 } /* namespace roco */
 
 #include "Controller.tpp"

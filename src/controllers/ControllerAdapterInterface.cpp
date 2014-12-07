@@ -42,6 +42,7 @@
 #include "roco/controllers/ControllerAdapterInterface.hpp"
 
 namespace roco {
+namespace controllers {
 
 ControllerAdapterInterface::ControllerAdapterInterface()
 {
@@ -53,4 +54,5 @@ ControllerAdapterInterface::~ControllerAdapterInterface()
 
 }
 
+} /* namespace controllers */
 } /* namespace roco */

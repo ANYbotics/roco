@@ -43,6 +43,7 @@
 #include <iostream>
 
 namespace roco {
+namespace controllers {
 
 ControllerExample::ControllerExample():Controller(std::string{"ControllerExample"})
 {
@@ -88,4 +89,5 @@ bool ControllerExample::change() {
   return true;
 }
 
-} /* namespace robotControllers */
+} /* namespace controllers */
+} /* namespace roco */

@@ -44,6 +44,8 @@
 #include <roco/time/Time.hpp>
 
 namespace roco {
+namespace controllers {
+
 
 //! Abstract interface class for controller adapters.
 /*!
@@ -63,8 +65,8 @@ class ControllerAdapterInterface
   virtual bool changeController() = 0;
 
 
-  virtual const Time& getTime() const = 0;
-  virtual void setTime(const Time& time) = 0;
+  virtual const time::Time& getTime() const = 0;
+  virtual void setTime(const time::Time& time) = 0;
 
   virtual bool isCheckingCommand() const = 0;
   virtual void setIsCheckingCommand(bool isChecking) = 0;
@@ -78,6 +80,7 @@ class ControllerAdapterInterface
 
 };
 
+} /* namespace controllers */
 } /* namespace roco */
 
 

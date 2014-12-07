@@ -47,9 +47,11 @@
 #include <roco/time/TimeStd.hpp>
 
 #include <roco/controllers/ControllerAdapterInterface.hpp>
-#include <roco/common/log_messages.hpp>
+#include <roco/log/log_messages.hpp>
 
 namespace roco {
+namespace controllers {
+
 
 template<typename Controller_>
 class ControllerAdapterExample:  public ControllerAdapterInterface, public Controller_
@@ -158,11 +160,11 @@ class ControllerAdapterExample:  public ControllerAdapterInterface, public Contr
     return false;
   }
 
-  virtual const Time& getTime() const {
-    return static_cast<const Time&>(time_);
+  virtual const time::Time& getTime() const {
+    return static_cast<const time::Time&>(time_);
   }
 
-  virtual void setTime(const Time& time) {
+  virtual void setTime(const time::Time& time) {
      time_ = time;
   }
 
@@ -206,11 +208,12 @@ class ControllerAdapterExample:  public ControllerAdapterInterface, public Contr
   bool isRealRobot_;
   bool isCheckingCommand_;
   bool isCheckingState_;
-  TimeStd time_;
+  time::TimeStd time_;
   State& state_;
   Command& command_;
 };
 
+} /* namespace controllers */
 } /* namespace roco */
 
 

@@ -43,6 +43,7 @@
 #include <roco/controllers/Controller.hpp>
 
 namespace roco {
+namespace controllers {
 
 class ControllerExample: public Controller<double, double>
 {
@@ -58,4 +59,5 @@ protected:
   virtual bool change();
 };
 
+} /* namespace controllers */
 } /* namespace robotControllers */

@@ -45,7 +45,7 @@
 #include <iostream>
 
 int main(int argc, char** argv) {
-  using namespace roco;
+  using namespace roco::controllers;
   double dt = 0.1;
 
   std::string test{"hello"};

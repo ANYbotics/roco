@@ -43,9 +43,11 @@
 #include <string>
 #include <roco/time/Time.hpp>
 #include <roco/common/assert_macros.hpp>
-#include <roco/common/log_messages.hpp>
+#include <roco/log/log_messages.hpp>
 
 namespace roco {
+namespace controllers {
+
 
 //! Abstract interface class for controllers.
 /*!
@@ -71,8 +73,8 @@ class ControllerInterface
   virtual bool resetController(double dt) = 0;
   virtual bool changeController() = 0;
 
-  virtual const Time& getTime() const = 0;
-  virtual void setTime(const Time& time) = 0;
+  virtual const time::Time& getTime() const = 0;
+  virtual void setTime(const time::Time& time) = 0;
 
   virtual bool isCheckingCommand() const = 0;
   virtual void setIsCheckingCommand(bool isChecking) = 0;
@@ -81,4 +83,5 @@ class ControllerInterface
   virtual void setIsCheckingState(bool isChecking) = 0;
 };
 
-} /* namespace robot_controllers */
+} /* namespace controllers */
+} /* namespace roco */
