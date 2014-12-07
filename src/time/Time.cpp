@@ -42,10 +42,12 @@
 #include "roco/time/Time.hpp"
 
 namespace roco {
+namespace time {
 
 std::ostream& operator<<(std::ostream& out, const Time& rhs) {
   out << rhs.getSec() << "." << std::setw(9) << std::setfill('0') << rhs.getNSec();
   return out;
 }
 
+} // namespace time
 } // namespace roco

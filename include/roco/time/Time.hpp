@@ -45,6 +45,8 @@
 #include <iomanip> // std::setw
 
 namespace roco {
+namespace time {
+
 
 class Time
 {
@@ -52,12 +54,14 @@ class Time
   Time() {}
   virtual ~Time() {}
   virtual Time& fromSec(double t) = 0;
+  virtual Time& fromNSec(uint64_t t) = 0;
   virtual double toSec() const = 0;
   virtual uint32_t getSec() const = 0;
   virtual uint32_t getNSec() const = 0;
   friend std::ostream& operator<<(std::ostream& out, const Time& rhs);
+  virtual Time& setNow() = 0;
 };
 
 
-
-} /* namespace robotControllers */
+} /* namespace time */
+} /* namespace roco */

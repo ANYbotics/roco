@@ -77,6 +77,7 @@
 #include <roco/time/Time.hpp>
 
 namespace roco {
+namespace time {
 
 class TimeStd: virtual public Time
 {
@@ -84,9 +85,12 @@ class TimeStd: virtual public Time
   TimeStd();
   TimeStd(uint32_t sec, uint32_t nsec);
   TimeStd(const Time& time);
-  virtual ~TimeStd();
+  explicit TimeStd(uint64_t t);
   explicit TimeStd(double t);
+  virtual ~TimeStd();
+
   TimeStd& fromSec(double t);
+  TimeStd& fromNSec(uint64_t t);
   virtual double toSec() const;
   virtual uint32_t getSec() const;
   virtual uint32_t getNSec() const;
@@ -102,6 +106,9 @@ class TimeStd: virtual public Time
   TimeStd operator+(double t) const;
   TimeStd& operator+=(double t);
 
+  virtual Time& setNow();
+  static TimeStd now();
+
 
   friend std::ostream& operator<<(std::ostream& out, const TimeStd& rhs);
  protected:
@@ -113,4 +120,5 @@ class TimeStd: virtual public Time
   uint32_t nsec_;
 };
 
+} /* namespace time */
 } /* namespace robotControllers */

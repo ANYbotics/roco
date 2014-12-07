@@ -75,7 +75,11 @@
 #include <boost/math/special_functions/round.hpp>
 #include <iomanip> // std::setw
 
+#include <chrono>
+#include <cstdint>
+
 namespace roco {
+namespace time {
 
 TimeStd::TimeStd():
     sec_(0),
@@ -86,6 +90,10 @@ TimeStd::TimeStd():
 TimeStd::TimeStd(uint32_t sec, uint32_t nsec) : sec_(sec), nsec_(nsec)
 {
   normalizeSecNSec(sec_, nsec_);
+}
+
+TimeStd::TimeStd(uint64_t t) {
+  fromNSec(t);
 }
 
 TimeStd::TimeStd(double t)
@@ -105,6 +113,16 @@ TimeStd::~TimeStd()
 TimeStd& TimeStd::fromSec(double t) {
   sec_ = (uint32_t)floor(t);
   nsec_ = (uint32_t)boost::math::round((t-sec_) * 1e9);
+  return *this;
+}
+
+
+TimeStd& TimeStd::fromNSec(uint64_t t) {
+  sec_  = (int32_t)(t / 1000000000);
+  nsec_ = (int32_t)(t % 1000000000);
+
+  normalizeSecNSec(sec_, nsec_);
+
   return *this;
 }
 
@@ -217,9 +235,23 @@ void TimeStd::normalizeSecNSecUnsigned(int64_t& sec, int64_t& nsec) const {
   nsec = nsec_part;
 }
 
+
+Time& TimeStd::setNow() {
+    *this = now();
+    return *this;
+}
+
+TimeStd TimeStd::now() {
+  auto time = std::chrono::high_resolution_clock::now();
+  uint64_t timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(time.time_since_epoch()).count();
+  return TimeStd(timestamp);
+}
+
+
 std::ostream& operator<<(std::ostream& out, const TimeStd& rhs) {
   out << rhs.sec_ << "." << std::setw(9) << std::setfill('0') << rhs.nsec_;
   return out;
 }
 
+} /* namespace time */
 } /* namespace robotControllers */
