@@ -133,19 +133,19 @@ ROCO_DEFINE_EXCEPTION(roco_error, std::runtime_error)
 
 #define ROCO_LOG_STREAM(level, message) \
     std::stringstream roco_stringstream; \
-    roco_stringstream << roco::log::colorInfo << "[CTRL " << roco::log::getLogLevel(level)  << "] " << message << roco::log::getResetColor(); \
+    roco_stringstream << roco::log::getLogColor(level) << "[CTRL " << roco::log::getLogLevel(level)  << "] " << message << roco::log::getResetColor(); \
     std::cout << roco_stringstream.str() << std::endl;
 
 #define ROCO_LOG_FP(level, ...) \
     std::stringstream roco_stringstream; \
     roco::common::internal::source_file_pos sfp(__FUNCTION__,__FILE__,__LINE__); \
-    roco_stringstream << roco::log::colorInfo << "[CTRL " << roco::log::getLogLevel(level)  << "] " <<  sfp.toString() << " " << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::log::getResetColor(); \
+    roco_stringstream << roco::log::getLogColor(level) << "[CTRL " << roco::log::getLogLevel(level)  << "] " <<  sfp.toString() << " " << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::log::getResetColor(); \
     std::cout << roco_stringstream.str() << std::endl;
 
 #define ROCO_LOG_STREAM_FP(level, message) \
     std::stringstream roco_stringstream; \
     roco::common::internal::source_file_pos sfp(__FUNCTION__,__FILE__,__LINE__); \
-    roco_stringstream << roco::log::colorInfo << "[CTRL " << roco::log::getLogLevel(level)  << "] " <<  sfp.toString() << " " << message << roco::log::getResetColor(); \
+    roco_stringstream << roco::log::getLogColor(level) << "[CTRL " << roco::log::getLogLevel(level)  << "] " <<  sfp.toString() << " " << message << roco::log::getResetColor(); \
     std::cout << roco_stringstream.str() << std::endl;
 
 
@@ -160,7 +160,16 @@ ROCO_DEFINE_EXCEPTION(roco_error, std::runtime_error)
     } \
     } \
 
-
+#define ROCO_LOG_THROTTLE_STREAM(rate, level, message) \
+	    { \
+	    static double last_hit = 0.0; \
+	    ::roco::time::TimeStd now = ::roco::time::TimeStd::now(); \
+	    if (last_hit + rate <= now.toSec()) \
+	    { \
+	      last_hit = now.toSec(); \
+	      ROCO_LOG_STREAM(level, message) \
+	    } \
+	    } \
 
 } // namespace log
 } // namespace roco

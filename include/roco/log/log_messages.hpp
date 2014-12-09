@@ -73,12 +73,14 @@ namespace log {
 #define ROCO_WARN_STREAM(message) ROCO_LOG_STREAM(::roco::log::levels::Warn, message)
 #define ROCO_WARN_STREAM_FP(message) ROCO_LOG_STREAM_FP(::roco::log::levels::Warn, message)
 #define ROCO_WARN_THROTTLE(rate, ...) ROCO_LOG_THROTTLE(rate, ::roco::log::levels::Warn, __VA_ARGS__)
+#define ROCO_WARN_THROTTLE_STREAM(rate, message) ROCO_LOG_THROTTLE_STREAM(rate, ::roco::log::levels::Warn, message)
 
 #define ROCO_INFO( ...) ROCO_LOG(::roco::log::levels::Info, __VA_ARGS__)
 #define ROCO_INFO_FP(...) ROCO_LOG_FP(::roco::log::levels::Info, __VA_ARGS__)
 #define ROCO_INFO_STREAM(message) ROCO_LOG_STREAM(::roco::log::levels::Info, message)
 #define ROCO_INFO_STREAM_FP(message) ROCO_LOG_STREAM_FP(::roco::log::levels::Info, message)
 #define ROCO_INFO_THROTTLE(rate, ...) ROCO_LOG_THROTTLE(rate, ::roco::log::levels::Info, __VA_ARGS__)
+#define ROCO_INFO_THROTTLE_STREAM(rate, message) ROCO_LOG_THROTTLE_STREAM(rate, ::roco::log::levels::Info, message)
 
 #ifndef NDEBUG
 #define ROCO_DEBUG(...) ROCO_LOG(::roco::log::levels::Debug, __VA_ARGS__)
