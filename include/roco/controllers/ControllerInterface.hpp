@@ -64,6 +64,7 @@ class ControllerInterface
 
   virtual bool isInitialized() const = 0;
   virtual bool isCreated() const = 0;
+  virtual bool isRunning() const = 0;
   virtual bool isRealRobot() const = 0;
 
   virtual bool createController(double dt) = 0;

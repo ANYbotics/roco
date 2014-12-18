@@ -77,6 +77,9 @@ class Controller: virtual public ControllerInterface {
   //! @returns true if the controller has been created.
   bool isCreated() const;
 
+  //! @returns true if the controller is running.
+  bool isRunning() const;
+
   /*! @returns the state of the robot.
    * This method should be implemented by the adapter.
    */
@@ -118,6 +121,9 @@ class Controller: virtual public ControllerInterface {
 
   //! Indicates if the controller is initialized.
   bool isInitialized_;
+
+  //! Indicates if the controller is running.
+  bool isRunning_;
 
 };
 
