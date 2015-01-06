@@ -48,7 +48,8 @@ template<typename State_, typename Command_>
 Controller<State_, Command_>::Controller(const std::string& name):
   name_(name),
   isCreated_(false),
-  isInitialized_(false)
+  isInitialized_(false),
+  isRunning_(false)
 {
 
 }
@@ -78,6 +79,12 @@ template<typename State_, typename Command_>
 bool Controller<State_, Command_>::isCreated() const {
   return isCreated_;
 }
+
+template<typename State_, typename Command_>
+bool Controller<State_, Command_>::isRunning() const {
+  return isRunning_;
+}
+
 
 } /* namespace controllers */
 } /* namespace roco */

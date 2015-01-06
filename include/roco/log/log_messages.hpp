@@ -48,25 +48,32 @@ namespace log {
 
 
 #define ROCO_FATAL(...) \
-    std::stringstream roco_assert_stringstream;             \
-    roco_assert_stringstream << roco::log::colorFatal << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::log::getResetColor(); \
-    roco::common::internal::roco_throw_exception<roco::log::roco_fatal>("[CTRL FATAL] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str());
+    { \
+      std::stringstream roco_assert_stringstream;             \
+      roco_assert_stringstream << roco::log::colorFatal << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::log::getResetColor(); \
+      roco::common::internal::roco_throw_exception<roco::log::roco_fatal>("[CTRL FATAL] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str()); \
+    } \
 
 #define ROCO_FATAL_STREAM(message) \
-    std::stringstream roco_assert_stringstream;             \
-    roco_assert_stringstream << roco::log::colorFatal << message << roco::log::getResetColor(); \
-    roco::common::internal::roco_throw_exception<roco::log::roco_fatal>("[CTRL FATAL] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str());
+    { \
+      std::stringstream roco_assert_stringstream;             \
+      roco_assert_stringstream << roco::log::colorFatal << message << roco::log::getResetColor(); \
+      roco::common::internal::roco_throw_exception<roco::log::roco_fatal>("[CTRL FATAL] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str()); \
+    } \
 
 #define ROCO_ERROR(...) \
-    std::stringstream roco_assert_stringstream;             \
-    roco_assert_stringstream << roco::log::colorError << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::log::getResetColor(); \
-    roco::common::internal::roco_throw_exception<roco::log::roco_fatal>("[CTRL ERROR] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str());
+    { \
+      std::stringstream roco_assert_stringstream;             \
+      roco_assert_stringstream << roco::log::colorError << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::log::getResetColor(); \
+      roco::common::internal::roco_throw_exception<roco::log::roco_fatal>("[CTRL ERROR] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str()); \
+    } \
 
 #define ROCO_ERROR_STREAM(message) \
-    std::stringstream roco_assert_stringstream;             \
-    roco_assert_stringstream << roco::log::colorError << message << roco::log::getResetColor(); \
-    roco::common::internal::roco_throw_exception<roco::log::roco_error>("[CTRL ERROR] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str());
-
+    { \
+      std::stringstream roco_assert_stringstream;             \
+      roco_assert_stringstream << roco::log::colorError << message << roco::log::getResetColor(); \
+      roco::common::internal::roco_throw_exception<roco::log::roco_error>("[CTRL ERROR] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str()); \
+    } \
 
 #define ROCO_WARN(...) ROCO_LOG(::roco::log::levels::Warn, __VA_ARGS__)
 #define ROCO_WARN_FP(...) ROCO_LOG_FP(::roco::log::levels::Warn, __VA_ARGS__)
