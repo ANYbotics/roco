@@ -11,6 +11,15 @@ cmake_minimum_required (VERSION 2.8)
 
 project(roco)
 
+# Find Catkin
+find_package(catkin REQUIRED)
+# Declare this project as a catkin package
+catkin_package(
+ INCLUDE_DIRS include
+ LIBRARIES roco
+# CATKIN_DEPENDS 
+# DEPENDS system_lib
+)
 
 set(EXECUTABLE_OUTPUT_PATH 	${PROJECT_SOURCE_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH 	${PROJECT_SOURCE_DIR}/lib)
@@ -24,9 +33,15 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 	"Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 
+if(DEFINED ENV{ROS_DISTRO})
+message(STATUS "Building for ros.")
+add_definitions(-DUSE_ROS)
+endif()
+
 
 set(CMAKE_CXX_FLAGS "-fPIC")
 add_definitions(--std=c++11)
+
 
 
 # Add CMake module path
