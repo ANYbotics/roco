@@ -11,6 +11,15 @@ cmake_minimum_required (VERSION 2.8)
 
 project(roco)
 
+# Find Catkin
+find_package(catkin REQUIRED)
+# Declare this project as a catkin package
+catkin_package(
+ INCLUDE_DIRS include
+ LIBRARIES roco
+# CATKIN_DEPENDS 
+# DEPENDS system_lib
+)
 
 set(EXECUTABLE_OUTPUT_PATH 	${PROJECT_SOURCE_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH 	${PROJECT_SOURCE_DIR}/lib)
@@ -22,6 +31,10 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   	set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
   	set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
 	"Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
+
+if(DEFINED ENV{ROS_DISTRO})
+add_definitions(-DUSE_ROS)
 endif()
 
 
