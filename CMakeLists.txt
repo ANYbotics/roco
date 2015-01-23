@@ -34,6 +34,7 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 endif()
 
 if(DEFINED ENV{ROS_DISTRO})
+message(STATUS "Building for ros.")
 add_definitions(-DUSE_ROS)
 endif()
 
@@ -41,9 +42,6 @@ endif()
 set(CMAKE_CXX_FLAGS "-fPIC")
 add_definitions(--std=c++11)
 
-if(USE_ROS)
-add_definitions(-DUSE_ROS)
-endif()
 
 
 # Add CMake module path
