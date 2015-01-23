@@ -28,6 +28,10 @@ endif()
 set(CMAKE_CXX_FLAGS "-fPIC")
 add_definitions(--std=c++11)
 
+if(USE_ROS)
+add_definitions(-DUSE_ROS)
+endif()
+
 
 # Add CMake module path
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)

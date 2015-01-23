@@ -45,35 +45,11 @@
 namespace roco {
 namespace log {
 
+#define ROCO_FATAL(...) ROCO_LOG(::roco::log::levels::Fatal, __VA_ARGS__)
+#define ROCO_FATAL_STREAM(message) ROCO_LOG_STREAM(::roco::log::levels::Fatal, message)
 
-
-#define ROCO_FATAL(...) \
-    { \
-      std::stringstream roco_assert_stringstream;             \
-      roco_assert_stringstream << roco::log::colorFatal << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::log::getResetColor(); \
-      roco::common::internal::roco_throw_exception<roco::log::roco_fatal>("[CTRL FATAL] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str()); \
-    } \
-
-#define ROCO_FATAL_STREAM(message) \
-    { \
-      std::stringstream roco_assert_stringstream;             \
-      roco_assert_stringstream << roco::log::colorFatal << message << roco::log::getResetColor(); \
-      roco::common::internal::roco_throw_exception<roco::log::roco_fatal>("[CTRL FATAL] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str()); \
-    } \
-
-#define ROCO_ERROR(...) \
-    { \
-      std::stringstream roco_assert_stringstream;             \
-      roco_assert_stringstream << roco::log::colorError << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::log::getResetColor(); \
-      roco::common::internal::roco_throw_exception<roco::log::roco_fatal>("[CTRL ERROR] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str()); \
-    } \
-
-#define ROCO_ERROR_STREAM(message) \
-    { \
-      std::stringstream roco_assert_stringstream;             \
-      roco_assert_stringstream << roco::log::colorError << message << roco::log::getResetColor(); \
-      roco::common::internal::roco_throw_exception<roco::log::roco_error>("[CTRL ERROR] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str()); \
-    } \
+#define ROCO_ERROR(...) ROCO_LOG(::roco::log::levels::Error, __VA_ARGS__)
+#define ROCO_ERROR_STREAM(message) ROCO_LOG_STREAM(::roco::log::levels::Error, message)
 
 #define ROCO_WARN(...) ROCO_LOG(::roco::log::levels::Warn, __VA_ARGS__)
 #define ROCO_WARN_FP(...) ROCO_LOG_FP(::roco::log::levels::Warn, __VA_ARGS__)
@@ -82,7 +58,7 @@ namespace log {
 #define ROCO_WARN_THROTTLE(rate, ...) ROCO_LOG_THROTTLE(rate, ::roco::log::levels::Warn, __VA_ARGS__)
 #define ROCO_WARN_THROTTLE_STREAM(rate, message) ROCO_LOG_THROTTLE_STREAM(rate, ::roco::log::levels::Warn, message)
 
-#define ROCO_INFO( ...) ROCO_LOG(::roco::log::levels::Info, __VA_ARGS__)
+#define ROCO_INFO(...) ROCO_LOG(::roco::log::levels::Info, __VA_ARGS__)
 #define ROCO_INFO_FP(...) ROCO_LOG_FP(::roco::log::levels::Info, __VA_ARGS__)
 #define ROCO_INFO_STREAM(message) ROCO_LOG_STREAM(::roco::log::levels::Info, message)
 #define ROCO_INFO_STREAM_FP(message) ROCO_LOG_STREAM_FP(::roco::log::levels::Info, message)
