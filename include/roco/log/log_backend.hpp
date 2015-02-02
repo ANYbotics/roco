@@ -288,7 +288,7 @@ ROCO_DEFINE_EXCEPTION(roco_error, std::runtime_error)
     break; \
   case roco::log::levels::Warn: \
     { \
-    ROS_WARN_(__VA_ARGS__); \
+    ROS_WARN(__VA_ARGS__); \
     } \
     break; \
   case roco::log::levels::Error: \
@@ -302,8 +302,8 @@ ROCO_DEFINE_EXCEPTION(roco_error, std::runtime_error)
   case roco::log::levels::Fatal: \
     { \
     ROS_FATAL(__VA_ARGS__); \
-    std::stringstream roco_assert_stringstream;             \
-    roco_assert_stringstream << roco::log::colorFatal << message << roco::log::getResetColor(); \
+    std::stringstream roco_assert_stringstream; \
+    roco_assert_stringstream << roco::log::colorFatal << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::log::getResetColor(); \
     roco::common::internal::roco_throw_exception<roco::log::roco_fatal>("[CTRL FATAL] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str()); \
     } \
     break; \
