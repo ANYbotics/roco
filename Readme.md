@@ -6,6 +6,7 @@ Date: Dec. 2014
 
 Software License Agreement: BSD License
 
+[![Build Status](http://129.132.38.183:8080/buildStatus/icon?job=roco)](http://129.132.38.183:8080/job/roco/)
 
 INSTALLATION
 ------------
@@ -48,4 +49,3 @@ cmake .. -DBUILD_EXAMPLE=ON
 make
 ./../bin/example
 ```
-
