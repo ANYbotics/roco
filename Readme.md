@@ -27,25 +27,4 @@ source /opt/ros/indigo/setup.bash
 
 ## Building
 
-### Cmake
-```
-#!bash
-
-mkdir build
-cd build
-cmake ..
-make
-sudo make install
-```
-
-### Build Example
-
-```
-#!bash
-
-mkdir build
-cd build
-cmake .. -DBUILD_EXAMPLE=ON
-make
-./../bin/example
-```
+catkin_make
