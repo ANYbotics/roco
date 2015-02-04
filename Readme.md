@@ -1,6 +1,7 @@
  ROCO - A C++ library that provides a common interface for robot controllers
 ----------------------------------------------------------------------------
 
+
 Author(s): Christian Gehring
 Date: Dec. 2014
 
