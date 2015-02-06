@@ -40,7 +40,7 @@
 */
 #pragma once
 
-#include "roco/log/log_backend.hpp"
+#include "roco/log/log_messages_backend.hpp"
 
 namespace roco {
 namespace log {
