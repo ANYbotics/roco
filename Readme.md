@@ -1,6 +1,5 @@
- ROCO - A C++ library that provides a common interface for robot controllers
+ROCO - A C++ library that provides a common interface for robot controllers
 ----------------------------------------------------------------------------
-Test 3
 
 Author(s): Christian Gehring
 Date: Dec. 2014
@@ -28,25 +27,4 @@ source /opt/ros/indigo/setup.bash
 
 ## Building
 
-### Cmake
-```
-#!bash
-
-mkdir build
-cd build
-cmake ..
-make
-sudo make install
-```
-
-### Build Example
-
-```
-#!bash
-
-mkdir build
-cd build
-cmake .. -DBUILD_EXAMPLE=ON
-make
-./../bin/example
-```
+catkin_make

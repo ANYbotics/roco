@@ -33,7 +33,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     log_backend.hpp
+* @file     log_messages_ros.hpp
 * @author   Christian Gehring
 * @date     Dec, 2014
 * @brief
@@ -41,94 +41,16 @@
 #pragma once
 
 
-#include "roco/common/assert_macros.hpp"
-#include "roco/time/TimeStd.hpp"
+#include "roco/log/log_messages_backend.hpp"
 
 #ifdef USE_ROS
 #include <ros/console.h>
 #endif
 
 namespace roco {
-
 namespace log {
 
-namespace levels
-{
-enum Level
-{
-  Debug,
-  Info,
-  Warn,
-  Error,
-  Fatal,
-
-  Count
-};
-} // namespace levels
-
-typedef levels::Level Level;
-
-const std::string black     {"\033[0;30m"};
-const std::string red       {"\033[0;31m"};
-const std::string green     {"\033[0;32m"};
-const std::string yellow    {"\033[0;33m"};
-const std::string blue      {"\033[0;34m"};
-const std::string magenta   {"\033[0;35m"};
-const std::string cyan      {"\033[0;36m"};
-const std::string white     {"\033[0;37m"};
-const std::string def       {"\033[0m"};
-
-const std::string colorFatal = red;
-const std::string colorError = red;
-const std::string colorWarn = magenta;
-const std::string colorInfo = blue;
-const std::string colorDebug = cyan;
-
-inline const std::string getResetColor() {
-  return def;
-}
-
-inline const std::string getLogColor(const roco::log::levels::Level& level) {
-  switch (level) {
-  case roco::log::levels::Debug:
-    return colorDebug;
-  case roco::log::levels::Info:
-    return colorInfo;
-  case roco::log::levels::Error:
-    return colorError;
-  case roco::log::levels::Warn:
-    return colorWarn;
-  case roco::log::levels::Fatal:
-    return colorFatal;
-  default:
-    break;
-  }
-  return def;
-}
-
-inline const std::string getLogLevel(const roco::log::levels::Level& level) {
-  switch (level) {
-  case roco::log::levels::Debug:
-    return std::string{"DEBUG"};
-  case roco::log::levels::Info:
-    return std::string{"INFO"};
-  case roco::log::levels::Error:
-    return std::string{"ERROR"};
-  case roco::log::levels::Warn:
-    return std::string{"WARN"};
-  case roco::log::levels::Fatal:
-    return std::string{"FATAL"};
-  default:
-    break;
-  }
-  return std::string{"UNKNOWN"};
-}
-
-ROCO_DEFINE_EXCEPTION(roco_fatal, std::runtime_error)
-ROCO_DEFINE_EXCEPTION(roco_error, std::runtime_error)
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifdef USE_ROS
 #define ROCO_LOG(level, ...) \
 { \
   switch (level) { \
@@ -170,37 +92,8 @@ ROCO_DEFINE_EXCEPTION(roco_error, std::runtime_error)
     break; \
   } \
 }
-#else
-#define ROCO_LOG(level, ...) \
-{ \
-  switch (level) { \
-    case roco::log::levels::Error: \
-    { \
-      std::stringstream roco_assert_stringstream; \
-      roco_assert_stringstream << roco::log::colorError << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::log::getResetColor(); \
-      roco::common::internal::roco_throw_exception<roco::log::roco_error>("[CTRL ERROR] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str()); \
-    } \
-    break; \
-  case roco::log::levels::Fatal: \
-    { \
-      std::stringstream roco_assert_stringstream; \
-      roco_assert_stringstream << roco::log::colorFatal << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::log::getResetColor(); \
-      roco::common::internal::roco_throw_exception<roco::log::roco_fatal>("[CTRL FATAL] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str()); \
-    } \
-    break; \
-  default: \
-    { \
-      std::stringstream roco_stringstream; \
-      roco_stringstream << roco::log::getLogColor(level) << "[CTRL " << roco::log::getLogLevel(level)  << "] " << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::log::getResetColor(); \
-      std::cout << roco_stringstream.str() << std::endl; \
-    } \
-    break; \
-  } \
-}
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifdef USE_ROS
 #define ROCO_LOG_STREAM(level, message) \
 { \
   switch (level) { \
@@ -242,37 +135,8 @@ ROCO_DEFINE_EXCEPTION(roco_error, std::runtime_error)
     break; \
   } \
 }
-#else
-#define ROCO_LOG_STREAM(level, message) \
-    { \
-      switch (level) { \
-      case roco::log::levels::Error: \
-        { \
-          std::stringstream roco_assert_stringstream;             \
-          roco_assert_stringstream << roco::log::colorError << message << roco::log::getResetColor(); \
-          roco::common::internal::roco_throw_exception<roco::log::roco_error>("[CTRL ERROR] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str()); \
-        } \
-        break; \
-      case roco::log::levels::Fatal: \
-        { \
-          std::stringstream roco_assert_stringstream;             \
-          roco_assert_stringstream << roco::log::colorFatal << message << roco::log::getResetColor(); \
-          roco::common::internal::roco_throw_exception<roco::log::roco_fatal>("[CTRL FATAL] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str()); \
-        } \
-        break; \
-      default: \
-        { \
-          std::stringstream roco_stringstream; \
-          roco_stringstream << roco::log::getLogColor(level) << "[CTRL " << roco::log::getLogLevel(level)  << "] " << message << roco::log::getResetColor(); \
-          std::cout << roco_stringstream.str() << std::endl; \
-        } \
-        break; \
-      } \
-}
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifdef USE_ROS
 #define ROCO_LOG_FP(level, ...) \
 { \
   switch (level) { \
@@ -314,19 +178,8 @@ ROCO_DEFINE_EXCEPTION(roco_error, std::runtime_error)
     break; \
   } \
 }
-#else
-#define ROCO_LOG_FP(level, ...) \
-    { \
-      std::stringstream roco_stringstream; \
-      roco::common::internal::source_file_pos sfp(__FUNCTION__,__FILE__,__LINE__); \
-      roco_stringstream << roco::log::getLogColor(level) << "[CTRL " << roco::log::getLogLevel(level)  << "] " <<  sfp.toString() << " " << roco::common::internal::roco_string_format(__VA_ARGS__) << roco::log::getResetColor(); \
-      std::cout << roco_stringstream.str() << std::endl; \
-    }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#ifdef USE_ROS
 #define ROCO_LOG_STREAM_FP(level, message) \
     { \
       switch (level) { \
@@ -368,19 +221,8 @@ ROCO_DEFINE_EXCEPTION(roco_error, std::runtime_error)
         break; \
       } \
     }
-#else
-#define ROCO_LOG_STREAM_FP(level, message) \
-    { \
-      std::stringstream roco_stringstream; \
-      roco::common::internal::source_file_pos sfp(__FUNCTION__,__FILE__,__LINE__); \
-      roco_stringstream << roco::log::getLogColor(level) << "[CTRL " << roco::log::getLogLevel(level)  << "] " <<  sfp.toString() << " " << message << roco::log::getResetColor(); \
-      std::cout << roco_stringstream.str() << std::endl; \
-    }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#ifdef USE_ROS
 #define ROCO_LOG_THROTTLE(rate, level, ...) \
     { \
       switch (level) { \
@@ -422,22 +264,8 @@ ROCO_DEFINE_EXCEPTION(roco_error, std::runtime_error)
         break; \
       } \
     }
-#else
-#define ROCO_LOG_THROTTLE(rate, level, ...) \
-    { \
-      static double last_hit = 0.0; \
-      ::roco::time::TimeStd now = ::roco::time::TimeStd::now(); \
-      if (last_hit + rate <= now.toSec()) \
-      { \
-        last_hit = now.toSec(); \
-        ROCO_LOG(level, __VA_ARGS__) \
-      } \
-    }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#ifdef USE_ROS
 #define ROCO_LOG_THROTTLE_STREAM(rate, level, message) \
     { \
       switch (level) { \
@@ -479,18 +307,6 @@ ROCO_DEFINE_EXCEPTION(roco_error, std::runtime_error)
         break; \
       } \
     }
-#else
-#define ROCO_LOG_THROTTLE_STREAM(rate, level, message) \
-  { \
-    static double last_hit = 0.0; \
-    ::roco::time::TimeStd now = ::roco::time::TimeStd::now(); \
-    if (last_hit + rate <= now.toSec()) \
-    { \
-      last_hit = now.toSec(); \
-      ROCO_LOG_STREAM(level, message) \
-    } \
-}
-#endif
 
 } // namespace log
 } // namespace roco
