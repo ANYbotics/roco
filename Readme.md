@@ -27,4 +27,4 @@ source /opt/ros/indigo/setup.bash
 
 ## Building
 
-catkin_make
+This library can be built with catkin.
