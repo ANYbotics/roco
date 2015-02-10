@@ -58,7 +58,6 @@ include_directories(include)
 add_subdirectory(src/controllers)
 add_subdirectory(src/time)
 
-set(CTRLS_SRCS ${CTRLS_SRCS} blabla)
 
 add_library(roco SHARED ${CTRLS_SRCS})
 target_link_libraries(roco ${CTRLS_LIBS})
