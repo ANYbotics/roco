@@ -20,6 +20,7 @@ catkin_package(
  LIBRARIES roco
 # CATKIN_DEPENDS 
 # DEPENDS system_lib
+ CFG_EXTRAS roco.cmake 
 )
 
 if(DEFINED ENV{ROS_DISTRO})
