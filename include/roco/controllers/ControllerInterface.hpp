@@ -42,6 +42,7 @@
 
 #include <string>
 #include <roco/time/Time.hpp>
+#include <roco/time/TimeEvent.hpp>
 #include <roco/common/assert_macros.hpp>
 #include <roco/log/log_messages.hpp>
 
@@ -83,6 +84,9 @@ class ControllerInterface
 
   virtual bool isCheckingState() const = 0;
   virtual void setIsCheckingState(bool isChecking) = 0;
+
+  template <typename T>
+  virtual void addWorker(const std::string& name, const ros::Rate& defaultRate, bool(T::*fp)(const TimeEvent&), bool  defaultAutostart) = 0;
 };
 
 } /* namespace controllers */
