@@ -85,8 +85,13 @@ class ControllerInterface
   virtual bool isCheckingState() const = 0;
   virtual void setIsCheckingState(bool isChecking) = 0;
 
-  template <typename T>
-  virtual void addWorker(const std::string& name, const ros::Rate& defaultRate, bool(T::*fp)(const TimeEvent&), bool  defaultAutostart) = 0;
+//  template <typename T>
+//  void addWorker(const std::string& name, const ros::Rate& defaultRate, bool(T::*fp)(const TimeEvent&), bool  defaultAutostart) {
+//
+//  }
+
+  virtual bool logData() = 0;
+
 };
 
 } /* namespace controllers */
