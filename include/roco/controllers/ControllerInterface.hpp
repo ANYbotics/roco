@@ -91,6 +91,7 @@ class ControllerInterface
 //  }
 
   virtual bool logData() = 0;
+  virtual void cancelWorkers() {};
 
 };
 
