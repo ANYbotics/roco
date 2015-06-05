@@ -83,6 +83,8 @@ class ControllerInterface
 
   virtual bool isCheckingState() const = 0;
   virtual void setIsCheckingState(bool isChecking) = 0;
+
+  virtual const std::string getLocomotionMode() const {return "none";};
 };
 
 } /* namespace controllers */
