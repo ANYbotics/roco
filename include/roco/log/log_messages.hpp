@@ -34,7 +34,7 @@
  */
 /*!
 * @file     log_messages.hpp
-* @author   Christian Gehring
+* @author   Christian Gehring, Peter Fankhauser
 * @date     Dec, 2014
 * @brief
 */
@@ -49,7 +49,11 @@ namespace log {
 #define ROCO_FATAL_STREAM(message) ROCO_LOG_STREAM(::roco::log::levels::Fatal, message)
 
 #define ROCO_ERROR(...) ROCO_LOG(::roco::log::levels::Error, __VA_ARGS__)
+#define ROCO_ERROR_FP(...) ROCO_LOG_FP(::roco::log::levels::Error, __VA_ARGS__)
 #define ROCO_ERROR_STREAM(message) ROCO_LOG_STREAM(::roco::log::levels::Error, message)
+#define ROCO_ERROR_STREAM_FP(message) ROCO_LOG_STREAM_FP(::roco::log::levels::Error, message)
+#define ROCO_ERROR_THROTTLE(rate, ...) ROCO_LOG_THROTTLE(rate, ::roco::log::levels::Error, __VA_ARGS__)
+#define ROCO_ERROR_THROTTLE_STREAM(rate, message) ROCO_LOG_THROTTLE_STREAM(rate, ::roco::log::levels::Error, message)
 
 #define ROCO_WARN(...) ROCO_LOG(::roco::log::levels::Warn, __VA_ARGS__)
 #define ROCO_WARN_FP(...) ROCO_LOG_FP(::roco::log::levels::Warn, __VA_ARGS__)
