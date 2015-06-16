@@ -271,22 +271,22 @@ namespace log {
       switch (level) { \
       case roco::log::levels::Debug: \
         { \
-        ROS_DEBUG_THROTTLE_STREAM(rate, message); \
+        ROS_DEBUG_STREAM_THROTTLE(rate, message); \
         } \
         break; \
       case roco::log::levels::Info: \
         { \
-        ROS_INFO_THROTTLE_STREAM(rate, message); \
+        ROS_INFO_STREAM_THROTTLE(rate, message); \
         } \
         break; \
       case roco::log::levels::Warn: \
         { \
-        ROS_WARN_THROTTLE_STREAM(rate, message); \
+        ROS_WARN_STREAM_THROTTLE(rate, message); \
         } \
         break; \
       case roco::log::levels::Error: \
         { \
-        ROS_ERROR_THROTTLE_STREAM(rate, message); \
+        ROS_ERROR_STREAM_THROTTLE(rate, message); \
         std::stringstream roco_assert_stringstream;             \
         roco_assert_stringstream << roco::log::colorError << message << roco::log::getResetColor(); \
         roco::common::internal::roco_throw_exception<roco::log::roco_error>("[CTRL ERROR] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str()); \
@@ -294,7 +294,7 @@ namespace log {
         break; \
       case roco::log::levels::Fatal: \
         { \
-        ROS_FATAL_THROTTLE_STREAM(rate, message); \
+        ROS_FATAL_STREAM_THROTTLE(rate, message); \
         std::stringstream roco_assert_stringstream;             \
         roco_assert_stringstream << roco::log::colorFatal << message << roco::log::getResetColor(); \
         roco::common::internal::roco_throw_exception<roco::log::roco_fatal>("[CTRL FATAL] ", __FUNCTION__,__FILE__,__LINE__, roco_assert_stringstream.str()); \
@@ -302,7 +302,7 @@ namespace log {
         break; \
       default: \
         { \
-        ROS_INFO_THROTTLE_STREAM(rate, message); \
+        ROS_INFO_STREAM_THROTTLE(rate, message); \
         } \
         break; \
       } \
