@@ -83,8 +83,6 @@ class ControllerInterface
 
   virtual bool isCheckingState() const = 0;
   virtual void setIsCheckingState(bool isChecking) = 0;
-
-  virtual const std::string getCurrentControlName() const {return "none";};
 };
 
 } /* namespace controllers */
