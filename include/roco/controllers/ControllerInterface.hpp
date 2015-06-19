@@ -45,6 +45,7 @@
 #include <roco/time/TimeEvent.hpp>
 #include <roco/common/assert_macros.hpp>
 #include <roco/log/log_messages.hpp>
+#include <roco/workers/WorkerOptions.hpp>
 
 namespace roco {
 namespace controllers {
@@ -54,6 +55,7 @@ namespace controllers {
 /*!
  *
  */
+
 class ControllerInterface
 {
  public:
@@ -86,9 +88,8 @@ class ControllerInterface
   virtual void setIsCheckingState(bool isChecking) = 0;
 
   virtual bool logData() = 0;
-  virtual void cancelWorkers() {};
-  virtual void startWorkers() {};
-  virtual bool shutdownRos() { return true; };
+
+  virtual bool addWorker(const WorkerOptions&  options) = 0;
 
 };
 

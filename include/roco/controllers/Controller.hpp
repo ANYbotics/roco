@@ -112,6 +112,8 @@ class Controller: virtual public ControllerInterface {
   virtual bool cleanup() = 0;
   virtual bool change() = 0;
 
+  virtual bool stop() { return true; }
+
  protected:
   //! Name of the controller
   std::string name_;

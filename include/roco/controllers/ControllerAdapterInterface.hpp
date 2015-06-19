@@ -42,6 +42,7 @@
 #pragma once
 
 #include <roco/time/Time.hpp>
+#include <roco/workers/WorkerOptions.hpp>
 
 namespace roco {
 namespace controllers {
@@ -77,6 +78,8 @@ class ControllerAdapterInterface
   //! @returns true if the real robot is controlled.
   virtual bool isRealRobot() const = 0;
   virtual void setIsRealRobot(bool isRealRobot) = 0;
+
+  virtual bool addWorker(const WorkerOptions&  options) = 0;
 
 };
 
