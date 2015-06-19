@@ -5,11 +5,18 @@
  *      Author: dario
  */
 
-#ifndef ROCO_INCLUDE_ROCO_WORKERS_WORKERHANDLE_HPP_
-#define ROCO_INCLUDE_ROCO_WORKERS_WORKERHANDLE_HPP_
+#pragma once
 
+#include <string>
 
+namespace roco {
 
+class WorkerHandle {
+  public:
+    WorkerHandle() {}
+    virtual ~WorkerHandle() {}
 
+    std::string name_;
+};
 
-#endif /* ROCO_INCLUDE_ROCO_WORKERS_WORKERHANDLE_HPP_ */
+}

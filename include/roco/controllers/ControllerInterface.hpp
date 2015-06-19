@@ -46,6 +46,7 @@
 #include <roco/common/assert_macros.hpp>
 #include <roco/log/log_messages.hpp>
 #include <roco/workers/WorkerOptions.hpp>
+#include <roco/workers/WorkerHandle.hpp>
 
 namespace roco {
 namespace controllers {
@@ -89,7 +90,9 @@ class ControllerInterface
 
   virtual bool logData() = 0;
 
-  virtual bool addWorker(const WorkerOptions&  options) = 0;
+  virtual roco::WorkerHandle addWorker(const roco::WorkerOptions& options) = 0;
+  virtual bool startWorker(const roco::WorkerHandle& workerHandle) = 0;
+  virtual bool cancelWorker(const roco::WorkerHandle& workerHandle) = 0;
 
 };
 

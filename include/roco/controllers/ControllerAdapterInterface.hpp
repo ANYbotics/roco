@@ -43,6 +43,7 @@
 
 #include <roco/time/Time.hpp>
 #include <roco/workers/WorkerOptions.hpp>
+#include <roco/workers/WorkerHandle.hpp>
 
 namespace roco {
 namespace controllers {
@@ -79,7 +80,9 @@ class ControllerAdapterInterface
   virtual bool isRealRobot() const = 0;
   virtual void setIsRealRobot(bool isRealRobot) = 0;
 
-  virtual bool addWorker(const WorkerOptions&  options) = 0;
+  virtual WorkerHandle addWorker(const WorkerOptions& options) = 0;
+  virtual bool startWorker(const WorkerHandle& workerHandle) = 0;
+  virtual bool cancelWorker(const WorkerHandle& workerHandle) = 0;
 
 };
 
