@@ -88,8 +88,6 @@ class ControllerInterface
   virtual bool isCheckingState() const = 0;
   virtual void setIsCheckingState(bool isChecking) = 0;
 
-  virtual bool logData() = 0;
-
   virtual roco::WorkerHandle addWorker(const roco::WorkerOptions& options) = 0;
   virtual bool startWorker(const roco::WorkerHandle& workerHandle) = 0;
   virtual bool cancelWorker(const roco::WorkerHandle& workerHandle) = 0;

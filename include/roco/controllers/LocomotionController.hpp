@@ -2,7 +2,7 @@
  * LocomotionController.hpp
  *
  *  Created on: Jun 19, 2015
- *      Author: dario
+ *      Author: Dario Bellicoso
  */
 
 #pragma once
