@@ -16,6 +16,7 @@ class LocomotionControllerInterface :
  public:
 
   virtual const std::string getLocomotionModeName() const = 0;
+  virtual void swapOut() = 0;
 
 };
 
