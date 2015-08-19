@@ -2,7 +2,7 @@
  * LocomotionControllerInterface.hpp
  *
  *  Created on: Jun 19, 2015
- *      Author: dario
+ *      Author: Dario Bellicoso
  */
 
 #pragma once
@@ -16,6 +16,7 @@ class LocomotionControllerInterface :
  public:
 
   virtual const std::string getLocomotionModeName() const = 0;
+  virtual void swapOut() = 0;
 
 };
 
