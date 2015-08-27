@@ -110,6 +110,11 @@ TimeStd::~TimeStd()
 
 }
 
+TimeStd& TimeStd::from(uint32_t sec, uint32_t nsec) {
+  normalizeSecNSec(sec_, nsec_);
+  return *this;
+}
+
 TimeStd& TimeStd::fromSec(double t) {
   sec_ = (uint32_t)floor(t);
   nsec_ = (uint32_t)boost::math::round((t-sec_) * 1e9);

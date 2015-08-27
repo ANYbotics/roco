@@ -33,27 +33,28 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     WorkerEvent.hpp
+* @file     WorkerInterface.hpp
 * @author   Christian Gehring, C. Dario Bellicoso
 * @date     Aug 27, 2015
 * @brief
 */
+
 #pragma once
 
-#include <roco/workers/WorkerEventInterface.hpp>
+#include <roco/workers/WorkerEvent.hpp>
+#include <roco/workers/WorkerOptions.hpp>
 
 namespace roco {
 
-/** \brief Worker event
-  *
-  * This class is passed as a parameter to the worker event.
-  */
-class WorkerEvent : public WorkerEventInterface {
-public:
-  /** \brief Default constructor
-    */
-  WorkerEvent() {}
-  virtual ~WorkerEvent() {}
+class WorkerInterface {
+ public:
+  WorkerInterface() {}
+  virtual ~WorkerInterface() {}
+
+  virtual bool start() = 0;
+  virtual bool cancel() = 0;
+  virtual bool work(const WorkerEvent& event) = 0;
+
 };
 
 } // namespace roco

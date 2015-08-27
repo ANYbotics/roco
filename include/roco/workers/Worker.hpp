@@ -33,27 +33,41 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     WorkerEvent.hpp
+* @file     Worker.hpp
 * @author   Christian Gehring, C. Dario Bellicoso
 * @date     Aug 27, 2015
 * @brief
 */
 #pragma once
 
-#include <roco/workers/WorkerEventInterface.hpp>
+#include <roco/workers/WorkerInterface.hpp>
+#include <roco/workers/WorkerOptions.hpp>
+#include <roco/workers/WorkerHandle.hpp>
+
 
 namespace roco {
 
-/** \brief Worker event
-  *
-  * This class is passed as a parameter to the worker event.
-  */
-class WorkerEvent : public WorkerEventInterface {
-public:
-  /** \brief Default constructor
-    */
-  WorkerEvent() {}
-  virtual ~WorkerEvent() {}
+class Worker;
+typedef boost::function<bool(const roco::WorkerHandle& workerHandle)> WorkerStartCallback;
+typedef boost::function<bool(const roco::WorkerHandle& workerHandle)> WorkerCancelCallback;
+
+
+class Worker: public WorkerInterface {
+ public:
+  Worker(const std::string& workerName);
+  virtual ~Worker();
+
+  virtual bool start();
+  virtual bool cancel();
+
+  WorkerStartCallback workerStartCallback_;
+  WorkerCancelCallback workerCancelCallback_;
+
+
+  WorkerOptions options_;
+  WorkerHandle handle_;
 };
 
-} // namespace roco
+
+
+} // namespace

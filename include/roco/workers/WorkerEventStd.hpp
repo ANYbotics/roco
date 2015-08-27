@@ -33,27 +33,44 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     WorkerEvent.hpp
-* @author   Christian Gehring, C. Dario Bellicoso
-* @date     Aug 27, 2015
+* @file     WorkerEventStd.hpp
+* @author   C. Dario Bellicoso, Christian Gehring
+* @date     Jun 18, 2015
 * @brief
 */
 #pragma once
 
-#include <roco/workers/WorkerEventInterface.hpp>
+#include <roco/time/TimeStd.hpp>
+#include <roco/workers/WorkerEvent.hpp>
 
 namespace roco {
-
-/** \brief Worker event
-  *
-  * This class is passed as a parameter to the worker event.
-  */
-class WorkerEvent : public WorkerEventInterface {
-public:
-  /** \brief Default constructor
+  /** \brief worker event
+    *
+    * This class is passed as a parameter to the worker event.
     */
-  WorkerEvent() {}
-  virtual ~WorkerEvent() {}
-};
+  class WorkerEventStd: public WorkerEvent {
+  public:
+    /** \brief Default constructor
+      */
+    WorkerEventStd() {}
+    virtual~WorkerEventStd() {}
 
-} // namespace roco
+    time::Time& getExpectedCycleTime() {
+      return expectedCycleTime_;
+    }
+
+    /** \brief The momentary, actual cycle time of the worker
+      */
+    time::Time& getActualCycleTime() {
+     return expectedCycleTime_;
+    }
+  protected:
+    /** \brief The expected cycle time of the worker
+      */
+    time::TimeStd expectedCycleTime_;
+
+    /** \brief The momentary, actual cycle time of the worker
+      */
+    time::TimeStd actualCycleTime_;
+  };
+};
