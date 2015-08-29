@@ -52,7 +52,7 @@ class WorkerInterface {
   virtual ~WorkerInterface() {}
 
   virtual bool start() = 0;
-  virtual bool cancel() = 0;
+  virtual bool cancel(bool block=false) = 0;
   virtual bool work(const WorkerEvent& event) = 0;
 
 };

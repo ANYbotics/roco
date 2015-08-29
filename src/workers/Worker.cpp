@@ -53,6 +53,7 @@ Worker::Worker(const std::string& workerName)
 {
   options_.name_ = workerName;
   options_.callback_ = boost::bind(&WorkerInterface::work, this, _1);
+
 }
 
 Worker::~Worker() {
@@ -68,13 +69,13 @@ bool Worker::start()
   return workerStartCallback_(handle_);
 }
 
-bool Worker::cancel()
+bool Worker::cancel(bool block)
 {
   if (workerCancelCallback_.empty()) {
     ROCO_WARN("Callback function to cancel worker is empty!");
     return false;
   }
-  return workerCancelCallback_(handle_);
+  return workerCancelCallback_(handle_, block);
 }
 
 

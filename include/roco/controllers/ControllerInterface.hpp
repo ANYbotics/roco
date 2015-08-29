@@ -91,7 +91,7 @@ class ControllerInterface
   virtual roco::WorkerHandle addWorker(const roco::WorkerOptions& options) = 0;
   virtual roco::WorkerHandle addWorker(roco::Worker& worker) = 0;
   virtual bool startWorker(const roco::WorkerHandle& workerHandle) = 0;
-  virtual bool cancelWorker(const roco::WorkerHandle& workerHandle) = 0;
+  virtual bool cancelWorker(const roco::WorkerHandle& workerHandle, bool block=false) = 0;
 
 };
 

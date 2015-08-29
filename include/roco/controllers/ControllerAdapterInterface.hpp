@@ -84,7 +84,7 @@ class ControllerAdapterInterface
   virtual WorkerHandle addWorker(const WorkerOptions& options) = 0;
   virtual WorkerHandle addWorker(Worker& worker) = 0;
   virtual bool startWorker(const WorkerHandle& workerHandle) = 0;
-  virtual bool cancelWorker(const WorkerHandle& workerHandle) = 0;
+  virtual bool cancelWorker(const WorkerHandle& workerHandle, bool block=false) = 0;
 
 };
 

@@ -49,7 +49,7 @@ namespace roco {
 
 class Worker;
 typedef boost::function<bool(const roco::WorkerHandle& workerHandle)> WorkerStartCallback;
-typedef boost::function<bool(const roco::WorkerHandle& workerHandle)> WorkerCancelCallback;
+typedef boost::function<bool(const roco::WorkerHandle& workerHandle, bool block)> WorkerCancelCallback;
 
 
 class Worker: public WorkerInterface {
@@ -58,7 +58,7 @@ class Worker: public WorkerInterface {
   virtual ~Worker();
 
   virtual bool start();
-  virtual bool cancel();
+  virtual bool cancel(bool block = false);
 
   WorkerStartCallback workerStartCallback_;
   WorkerCancelCallback workerCancelCallback_;
