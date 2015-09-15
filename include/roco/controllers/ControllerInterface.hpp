@@ -42,11 +42,11 @@
 
 #include <string>
 #include <roco/time/Time.hpp>
-#include <roco/time/TimeEvent.hpp>
 #include <roco/common/assert_macros.hpp>
 #include <roco/log/log_messages.hpp>
 #include <roco/workers/WorkerOptions.hpp>
 #include <roco/workers/WorkerHandle.hpp>
+#include <roco/workers/Worker.hpp>
 
 namespace roco {
 namespace controllers {
@@ -89,8 +89,9 @@ class ControllerInterface
   virtual void setIsCheckingState(bool isChecking) = 0;
 
   virtual roco::WorkerHandle addWorker(const roco::WorkerOptions& options) = 0;
+  virtual roco::WorkerHandle addWorker(roco::Worker& worker) = 0;
   virtual bool startWorker(const roco::WorkerHandle& workerHandle) = 0;
-  virtual bool cancelWorker(const roco::WorkerHandle& workerHandle) = 0;
+  virtual bool cancelWorker(const roco::WorkerHandle& workerHandle, bool block=false) = 0;
 
 };
 

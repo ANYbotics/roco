@@ -40,11 +40,13 @@ add_definitions(--std=c++11)
 include_directories(include)
 include_directories(${catkin_INCLUDE_DIRS})
 
-add_subdirectory(src/controllers)
-add_subdirectory(src/time)
+add_library(roco SHARED 
+    src/time/Time.cpp  
+    src/time/TimeStd.cpp  
+    src/workers/Worker.cpp
+    src/controllers/ControllerAdapterInterface.cpp
+)
 
-add_library(roco SHARED ${CTRLS_SRCS})
-target_link_libraries(roco ${CTRLS_LIBS})
 target_link_libraries(roco ${catkin_LIBRARIES})
 
 

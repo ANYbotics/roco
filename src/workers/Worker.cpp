@@ -1,7 +1,7 @@
 /**********************************************************************
  * Software License Agreement (BSD License)
  *
- * Copyright (c) 2014, Christian Gehring
+ * Copyright (c) 2014, Christian Gehring, C. Dario Bellicoso
  * All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -33,62 +33,50 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerAdapterInterface.hpp
-* @author   Christian Gehring
-* @date     Dec, 2014
+* @file     Worker.cpp
+* @author   Christian Gehring, C. Dario Bellicoso
+* @date     Aug 27, 2015
 * @brief
 */
 
-#pragma once
+#include "roco/workers/Worker.hpp"
 
-#include <roco/time/Time.hpp>
-#include <roco/workers/WorkerOptions.hpp>
-#include <roco/workers/WorkerHandle.hpp>
-#include <roco/workers/Worker.hpp>
+#include <roco/log/log_messages.hpp>
+#include <boost/bind.hpp>
+
 
 namespace roco {
-namespace controllers {
 
-
-//! Abstract interface class for controller adapters.
-/*!
- * Derive this class and implement your own controller adapter.
- */
-class ControllerAdapterInterface
+Worker::Worker(const std::string& workerName)
+    : options_(),
+      handle_()
 {
- public:
-  ControllerAdapterInterface();
-  virtual ~ControllerAdapterInterface();
+  options_.name_ = workerName;
+  options_.callback_ = boost::bind(&WorkerInterface::work, this, _1);
 
-  virtual bool createController(double dt) = 0;
-  virtual bool initializeController(double dt) = 0;
-  virtual bool advanceController(double dt) = 0;
-  virtual bool cleanupController() = 0;
-  virtual bool resetController(double dt) = 0;
-  virtual bool changeController() = 0;
-  virtual bool stopController() = 0;
+}
 
-  virtual const time::Time& getTime() const = 0;
-  virtual void setTime(const time::Time& time) = 0;
+Worker::~Worker() {
 
-  virtual bool isCheckingCommand() const = 0;
-  virtual void setIsCheckingCommand(bool isChecking) = 0;
+}
 
-  virtual bool isCheckingState() const = 0;
-  virtual void setIsCheckingState(bool isChecking) = 0;
+bool Worker::start()
+{
+  if (workerStartCallback_.empty()) {
+    ROCO_WARN("Callback function to start worker is empty!");
+    return false;
+  }
+  return workerStartCallback_(handle_);
+}
 
-  //! @returns true if the real robot is controlled.
-  virtual bool isRealRobot() const = 0;
-  virtual void setIsRealRobot(bool isRealRobot) = 0;
-
-  virtual WorkerHandle addWorker(const WorkerOptions& options) = 0;
-  virtual WorkerHandle addWorker(Worker& worker) = 0;
-  virtual bool startWorker(const WorkerHandle& workerHandle) = 0;
-  virtual bool cancelWorker(const WorkerHandle& workerHandle, bool block=false) = 0;
-
-};
-
-} /* namespace controllers */
-} /* namespace roco */
+bool Worker::cancel(bool block)
+{
+  if (workerCancelCallback_.empty()) {
+    ROCO_WARN("Callback function to cancel worker is empty!");
+    return false;
+  }
+  return workerCancelCallback_(handle_, block);
+}
 
 
+} // namespace roco

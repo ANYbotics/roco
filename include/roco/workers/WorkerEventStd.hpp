@@ -1,7 +1,7 @@
 /**********************************************************************
  * Software License Agreement (BSD License)
  *
- * Copyright (c) 2014, Christian Gehring
+ * Copyright (c) 2014, Christian Gehring, C. Dario Bellicoso
  * All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -33,62 +33,44 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerAdapterInterface.hpp
-* @author   Christian Gehring
-* @date     Dec, 2014
+* @file     WorkerEventStd.hpp
+* @author   C. Dario Bellicoso, Christian Gehring
+* @date     Jun 18, 2015
 * @brief
 */
-
 #pragma once
 
-#include <roco/time/Time.hpp>
-#include <roco/workers/WorkerOptions.hpp>
-#include <roco/workers/WorkerHandle.hpp>
-#include <roco/workers/Worker.hpp>
+#include <roco/time/TimeStd.hpp>
+#include <roco/workers/WorkerEvent.hpp>
 
 namespace roco {
-namespace controllers {
+  /** \brief worker event
+    *
+    * This class is passed as a parameter to the worker event.
+    */
+  class WorkerEventStd: public WorkerEvent {
+  public:
+    /** \brief Default constructor
+      */
+    WorkerEventStd() {}
+    virtual~WorkerEventStd() {}
 
+    time::Time& getExpectedCycleTime() {
+      return expectedCycleTime_;
+    }
 
-//! Abstract interface class for controller adapters.
-/*!
- * Derive this class and implement your own controller adapter.
- */
-class ControllerAdapterInterface
-{
- public:
-  ControllerAdapterInterface();
-  virtual ~ControllerAdapterInterface();
+    /** \brief The momentary, actual cycle time of the worker
+      */
+    time::Time& getActualCycleTime() {
+     return expectedCycleTime_;
+    }
+  protected:
+    /** \brief The expected cycle time of the worker
+      */
+    time::TimeStd expectedCycleTime_;
 
-  virtual bool createController(double dt) = 0;
-  virtual bool initializeController(double dt) = 0;
-  virtual bool advanceController(double dt) = 0;
-  virtual bool cleanupController() = 0;
-  virtual bool resetController(double dt) = 0;
-  virtual bool changeController() = 0;
-  virtual bool stopController() = 0;
-
-  virtual const time::Time& getTime() const = 0;
-  virtual void setTime(const time::Time& time) = 0;
-
-  virtual bool isCheckingCommand() const = 0;
-  virtual void setIsCheckingCommand(bool isChecking) = 0;
-
-  virtual bool isCheckingState() const = 0;
-  virtual void setIsCheckingState(bool isChecking) = 0;
-
-  //! @returns true if the real robot is controlled.
-  virtual bool isRealRobot() const = 0;
-  virtual void setIsRealRobot(bool isRealRobot) = 0;
-
-  virtual WorkerHandle addWorker(const WorkerOptions& options) = 0;
-  virtual WorkerHandle addWorker(Worker& worker) = 0;
-  virtual bool startWorker(const WorkerHandle& workerHandle) = 0;
-  virtual bool cancelWorker(const WorkerHandle& workerHandle, bool block=false) = 0;
-
+    /** \brief The momentary, actual cycle time of the worker
+      */
+    time::TimeStd actualCycleTime_;
+  };
 };
-
-} /* namespace controllers */
-} /* namespace roco */
-
-

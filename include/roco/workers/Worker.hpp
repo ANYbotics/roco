@@ -1,7 +1,7 @@
 /**********************************************************************
  * Software License Agreement (BSD License)
  *
- * Copyright (c) 2014, Christian Gehring
+ * Copyright (c) 2014, Christian Gehring, C. Dario Bellicoso
  * All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -33,62 +33,41 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerAdapterInterface.hpp
-* @author   Christian Gehring
-* @date     Dec, 2014
+* @file     Worker.hpp
+* @author   Christian Gehring, C. Dario Bellicoso
+* @date     Aug 27, 2015
 * @brief
 */
-
 #pragma once
 
-#include <roco/time/Time.hpp>
+#include <roco/workers/WorkerInterface.hpp>
 #include <roco/workers/WorkerOptions.hpp>
 #include <roco/workers/WorkerHandle.hpp>
-#include <roco/workers/Worker.hpp>
+
 
 namespace roco {
-namespace controllers {
+
+class Worker;
+typedef boost::function<bool(const roco::WorkerHandle& workerHandle)> WorkerStartCallback;
+typedef boost::function<bool(const roco::WorkerHandle& workerHandle, bool block)> WorkerCancelCallback;
 
 
-//! Abstract interface class for controller adapters.
-/*!
- * Derive this class and implement your own controller adapter.
- */
-class ControllerAdapterInterface
-{
+class Worker: public WorkerInterface {
  public:
-  ControllerAdapterInterface();
-  virtual ~ControllerAdapterInterface();
+  Worker(const std::string& workerName);
+  virtual ~Worker();
 
-  virtual bool createController(double dt) = 0;
-  virtual bool initializeController(double dt) = 0;
-  virtual bool advanceController(double dt) = 0;
-  virtual bool cleanupController() = 0;
-  virtual bool resetController(double dt) = 0;
-  virtual bool changeController() = 0;
-  virtual bool stopController() = 0;
+  virtual bool start();
+  virtual bool cancel(bool block = false);
 
-  virtual const time::Time& getTime() const = 0;
-  virtual void setTime(const time::Time& time) = 0;
+  WorkerStartCallback workerStartCallback_;
+  WorkerCancelCallback workerCancelCallback_;
 
-  virtual bool isCheckingCommand() const = 0;
-  virtual void setIsCheckingCommand(bool isChecking) = 0;
 
-  virtual bool isCheckingState() const = 0;
-  virtual void setIsCheckingState(bool isChecking) = 0;
-
-  //! @returns true if the real robot is controlled.
-  virtual bool isRealRobot() const = 0;
-  virtual void setIsRealRobot(bool isRealRobot) = 0;
-
-  virtual WorkerHandle addWorker(const WorkerOptions& options) = 0;
-  virtual WorkerHandle addWorker(Worker& worker) = 0;
-  virtual bool startWorker(const WorkerHandle& workerHandle) = 0;
-  virtual bool cancelWorker(const WorkerHandle& workerHandle, bool block=false) = 0;
-
+  WorkerOptions options_;
+  WorkerHandle handle_;
 };
 
-} /* namespace controllers */
-} /* namespace roco */
 
 
+} // namespace

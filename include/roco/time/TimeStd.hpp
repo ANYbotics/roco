@@ -88,7 +88,7 @@ class TimeStd: virtual public Time
   explicit TimeStd(uint64_t t);
   explicit TimeStd(double t);
   virtual ~TimeStd();
-
+  TimeStd& from(uint32_t sec, uint32_t nsec);
   TimeStd& fromSec(double t);
   TimeStd& fromNSec(uint64_t t);
   virtual double toSec() const;
