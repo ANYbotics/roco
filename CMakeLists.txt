@@ -13,6 +13,9 @@ project(roco)
 
 # Find Catkin
 find_package(catkin REQUIRED)
+find_package(Boost REQUIRED)
+
+include_directories(${Boost_INCLUDE_DIRS})
 
 if(DEFINED ENV{ROS_DISTRO})
     message(STATUS "Building for ros.")
@@ -34,7 +37,7 @@ else()
     )
 endif()
 
-set(CMAKE_CXX_FLAGS "-fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 add_definitions(--std=c++11)
 
 include_directories(include)
