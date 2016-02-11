@@ -11,6 +11,8 @@ cmake_minimum_required (VERSION 2.8)
 
 project(roco)
 
+find_package(Boost REQUIRED COMPONENTS thread)
+
 # Find Catkin
 find_package(catkin REQUIRED)
 find_package(Boost REQUIRED)
@@ -23,7 +25,7 @@ if(DEFINED ENV{ROS_DISTRO})
      INCLUDE_DIRS include
      LIBRARIES roco
      CATKIN_DEPENDS roscpp
-     DEPENDS 
+     DEPENDS boost
      CFG_EXTRAS roco.cmake 
     )
     add_definitions(-DUSE_ROS)
@@ -32,7 +34,7 @@ else()
      INCLUDE_DIRS include
      LIBRARIES roco
      CATKIN_DEPENDS 
-     DEPENDS
+     DEPENDS boost
      CFG_EXTRAS roco.cmake 
     )
 endif()
@@ -42,6 +44,7 @@ add_definitions(--std=c++11)
 
 include_directories(include)
 include_directories(${catkin_INCLUDE_DIRS})
+include_directories(${Boost_INCLUDE_DIRS})
 
 add_library(roco SHARED 
     src/time/Time.cpp  
@@ -51,7 +54,7 @@ add_library(roco SHARED
 )
 
 target_link_libraries(roco ${catkin_LIBRARIES})
-
+target_link_libraries(roco ${Boost_LIBRARIES})
 
 # Add Doxygen documentation
 if (BUILD_DOC)
