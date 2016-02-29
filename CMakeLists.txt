@@ -25,7 +25,7 @@ if(DEFINED ENV{ROS_DISTRO})
      INCLUDE_DIRS include
      LIBRARIES roco
      CATKIN_DEPENDS roscpp
-     DEPENDS boost
+     DEPENDS Boost
      CFG_EXTRAS roco.cmake 
     )
     add_definitions(-DUSE_ROS)
@@ -34,7 +34,7 @@ else()
      INCLUDE_DIRS include
      LIBRARIES roco
      CATKIN_DEPENDS 
-     DEPENDS boost
+     DEPENDS Boost
      CFG_EXTRAS roco.cmake 
     )
 endif()
