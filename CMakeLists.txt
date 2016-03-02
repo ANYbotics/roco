@@ -25,7 +25,7 @@ if(DEFINED ENV{ROS_DISTRO})
      INCLUDE_DIRS include
      LIBRARIES roco
      CATKIN_DEPENDS roscpp
-     DEPENDS boost
+     DEPENDS Boost
      CFG_EXTRAS roco.cmake 
     )
     add_definitions(-DUSE_ROS)
@@ -34,7 +34,7 @@ else()
      INCLUDE_DIRS include
      LIBRARIES roco
      CATKIN_DEPENDS 
-     DEPENDS boost
+     DEPENDS Boost
      CFG_EXTRAS roco.cmake 
     )
 endif()
@@ -65,3 +65,14 @@ endif (BUILD_DOC)
 if (BUILD_EXAMPLE)
 add_subdirectory(example example)
 endif()
+
+
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+  PATTERN ".svn" EXCLUDE
+)
+install(TARGETS ${PROJECT_NAME}
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
