@@ -124,6 +124,8 @@ class Controller: virtual public ControllerInterface {
 
   virtual bool stop() { return true; }
 
+  virtual bool preStop() { return true; }
+
  protected:
   //! Name of the controller
   std::string name_;
