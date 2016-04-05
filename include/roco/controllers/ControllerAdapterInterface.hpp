@@ -67,6 +67,7 @@ class ControllerAdapterInterface
   virtual bool resetController(double dt) = 0;
   virtual bool changeController() = 0;
   virtual bool stopController() = 0;
+  virtual bool preStopController() = 0;
 
   virtual const time::Time& getTime() const = 0;
   virtual void setTime(const time::Time& time) = 0;
