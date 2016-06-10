@@ -57,8 +57,8 @@ class WorkerOptions
         autostart_(false),
         synchronous_(false),
         callback_(0),
-        name_(""),
-        priority_(0)
+        priority_(0),
+        name_("")
   { }
 
   virtual ~WorkerOptions() { }
