@@ -55,7 +55,7 @@ namespace controllers {
 /*!
  * Derive this class and implement your own controller adapter.
  */
-class ControllerAdapterInterface : ControllerInterface
+class ControllerAdapterInterface: public ControllerInterface
 {
  public:
   ControllerAdapterInterface();
@@ -76,10 +76,9 @@ class ControllerAdapterInterface : ControllerInterface
 
   /**
    * These functions extend the adaptee with additional functionality.
-   * Can be used to hide functionality needed by the client from the adaptee implementation. (e.g setIsRealRobot)
+   * Can be used to hide functionality needed by the client from the adaptee implementation.
    */
   virtual void swapOut() = 0;
-  virtual void setIsRealRobot(bool isRealRobot) = 0;
 
 };
 

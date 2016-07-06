@@ -54,22 +54,34 @@ namespace controllers {
 
 
 //! Abstract interface class for controller adaptees (adapted by ControllerAdapterInterface).
-/*!
- *
- */
 
 class ControllerAdapteeInterface: public ControllerInterface
 {
  public:
+
   ControllerAdapteeInterface() {};
   virtual ~ControllerAdapteeInterface() {};
 
-  virtual const std::string& getName() const = 0;
+  /**
+   * These functions are used in the controller(adaptee) implementation.
+   */
   virtual void setName(std::string& name) = 0;
 
-  virtual bool isInitialized() const = 0;
-  virtual bool isCreated() const = 0;
-  virtual bool isRunning() const = 0;
+  virtual const time::Time& getTime() const = 0;
+  virtual void setTime(const time::Time& time) = 0;
+
+  virtual bool isCheckingCommand() const = 0;
+  virtual void setIsCheckingCommand(bool isChecking) = 0;
+
+  virtual bool isCheckingState() const = 0;
+  virtual void setIsCheckingState(bool isChecking) = 0;
+
+  virtual roco::WorkerHandle addWorker(const roco::WorkerOptions& options) = 0;
+  virtual roco::WorkerHandle addWorker(roco::Worker& worker) = 0;
+  virtual bool startWorker(const roco::WorkerHandle& workerHandle) = 0;
+  virtual bool cancelWorker(const roco::WorkerHandle& workerHandle, bool block=false) = 0;
+
+  virtual bool isRealRobot() const = 0;
 
  protected:
   /**
