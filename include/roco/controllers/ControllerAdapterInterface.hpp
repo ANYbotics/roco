@@ -75,19 +75,10 @@ class ControllerAdapterInterface: public ControllerInterface
   virtual bool cleanupController() = 0;
   //! Reset controller procedure
   virtual bool resetController(double dt) = 0;
-
-  //! TODO comment them which of them are used?
-  virtual bool changeController() = 0;
+  //! Stop controller procedure
   virtual bool stopController() = 0;
+  //! Prepare stop controller procedure
   virtual bool preStopController() = 0;
-
-
-  /**
-   * These functions extend the adaptee with additional functionality.
-   * Can be used to hide functionality needed by the client from the adaptee implementation.
-   */
-  virtual void swapOut() = 0;
-
 };
 
 } /* namespace roco */

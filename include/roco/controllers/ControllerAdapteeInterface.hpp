@@ -66,11 +66,15 @@ class ControllerAdapteeInterface: public ControllerInterface
   virtual ~ControllerAdapteeInterface() {};
 
   /**
-   * Controller implementation
+   * These functions are implemented by the roco::Controller class.
    */
 
   //! Set controller name
   virtual void setName(std::string& name) = 0;
+
+  /**
+   * These functions are implemented by the controller adapter.
+   */
 
   //! Set controller time
   virtual const time::Time& getTime() const = 0;
@@ -101,6 +105,7 @@ class ControllerAdapteeInterface: public ControllerInterface
  protected:
   /**
    *  Adapted/Wrapped functions
+   *  These functions have to be implemented by every controller.
    */
 
   /*! Use this method instead of the constructor to create objects.
@@ -128,6 +133,18 @@ class ControllerAdapteeInterface: public ControllerInterface
    */
   virtual bool reset(double dt) = 0;
 
+  /*! This prepares the controller for a stop/switch. Unregister, delete everything that
+   *  is not essential to advance (e.g. ros communication)
+   * @returns true if successful
+   */
+  virtual bool preStop() = 0;
+
+  /*! This stops the controller. Kill everything that is not used when controller is not
+   *  advancing anymore. (E.g running threads etc.)
+   * @returns true if successful
+   */
+  virtual bool stop() = 0;
+
   /*! Use this method instead of the destructor to destroy objects.
    * This method is only called once at the end of the lifetime of the controller.
    * @param dt  time step [s]
@@ -136,10 +153,6 @@ class ControllerAdapteeInterface: public ControllerInterface
   virtual bool cleanup() = 0;
 
 
-  //! TODO comment them which of them are used?
-  virtual bool change() = 0;
-  virtual bool stop() { return true; };
-  virtual bool preStop() { return true; };
 
 };
 
