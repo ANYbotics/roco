@@ -34,37 +34,48 @@
  */
 /*!
 * @file     ControllerAdapteeInterface.hpp
-* @author   Christian Gehring, Gabriel Hottiger
+* @author   Christian Gehring / Gabriel Hottiger
 * @date     Dec, 2014
-* @brief
+* @note     Restructured, June 2016
 */
 #pragma once
 
+// STL
 #include <string>
-#include <roco/time/Time.hpp>
-#include <roco/common/assert_macros.hpp>
-#include <roco/log/log_messages.hpp>
-#include <roco/workers/WorkerOptions.hpp>
-#include <roco/workers/WorkerHandle.hpp>
-#include <roco/workers/Worker.hpp>
 
 namespace roco {
-namespace controllers {
 
+//!  Abstract common interface class for adapter and adaptee.
+/*!
+ *   This interface is used in the controller implementation,
+ *   as well as on the client side. Therefore both adapter
+ *   and adaptee have to implement this interface.
+ */
 
-//! This interface is shared by the adapter and the adaptee.
 class ControllerInterface
 {
  public:
 
+  //! Empty constructor
   ControllerInterface() {};
+  //! Empty destructor
   virtual ~ControllerInterface() {};
 
+  //! Get the controller name
   virtual const std::string& getName() const = 0;
+
+  //! Indicates if the controller is initialized
   virtual bool isInitialized() const = 0;
+
+  //! Indicates if the controller is created
   virtual bool isCreated() const = 0;
+
+  //! Indicates if the controller is running
   virtual bool isRunning() const = 0;
+
+  //! Indicates if the real robot is controller or only a simulated version.
+  virtual bool isRealRobot() const = 0;
+
 };
 
-} /* namespace controllers */
 } /* namespace roco */

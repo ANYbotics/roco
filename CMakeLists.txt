@@ -50,7 +50,6 @@ add_library(roco SHARED
     src/time/Time.cpp  
     src/time/TimeStd.cpp  
     src/workers/Worker.cpp
-    src/controllers/ControllerAdapterInterface.cpp
 )
 
 target_link_libraries(roco ${catkin_LIBRARIES})

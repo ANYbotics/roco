@@ -34,45 +34,53 @@
  */
 /*!
 * @file     ControllerAdapterInterface.hpp
-* @author   Christian Gehring
+* @author   Christian Gehring, Gabriel Hottiger
 * @date     Dec, 2014
-* @brief
+* @note     Restructured, June 2016
 */
 
 #pragma once
 
-#include <roco/time/Time.hpp>
-#include <roco/workers/WorkerOptions.hpp>
-#include <roco/workers/WorkerHandle.hpp>
-#include <roco/workers/Worker.hpp>
-#include <roco/controllers/ControllerInterface.hpp>
+// ROCO
+#include "roco/controllers/ControllerInterface.hpp"
 
 namespace roco {
-namespace controllers {
 
-
-//! Abstract interface class for controller adapters.
-/*!
- * Derive this class and implement your own controller adapter.
+/*! Abstract interface class for controller adapters.
+ *
+ *  Derive this class and implement your own controller adapter.
  */
 class ControllerAdapterInterface: public ControllerInterface
 {
  public:
-  ControllerAdapterInterface();
-  virtual ~ControllerAdapterInterface();
+
+  //! Empty constructor
+  ControllerAdapterInterface() {};
+  //! Empty constructor
+  virtual ~ControllerAdapterInterface() {};
+
 
   /**
    *  These functions are adapting/extending the functions given in the ControllerAdapteeInterface.
    *  E.g. "bool createController(double dt)" adapts "bool create(double dt)".
    */
+
+  //! Create controller procedure
   virtual bool createController(double dt) = 0;
+  //! Initialize controller procedure
   virtual bool initializeController(double dt) = 0;
+  //! Advance controller procedure
   virtual bool advanceController(double dt) = 0;
+  //! Cleanup controller procedure
   virtual bool cleanupController() = 0;
+  //! Reset controller procedure
   virtual bool resetController(double dt) = 0;
+
+  //! TODO comment them which of them are used?
   virtual bool changeController() = 0;
   virtual bool stopController() = 0;
   virtual bool preStopController() = 0;
+
 
   /**
    * These functions extend the adaptee with additional functionality.
@@ -82,7 +90,4 @@ class ControllerAdapterInterface: public ControllerInterface
 
 };
 
-} /* namespace controllers */
 } /* namespace roco */
-
-

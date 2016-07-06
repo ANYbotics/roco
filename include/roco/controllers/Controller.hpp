@@ -51,9 +51,8 @@
 #include <string>
 
 namespace roco {
-namespace controllers {
 
-//! Controller Implementation
+//! Controller (Adaptee) Implementation
 /*! Derive this class and implement your own controller.
  *
  */
@@ -113,15 +112,6 @@ class Controller: virtual public ControllerAdapteeInterface {
   virtual Command& getCommand() = 0;
 
  protected:
-  /**
-   * @brief
-   * @return
-   */
-  virtual bool stop() { return true; };
-  virtual bool prestop() { return true; };
-
-
- protected:
   //! Name of the controller
   std::string name_;
 
@@ -136,7 +126,6 @@ class Controller: virtual public ControllerAdapteeInterface {
 
 };
 
-} /* namespace controllers */
 } /* namespace roco */
 
 #include "Controller.tpp"

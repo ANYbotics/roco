@@ -33,59 +33,74 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerAdapteeInterface.hpp
-* @author   Christian Gehring, Gabriel Hottiger
-* @date     Dec, 2014
-* @brief
-*/
+ * @file     ControllerAdapteeInterface.hpp
+ * @author   Christian Gehring, Gabriel Hottiger
+ * @date     Dec, 2014
+ * @note     Restructured, June 2016
+ */
+
 #pragma once
 
+// ROCO
+#include "roco/time/Time.hpp"
+#include "roco/controllers/ControllerInterface.hpp"
+#include "roco/workers/WorkerOptions.hpp"
+#include "roco/workers/WorkerHandle.hpp"
+#include "roco/workers/Worker.hpp"
+
+// STL
 #include <string>
-#include <roco/time/Time.hpp>
-#include <roco/common/assert_macros.hpp>
-#include <roco/log/log_messages.hpp>
-#include <roco/workers/WorkerOptions.hpp>
-#include <roco/workers/WorkerHandle.hpp>
-#include <roco/workers/Worker.hpp>
-#include <roco/controllers/ControllerInterface.hpp>
 
 namespace roco {
-namespace controllers {
 
-
-//! Abstract interface class for controller adaptees (adapted by ControllerAdapterInterface).
-
+//!   Abstract interface class for controller adaptees.
+/*!
+ *   This interface is used in the controller implementation.
+ */
 class ControllerAdapteeInterface: public ControllerInterface
 {
  public:
-
+  //! Empty constructor
   ControllerAdapteeInterface() {};
+  //! Empty destructor
   virtual ~ControllerAdapteeInterface() {};
 
   /**
-   * These functions are used in the controller(adaptee) implementation.
+   * Controller implementation
    */
+
+  //! Set controller name
   virtual void setName(std::string& name) = 0;
 
+  //! Set controller time
   virtual const time::Time& getTime() const = 0;
+  //! Get controller time
   virtual void setTime(const time::Time& time) = 0;
 
+  //! Indicates if command is checked against its limits
   virtual bool isCheckingCommand() const = 0;
+  //! Set if command is checked against its limits
   virtual void setIsCheckingCommand(bool isChecking) = 0;
 
+  //! Indicates if state is checked against its limits
   virtual bool isCheckingState() const = 0;
+  //! Set if state is checked against its limits
   virtual void setIsCheckingState(bool isChecking) = 0;
 
+  //! Add a worker to the worker queue via options
   virtual roco::WorkerHandle addWorker(const roco::WorkerOptions& options) = 0;
+  //! Add a worker to the worker queue
   virtual roco::WorkerHandle addWorker(roco::Worker& worker) = 0;
+  //! Start a given worker
   virtual bool startWorker(const roco::WorkerHandle& workerHandle) = 0;
+  //! Cancel a given worker
   virtual bool cancelWorker(const roco::WorkerHandle& workerHandle, bool block=false) = 0;
 
-  virtual bool isRealRobot() const = 0;
+  /**@}*/
 
  protected:
   /**
-   * These functions are wrapped/adapted by the adapter.
+   *  Adapted/Wrapped functions
    */
 
   /*! Use this method instead of the constructor to create objects.
@@ -100,13 +115,32 @@ class ControllerAdapteeInterface: public ControllerInterface
    * @returns true if successful
    */
   virtual bool initialize(double dt) = 0;
+
+  /*! This advances the controller.
+   * @param dt  time step [s]
+   * @returns true if successful
+   */
   virtual bool advance(double dt) = 0;
+
+  /*! This resets the controller assuming it was already initialized once.
+   * @param dt  time step [s]
+   * @returns true if successful
+   */
   virtual bool reset(double dt) = 0;
+
+  /*! Use this method instead of the destructor to destroy objects.
+   * This method is only called once at the end of the lifetime of the controller.
+   * @param dt  time step [s]
+   * @returns true if successful
+   */
   virtual bool cleanup() = 0;
+
+
+  //! TODO comment them which of them are used?
   virtual bool change() = 0;
-  virtual bool stop() = 0;
-  virtual bool preStop() = 0;
+  virtual bool stop() { return true; };
+  virtual bool preStop() { return true; };
+
 };
 
-} /* namespace controllers */
 } /* namespace roco */
