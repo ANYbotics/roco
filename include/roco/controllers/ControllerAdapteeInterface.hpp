@@ -33,15 +33,17 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerAdapterInterface.hpp
-* @author   Christian Gehring
+* @file     ControllerAdapteeInterface.hpp
+* @author   Christian Gehring, Gabriel Hottiger
 * @date     Dec, 2014
 * @brief
 */
-
 #pragma once
 
+#include <string>
 #include <roco/time/Time.hpp>
+#include <roco/common/assert_macros.hpp>
+#include <roco/log/log_messages.hpp>
 #include <roco/workers/WorkerOptions.hpp>
 #include <roco/workers/WorkerHandle.hpp>
 #include <roco/workers/Worker.hpp>
@@ -51,39 +53,48 @@ namespace roco {
 namespace controllers {
 
 
-//! Abstract interface class for controller adapters.
+//! Abstract interface class for controller adaptees (adapted by ControllerAdapterInterface).
 /*!
- * Derive this class and implement your own controller adapter.
+ *
  */
-class ControllerAdapterInterface : ControllerInterface
+
+class ControllerAdapteeInterface: public ControllerInterface
 {
  public:
-  ControllerAdapterInterface();
-  virtual ~ControllerAdapterInterface();
+  ControllerAdapteeInterface() {};
+  virtual ~ControllerAdapteeInterface() {};
 
+  virtual const std::string& getName() const = 0;
+  virtual void setName(std::string& name) = 0;
+
+  virtual bool isInitialized() const = 0;
+  virtual bool isCreated() const = 0;
+  virtual bool isRunning() const = 0;
+
+ protected:
   /**
-   *  These functions are adapting/extending the functions given in the ControllerAdapteeInterface.
-   *  E.g. "bool createController(double dt)" adapts "bool create(double dt)".
+   * These functions are wrapped/adapted by the adapter.
    */
-  virtual bool createController(double dt) = 0;
-  virtual bool initializeController(double dt) = 0;
-  virtual bool advanceController(double dt) = 0;
-  virtual bool cleanupController() = 0;
-  virtual bool resetController(double dt) = 0;
-  virtual bool changeController() = 0;
-  virtual bool stopController() = 0;
-  virtual bool preStopController() = 0;
 
-  /**
-   * These functions extend the adaptee with additional functionality.
-   * Can be used to hide functionality needed by the client from the adaptee implementation. (e.g setIsRealRobot)
+  /*! Use this method instead of the constructor to create objects.
+   * This method is only called once during the whole lifetime of the controller.
+   * @param dt  time step [s]
+   * @returns true if successful
    */
-  virtual void swapOut() = 0;
-  virtual void setIsRealRobot(bool isRealRobot) = 0;
+  virtual bool create(double dt) = 0;
 
+  /*! This initializes the controller before the advance method is called.
+   * @param dt  time step [s]
+   * @returns true if successful
+   */
+  virtual bool initialize(double dt) = 0;
+  virtual bool advance(double dt) = 0;
+  virtual bool reset(double dt) = 0;
+  virtual bool cleanup() = 0;
+  virtual bool change() = 0;
+  virtual bool stop() = 0;
+  virtual bool preStop() = 0;
 };
 
 } /* namespace controllers */
 } /* namespace roco */
-
-

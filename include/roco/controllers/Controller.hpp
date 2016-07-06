@@ -41,9 +41,13 @@
 
 #pragma once
 
-#include "roco/controllers/ControllerInterface.hpp"
+// roco
+#include "roco/controllers/ControllerAdapteeInterface.hpp"
+
+// boost
 #include <boost/thread.hpp>
 
+// STL
 #include <string>
 
 namespace roco {
@@ -54,12 +58,13 @@ namespace controllers {
  *
  */
 template<typename State_, typename Command_>
-class Controller: virtual public ControllerInterface {
+class Controller: virtual public ControllerAdapteeInterface {
  public:
   //! Typedef of the state of the robot.
   typedef State_ State;
   //! Typedef of the command of the robot.
   typedef Command_ Command;
+
  public:
   Controller(const std::string& name);
   virtual ~Controller();
@@ -88,6 +93,7 @@ class Controller: virtual public ControllerInterface {
   virtual const State& getState() const = 0;
 
   /*! @returns a mutex to protect access to the state.
+   * This method should be implemented by the adapter.
    */
   virtual boost::shared_mutex& getStateMutex() = 0;
 
@@ -97,6 +103,7 @@ class Controller: virtual public ControllerInterface {
   virtual const Command& getCommand() const = 0;
 
   /*! @returns a mutex to protect access to the command.
+   * This method should be implemented by the adapter.
    */
   virtual boost::shared_mutex& getCommandMutex() = 0;
 
@@ -104,27 +111,15 @@ class Controller: virtual public ControllerInterface {
    * This method should be implemented by the adapter.
    */
   virtual Command& getCommand() = 0;
+
  protected:
-  /*! Use this method instead of the constructor to create objects.
-   * This method is only called once during the whole lifetime of the controller.
-   * @param dt  time step [s]
-   * @returns true if successful
+  /**
+   * @brief
+   * @return
    */
-  virtual bool create(double dt) = 0;
+  virtual bool stop() { return true; };
+  virtual bool prestop() { return true; };
 
-  /*! This initializes the controller before the advance method is called.
-   * @param dt  time step [s]
-   * @returns true if successful
-   */
-  virtual bool initialize(double dt) = 0;
-  virtual bool advance(double dt) = 0;
-  virtual bool reset(double dt) = 0;
-  virtual bool cleanup() = 0;
-  virtual bool change() = 0;
-
-  virtual bool stop() { return true; }
-
-  virtual bool preStop() { return true; }
 
  protected:
   //! Name of the controller

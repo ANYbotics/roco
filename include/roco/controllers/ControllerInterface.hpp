@@ -63,24 +63,6 @@ class ControllerInterface
   ControllerInterface() {};
   virtual ~ControllerInterface() {};
 
-  virtual const std::string& getName() const = 0;
-  virtual void setName(std::string& name) = 0;
-
-  virtual bool isInitialized() const = 0;
-  virtual bool isCreated() const = 0;
-  virtual bool isRunning() const = 0;
-  virtual bool isRealRobot() const = 0;
-
-  virtual bool createController(double dt) = 0;
-  virtual bool initializeController(double dt) = 0;
-  virtual bool advanceController(double dt) = 0;
-  virtual bool cleanupController() = 0;
-  virtual bool resetController(double dt) = 0;
-  virtual bool changeController() = 0;
-  virtual bool stopController() = 0;
-  virtual bool preStopController() = 0;
-  virtual void swapOut() = 0;
-
   virtual const time::Time& getTime() const = 0;
   virtual void setTime(const time::Time& time) = 0;
 
@@ -90,11 +72,12 @@ class ControllerInterface
   virtual bool isCheckingState() const = 0;
   virtual void setIsCheckingState(bool isChecking) = 0;
 
+  virtual bool isRealRobot() const = 0;
+
   virtual roco::WorkerHandle addWorker(const roco::WorkerOptions& options) = 0;
   virtual roco::WorkerHandle addWorker(roco::Worker& worker) = 0;
   virtual bool startWorker(const roco::WorkerHandle& workerHandle) = 0;
   virtual bool cancelWorker(const roco::WorkerHandle& workerHandle, bool block=false) = 0;
-
 };
 
 } /* namespace controllers */

@@ -1,7 +1,7 @@
 /**********************************************************************
  * Software License Agreement (BSD License)
  *
- * Copyright (c) 2014, Christian Gehring
+ * Copyright (c) 2016, Gabriel Hottiger
  * All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -33,57 +33,28 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerAdapterInterface.hpp
-* @author   Christian Gehring
-* @date     Dec, 2014
+* @file     StateInterface.hpp
+* @author   Gabriel Hottiger
+* @date     Jun, 2016
 * @brief
 */
 
 #pragma once
 
-#include <roco/time/Time.hpp>
-#include <roco/workers/WorkerOptions.hpp>
-#include <roco/workers/WorkerHandle.hpp>
-#include <roco/workers/Worker.hpp>
-#include <roco/controllers/ControllerInterface.hpp>
-
 namespace roco {
-namespace controllers {
 
+  class StateInterface {
 
-//! Abstract interface class for controller adapters.
-/*!
- * Derive this class and implement your own controller adapter.
- */
-class ControllerAdapterInterface : ControllerInterface
-{
- public:
-  ControllerAdapterInterface();
-  virtual ~ControllerAdapterInterface();
+   public:
+    //! Empty Constructor
+    StateInterface() {};
 
-  /**
-   *  These functions are adapting/extending the functions given in the ControllerAdapteeInterface.
-   *  E.g. "bool createController(double dt)" adapts "bool create(double dt)".
-   */
-  virtual bool createController(double dt) = 0;
-  virtual bool initializeController(double dt) = 0;
-  virtual bool advanceController(double dt) = 0;
-  virtual bool cleanupController() = 0;
-  virtual bool resetController(double dt) = 0;
-  virtual bool changeController() = 0;
-  virtual bool stopController() = 0;
-  virtual bool preStopController() = 0;
+    //! Empty Destructor
+    virtual ~StateInterface() {};
 
-  /**
-   * These functions extend the adaptee with additional functionality.
-   * Can be used to hide functionality needed by the client from the adaptee implementation. (e.g setIsRealRobot)
-   */
-  virtual void swapOut() = 0;
-  virtual void setIsRealRobot(bool isRealRobot) = 0;
+    //! Interface functions
+    virtual bool checkState() = 0;
 
-};
+  };
 
-} /* namespace controllers */
-} /* namespace roco */
-
-
+}
