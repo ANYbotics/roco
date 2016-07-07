@@ -33,7 +33,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     Controller.hpp
+* @file     FailproofController.hpp
 * @author   Christian Gehring, Gabriel Hottiger
 * @date     Dec, 2014
 * @note     Restructured, June 2016
@@ -43,15 +43,14 @@
 
 // Roco
 #include <roco/controllers/ControllerBase.hpp>
-#include <roco/controllers/adaptees/ControllerExtensionInterface.hpp>
-#include <roco/controllers/adaptees/ControllerAdapteeInterface.hpp>
+#include <roco/controllers/adaptees/FailproofControllerAdapteeInterface.hpp>
 
 namespace roco {
 
-//! Controller (Adaptee) Implementation
-/*! Derive this class and implement your own controller.
+//! Fail-proof Controller (Adaptee) Implementation
+/*! Derive this class and implement your own fail-proof controller.
  *
  */
   template<typename State_, typename Command_>
-  using Controller = ControllerBase<State_, Command_, ControllerAdapteeInterface, ControllerExtensionInterface>;
+  using FailproofController = ControllerBase<State_, Command_, FailproofControllerAdapteeInterface>;
 }

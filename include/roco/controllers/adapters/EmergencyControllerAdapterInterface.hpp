@@ -33,7 +33,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerAdapterInterface.hpp
+* @file     EmergencyControllerAdapterInterface.hpp
 * @author   Christian Gehring, Gabriel Hottiger
 * @date     Dec, 2014
 * @note     Restructured, June 2016
@@ -41,44 +41,27 @@
 
 #pragma once
 
-// ROCO
-#include "roco/controllers/ControllerInterface.hpp"
+// roco
+#include <roco/controllers/adapters/ControllerAdapterInterface.hpp>
 
 namespace roco {
 
-/*! Abstract interface class for controller adapters.
+/*! Abstract interface class for emergency controller adapters.
  *
- *  Derive this class and implement your own controller adapter.
+ *  Derive this class and implement your own emergency controller adapter.
  */
-class ControllerAdapterInterface: public ControllerInterface
+class EmergencyControllerAdapterInterface: public ControllerAdapterInterface
 {
  public:
 
   //! Empty constructor
-  ControllerAdapterInterface() {};
+  EmergencyControllerAdapterInterface() {};
   //! Empty constructor
-  virtual ~ControllerAdapterInterface() {};
+  virtual ~EmergencyControllerAdapterInterface() {};
 
+  //! Fast initialization of the controller
+  virtual bool initializeControllerFast(double dt) = 0;
 
-  /**
-   *  These functions are adapting/extending the functions given in the ControllerAdapteeInterface.
-   *  E.g. "bool createController(double dt)" adapts "bool create(double dt)".
-   */
-
-  //! Create controller procedure
-  virtual bool createController(double dt) = 0;
-  //! Initialize controller procedure
-  virtual bool initializeController(double dt) = 0;
-  //! Advance controller procedure
-  virtual bool advanceController(double dt) = 0;
-  //! Cleanup controller procedure
-  virtual bool cleanupController() = 0;
-  //! Reset controller procedure
-  virtual bool resetController(double dt) = 0;
-  //! Stop controller procedure
-  virtual bool stopController() = 0;
-  //! Prepare stop controller procedure
-  virtual bool preStopController() = 0;
 };
 
 } /* namespace roco */

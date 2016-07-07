@@ -33,7 +33,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     Controller.hpp
+* @file     ControllerAdapterInterface.hpp
 * @author   Christian Gehring, Gabriel Hottiger
 * @date     Dec, 2014
 * @note     Restructured, June 2016
@@ -41,17 +41,46 @@
 
 #pragma once
 
-// Roco
-#include <roco/controllers/ControllerBase.hpp>
-#include <roco/controllers/adaptees/ControllerExtensionInterface.hpp>
-#include <roco/controllers/adaptees/ControllerAdapteeInterface.hpp>
+// STL
+#include <string>
 
 namespace roco {
 
-//! Controller (Adaptee) Implementation
-/*! Derive this class and implement your own controller.
+/*! Abstract interface class for controller adapters.
  *
+ *  Derive this class and implement your own controller adapter.
  */
-  template<typename State_, typename Command_>
-  using Controller = ControllerBase<State_, Command_, ControllerAdapteeInterface, ControllerExtensionInterface>;
-}
+class ControllerAdapterInterface
+{
+ public:
+
+  //! Empty constructor
+  ControllerAdapterInterface() {};
+  //! Empty constructor
+  virtual ~ControllerAdapterInterface() {};
+
+  //! Create controller procedure
+  virtual bool createController(double dt) = 0;
+  //! Initialize controller procedure
+  virtual bool initializeController(double dt) = 0;
+  //! Advance controller procedure
+  virtual bool advanceController(double dt) = 0;
+  //! Cleanup controller procedure
+  virtual bool cleanupController() = 0;
+  //! Reset controller procedure
+  virtual bool resetController(double dt) = 0;
+  //! Stop controller procedure
+  virtual bool stopController() = 0;
+  //! Prepare stop controller procedure
+  virtual bool preStopController() = 0;
+
+  //! Get the controller name
+  virtual const std::string& getName() const = 0;
+
+  //! Indicates if the controller is initialized
+  virtual bool isInitialized() const = 0;
+
+  //! TODO add more functionality
+};
+
+} /* namespace roco */

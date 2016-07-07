@@ -33,25 +33,53 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     Controller.hpp
+* @file     ControllerBase.hpp
 * @author   Christian Gehring, Gabriel Hottiger
 * @date     Dec, 2014
 * @note     Restructured, June 2016
 */
 
-#pragma once
-
-// Roco
-#include <roco/controllers/ControllerBase.hpp>
-#include <roco/controllers/adaptees/ControllerExtensionInterface.hpp>
-#include <roco/controllers/adaptees/ControllerAdapteeInterface.hpp>
-
 namespace roco {
 
-//! Controller (Adaptee) Implementation
-/*! Derive this class and implement your own controller.
- *
- */
-  template<typename State_, typename Command_>
-  using Controller = ControllerBase<State_, Command_, ControllerAdapteeInterface, ControllerExtensionInterface>;
+template<typename State_, typename Command_, class ...Interfaces_>
+ControllerBase<State_, Command_, Interfaces_...>::ControllerBase(const std::string& name):
+  name_(name),
+  isCreated_(false),
+  isInitialized_(false),
+  isRunning_(false)
+{
+
 }
+
+template<typename State_, typename Command_, class... Interfaces_>
+ControllerBase<State_, Command_, Interfaces_...>::~ControllerBase()
+{
+
+}
+
+template<typename State_, typename Command_, class... Interfaces_>
+const std::string& ControllerBase<State_, Command_, Interfaces_...>::getName() const {
+  return name_;
+}
+
+template<typename State_, typename Command_, class... Interfaces_>
+void ControllerBase<State_, Command_, Interfaces_...>::setName(std::string& name) {
+  name_ = name;
+}
+
+template<typename State_, typename Command_, class... Interfaces_>
+bool ControllerBase<State_, Command_, Interfaces_...>::isInitialized() const {
+  return isInitialized_;
+}
+
+template<typename State_, typename Command_, class... Interfaces_>
+bool ControllerBase<State_, Command_, Interfaces_...>::isCreated() const {
+  return isCreated_;
+}
+
+template<typename State_, typename Command_, class... Interfaces_>
+bool ControllerBase<State_, Command_, Interfaces_...>::isRunning() const {
+  return isRunning_;
+}
+
+} /* namespace roco */

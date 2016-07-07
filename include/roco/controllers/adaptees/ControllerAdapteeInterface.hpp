@@ -41,23 +41,13 @@
 
 #pragma once
 
-// ROCO
-#include "roco/time/Time.hpp"
-#include "roco/controllers/ControllerInterface.hpp"
-#include "roco/workers/WorkerOptions.hpp"
-#include "roco/workers/WorkerHandle.hpp"
-#include "roco/workers/Worker.hpp"
-
-// STL
-#include <string>
-
 namespace roco {
 
 //!   Abstract interface class for controller adaptees.
 /*!
  *   This interface is used in the controller implementation.
  */
-class ControllerAdapteeInterface: public ControllerInterface
+class ControllerAdapteeInterface
 {
  public:
   //! Empty constructor
@@ -65,49 +55,7 @@ class ControllerAdapteeInterface: public ControllerInterface
   //! Empty destructor
   virtual ~ControllerAdapteeInterface() {};
 
-  /**
-   * These functions are implemented by the roco::Controller class.
-   */
-
-  //! Set controller name
-  virtual void setName(std::string& name) = 0;
-
-  /**
-   * These functions are implemented by the controller adapter.
-   */
-
-  //! Set controller time
-  virtual const time::Time& getTime() const = 0;
-  //! Get controller time
-  virtual void setTime(const time::Time& time) = 0;
-
-  //! Indicates if command is checked against its limits
-  virtual bool isCheckingCommand() const = 0;
-  //! Set if command is checked against its limits
-  virtual void setIsCheckingCommand(bool isChecking) = 0;
-
-  //! Indicates if state is checked against its limits
-  virtual bool isCheckingState() const = 0;
-  //! Set if state is checked against its limits
-  virtual void setIsCheckingState(bool isChecking) = 0;
-
-  //! Add a worker to the worker queue via options
-  virtual roco::WorkerHandle addWorker(const roco::WorkerOptions& options) = 0;
-  //! Add a worker to the worker queue
-  virtual roco::WorkerHandle addWorker(roco::Worker& worker) = 0;
-  //! Start a given worker
-  virtual bool startWorker(const roco::WorkerHandle& workerHandle) = 0;
-  //! Cancel a given worker
-  virtual bool cancelWorker(const roco::WorkerHandle& workerHandle, bool block=false) = 0;
-
-  /**@}*/
-
  protected:
-  /**
-   *  Adapted/Wrapped functions
-   *  These functions have to be implemented by every controller.
-   */
-
   /*! Use this method instead of the constructor to create objects.
    * This method is only called once during the whole lifetime of the controller.
    * @param dt  time step [s]
@@ -151,8 +99,6 @@ class ControllerAdapteeInterface: public ControllerInterface
    * @returns true if successful
    */
   virtual bool cleanup() = 0;
-
-
 
 };
 

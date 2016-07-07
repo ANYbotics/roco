@@ -33,48 +33,37 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerAdapteeInterface.hpp
-* @author   Christian Gehring / Gabriel Hottiger
+* @file     FailproofControllerAdapterInterface.hpp
+* @author   Christian Gehring, Gabriel Hottiger
 * @date     Dec, 2014
 * @note     Restructured, June 2016
 */
-#pragma once
 
-// STL
-#include <string>
+#pragma once
 
 namespace roco {
 
-//!  Abstract common interface class for adapter and adaptee.
-/*!
- *   This interface is used in the controller implementation,
- *   as well as on the client side. Therefore both adapter
- *   and adaptee have to implement this interface.
+/*! Abstract interface class for fail-proof controller adapters.
+ *
+ *  Derive this class and implement your own fail-proof controller adapter.
  */
-
-class ControllerInterface
+class FailproofControllerAdapterInterface
 {
  public:
 
   //! Empty constructor
-  ControllerInterface() {};
-  //! Empty destructor
-  virtual ~ControllerInterface() {};
+  FailproofControllerAdapterInterface() {};
+  //! Empty constructor
+  virtual ~FailproofControllerAdapterInterface() {};
 
-  //! Get the controller name
-  virtual const std::string& getName() const = 0;
+  //! Create controller procedure
+  virtual bool createController(double dt) = 0;
+  //! Advance controller procedure
+  virtual void advanceController(double dt) = 0;
+  //! Cleanup controller procedure
+  virtual bool cleanupController() = 0;
 
-  //! Indicates if the controller is initialized
-  virtual bool isInitialized() const = 0;
-
-  //! Indicates if the controller is created
-  virtual bool isCreated() const = 0;
-
-  //! Indicates if the controller is running
-  virtual bool isRunning() const = 0;
-
-  //! Indicates if the real robot is controller or only a simulated version.
-  virtual bool isRealRobot() const = 0;
+  //! TODO add more functionality
 
 };
 

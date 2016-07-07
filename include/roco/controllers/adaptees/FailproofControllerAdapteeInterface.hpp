@@ -33,54 +33,48 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     Controller.tpp
-* @author   Christian Gehring
-* @date     Dec, 2014
-* @brief
-*/
+ * @file     FailproofControllerAdapteeInterface.hpp
+ * @author   Christian Gehring, Gabriel Hottiger
+ * @date     Dec, 2014
+ * @note     Restructured, June 2016
+ */
 
+#pragma once
 
 namespace roco {
 
-template<typename State_, typename Command_>
-Controller<State_, Command_>::Controller(const std::string& name):
-  name_(name),
-  isCreated_(false),
-  isInitialized_(false),
-  isRunning_(false)
+//!  Abstract interface class for fail-proof controller adaptees.
+/*!
+ *   This interface is used in the fail-proof controller implementation.
+ */
+class FailproofControllerAdapteeInterface
 {
+ public:
+  //! Empty constructor
+  FailproofControllerAdapteeInterface() {};
+  //! Empty destructor
+  virtual ~FailproofControllerAdapteeInterface() {};
 
-}
+ protected:
+  /*! Use this method instead of the constructor to create objects.
+   * This method is only called once during the whole lifetime of the controller.
+   * @param dt  time step [s]
+   * @returns true if successful
+   */
+  virtual bool create(double dt) = 0;
 
-template<typename State_, typename Command_>
-Controller<State_, Command_>::~Controller()
-{
+  /*! This advances the controller. Can never fail!!!
+   * @param dt  time step [s]
+   */
+  virtual void advance(double dt) = 0;
 
-}
+  /*! Use this method instead of the destructor to destroy objects.
+   * This method is only called once at the end of the lifetime of the controller.
+   * @param dt  time step [s]
+   * @returns true if successful
+   */
+  virtual bool cleanup() = 0;
 
-template<typename State_, typename Command_>
-const std::string& Controller<State_, Command_>::getName() const {
-  return name_;
-}
-
-template<typename State_, typename Command_>
-void Controller<State_, Command_>::setName(std::string& name) {
-  name_ = name;
-}
-
-template<typename State_, typename Command_>
-bool Controller<State_, Command_>::isInitialized() const {
-  return isInitialized_;
-}
-
-template<typename State_, typename Command_>
-bool Controller<State_, Command_>::isCreated() const {
-  return isCreated_;
-}
-
-template<typename State_, typename Command_>
-bool Controller<State_, Command_>::isRunning() const {
-  return isRunning_;
-}
+};
 
 } /* namespace roco */

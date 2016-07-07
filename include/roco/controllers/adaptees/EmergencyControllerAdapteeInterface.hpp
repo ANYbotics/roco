@@ -33,25 +33,37 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     Controller.hpp
-* @author   Christian Gehring, Gabriel Hottiger
-* @date     Dec, 2014
-* @note     Restructured, June 2016
-*/
+ * @file     EmergencyControllerAdapteeInterface.hpp
+ * @author   Christian Gehring, Gabriel Hottiger
+ * @date     Dec, 2014
+ * @note     Restructured, June 2016
+ */
 
 #pragma once
 
-// Roco
-#include <roco/controllers/ControllerBase.hpp>
-#include <roco/controllers/adaptees/ControllerExtensionInterface.hpp>
-#include <roco/controllers/adaptees/ControllerAdapteeInterface.hpp>
-
 namespace roco {
 
-//! Controller (Adaptee) Implementation
-/*! Derive this class and implement your own controller.
- *
+//!  Abstract interface class for emergency controller adaptees.
+/*!
+ *   This interface is used in the emergency controller implementation.
  */
-  template<typename State_, typename Command_>
-  using Controller = ControllerBase<State_, Command_, ControllerAdapteeInterface, ControllerExtensionInterface>;
-}
+class EmergencyControllerAdapteeInterface
+{
+ public:
+  //! Empty constructor
+  EmergencyControllerAdapteeInterface() {};
+  //! Empty destructor
+  virtual ~EmergencyControllerAdapteeInterface() {};
+
+ protected:
+
+  /*! This initializes the controller before the advance method is called.
+   *  This method has strong timing constraints and should finish really fast.
+   * @param dt  time step [s]
+   * @returns true if successful
+   */
+  virtual bool initializeFast(double dt) = 0;
+
+};
+
+} /* namespace roco */

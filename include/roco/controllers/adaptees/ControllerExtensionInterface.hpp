@@ -33,25 +33,61 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     Controller.hpp
-* @author   Christian Gehring, Gabriel Hottiger
-* @date     Dec, 2014
-* @note     Restructured, June 2016
-*/
+ * @file     ControllerExtensionInterface.hpp
+ * @author   Christian Gehring, Gabriel Hottiger
+ * @date     Dec, 2014
+ * @note     Restructured, June 2016
+ */
 
 #pragma once
 
-// Roco
-#include <roco/controllers/ControllerBase.hpp>
-#include <roco/controllers/adaptees/ControllerExtensionInterface.hpp>
-#include <roco/controllers/adaptees/ControllerAdapteeInterface.hpp>
+// ROCO
+#include "roco/time/Time.hpp"
+#include "roco/workers/WorkerOptions.hpp"
+#include "roco/workers/WorkerHandle.hpp"
+#include "roco/workers/Worker.hpp"
 
 namespace roco {
 
-//! Controller (Adaptee) Implementation
-/*! Derive this class and implement your own controller.
- *
+//!  Abstract interface class for extending controller functionality.
+/*!
+ *   This will be implemented in the adapter.
  */
-  template<typename State_, typename Command_>
-  using Controller = ControllerBase<State_, Command_, ControllerAdapteeInterface, ControllerExtensionInterface>;
-}
+class ControllerExtensionInterface
+{
+ public:
+  //! Empty constructor
+  ControllerExtensionInterface() {};
+  //! Empty destructor
+  virtual ~ControllerExtensionInterface() {};
+
+  //! Indicates if the real robot is controller or only a simulated version.
+  virtual bool isRealRobot() const = 0;
+
+  //! Set controller time
+  virtual const time::Time& getTime() const = 0;
+  //! Get controller time
+  virtual void setTime(const time::Time& time) = 0;
+
+  //! Indicates if command is checked against its limits
+  virtual bool isCheckingCommand() const = 0;
+  //! Set if command is checked against its limits
+  virtual void setIsCheckingCommand(bool isChecking) = 0;
+
+  //! Indicates if state is checked against its limits
+  virtual bool isCheckingState() const = 0;
+  //! Set if state is checked against its limits
+  virtual void setIsCheckingState(bool isChecking) = 0;
+
+  //! Add a worker to the worker queue via options
+  virtual roco::WorkerHandle addWorker(const roco::WorkerOptions& options) = 0;
+  //! Add a worker to the worker queue
+  virtual roco::WorkerHandle addWorker(roco::Worker& worker) = 0;
+  //! Start a given worker
+  virtual bool startWorker(const roco::WorkerHandle& workerHandle) = 0;
+  //! Cancel a given worker
+  virtual bool cancelWorker(const roco::WorkerHandle& workerHandle, bool block=false) = 0;
+
+};
+
+} /* namespace roco */
