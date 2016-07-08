@@ -49,7 +49,7 @@ namespace roco {
 
 Worker::Worker(const std::string& workerName)
     : options_(),
-      handle_()
+      handle_(workerName)
 {
   options_.name_ = workerName;
   options_.callback_ = boost::bind(&WorkerInterface::work, this, _1);

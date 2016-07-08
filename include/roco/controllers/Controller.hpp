@@ -43,7 +43,7 @@
 
 // Roco
 #include <roco/controllers/ControllerBase.hpp>
-#include <roco/controllers/adaptees/ControllerExtensionInterface.hpp>
+#include <roco/controllers/ControllerExtensionInterface.hpp>
 #include <roco/controllers/adaptees/ControllerAdapteeInterface.hpp>
 
 namespace roco {

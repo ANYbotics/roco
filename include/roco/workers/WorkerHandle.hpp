@@ -46,7 +46,12 @@ namespace roco {
 
 class WorkerHandle {
   public:
-    WorkerHandle() {}
+    WorkerHandle() = delete;
+    WorkerHandle(const std::string & name):
+      name_(name)
+    {
+
+    }
     virtual ~WorkerHandle() {}
 
     std::string name_;
