@@ -75,10 +75,10 @@ class ControllerAdapterInterface
   virtual bool preStopController() = 0;
 
   //! Get the controller name
-  virtual const std::string& getName() const = 0;
+  virtual const std::string& getControllerName() const = 0;
 
   //! Indicates if the controller is initialized
-  virtual bool isInitialized() const = 0;
+  virtual bool isControllerInitialized() const = 0;
 
   //! TODO add more functionality
 };

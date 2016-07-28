@@ -54,7 +54,7 @@ namespace roco {
  *
  */
 template<typename State_, typename Command_, class... Interfaces_>
-class ControllerBase: virtual public Interfaces_... {
+class ControllerBase: public Interfaces_... {
  public:
   //! Typedef of the state of the robot.
   typedef State_ State;
@@ -62,7 +62,8 @@ class ControllerBase: virtual public Interfaces_... {
   typedef Command_ Command;
 
  public:
-  ControllerBase(const std::string& name);
+  ControllerBase();
+  ControllerBase(const std::string & name);
   virtual ~ControllerBase();
 
   /*! @returns the name of the controller
@@ -82,6 +83,14 @@ class ControllerBase: virtual public Interfaces_... {
 
   //! @returns true if the controller is running.
   bool isRunning() const;
+
+  /*!
+   * Sets state and command with mutexes.
+   */
+  virtual void setStateAndCommand(std::shared_ptr<State> state,
+                                  std::shared_ptr<boost::shared_mutex> mutexState,
+                                  std::shared_ptr<Command> command,
+                                  std::shared_ptr<boost::shared_mutex> mutexCommand) = 0;
 
   /*! @returns the state of the robot.
    * This method should be implemented by the adapter.

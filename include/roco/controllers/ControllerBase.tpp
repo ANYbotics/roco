@@ -42,7 +42,17 @@
 namespace roco {
 
 template<typename State_, typename Command_, class ...Interfaces_>
-ControllerBase<State_, Command_, Interfaces_...>::ControllerBase(const std::string& name):
+ControllerBase<State_, Command_, Interfaces_...>::ControllerBase():
+  name_(""),
+  isCreated_(false),
+  isInitialized_(false),
+  isRunning_(false)
+{
+
+}
+
+template<typename State_, typename Command_, class ...Interfaces_>
+ControllerBase<State_, Command_, Interfaces_...>::ControllerBase(const std::string & name):
   name_(name),
   isCreated_(false),
   isInitialized_(false),
