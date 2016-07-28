@@ -53,7 +53,7 @@ namespace roco {
     virtual ~StateInterface() {};
 
     //! Interface functions
-    virtual bool checkState() = 0;
+    virtual bool checkState() const = 0;
 
   };
 
