@@ -63,7 +63,6 @@ class ControllerBase: public Interfaces_... {
 
  public:
   ControllerBase();
-  ControllerBase(const std::string & name);
   virtual ~ControllerBase();
 
   /*! @returns the name of the controller
