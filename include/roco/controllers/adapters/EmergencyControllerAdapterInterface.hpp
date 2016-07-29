@@ -50,7 +50,7 @@ namespace roco {
  *
  *  Derive this class and implement your own emergency controller adapter.
  */
-class EmergencyControllerAdapterInterface: public ControllerAdapterInterface
+class EmergencyControllerAdapterInterface: virtual public ControllerAdapterInterface
 {
  public:
 
