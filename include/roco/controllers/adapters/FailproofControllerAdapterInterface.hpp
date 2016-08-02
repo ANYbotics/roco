@@ -41,6 +41,8 @@
 
 #pragma once
 
+#include <string>
+
 namespace roco {
 
 /*! Abstract interface class for fail-proof controller adapters.
@@ -62,6 +64,8 @@ class FailproofControllerAdapterInterface
   virtual void advanceController(double dt) = 0;
   //! Cleanup controller procedure
   virtual bool cleanupController() = 0;
+  //! Get controller name
+  virtual const std::string& getControllerName() const = 0;
 
   //! TODO add more functionality
 
