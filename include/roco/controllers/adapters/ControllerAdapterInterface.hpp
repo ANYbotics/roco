@@ -80,6 +80,12 @@ class ControllerAdapterInterface
   //! Indicates if the controller is initialized
   virtual bool isControllerInitialized() const = 0;
 
+  //! Indicates if the controller is initializing at the moment
+  virtual bool isInitializing() const = 0;
+
+  //! Indicates if the controller is stopping at the moment
+  virtual bool isStopping() const = 0;
+
   //! TODO add more functionality
 };
 
