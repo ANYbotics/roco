@@ -51,14 +51,15 @@ class EmergencyControllerAdapteeInterface
 {
  public:
   //! Empty constructor
-  EmergencyControllerAdapteeInterface() {};
+  EmergencyControllerAdapteeInterface() { }
+
   //! Empty destructor
-  virtual ~EmergencyControllerAdapteeInterface() {};
+  virtual ~EmergencyControllerAdapteeInterface() { }
 
  protected:
 
   /*! This initializes the controller before the advance method is called.
-   *  This method has strong timing constraints and should finish really fast.
+   *  This method has strong timing constraints and should finish fast (exec_time < dt).
    * @param dt  time step [s]
    * @returns true if successful
    */

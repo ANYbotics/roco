@@ -42,12 +42,12 @@
 #pragma once
 
 // Roco
-#include <roco/controllers/ControllerBase.hpp>
-#include <roco/controllers/adaptees/FailproofControllerAdapteeInterface.hpp>
+#include "roco/controllers/ControllerBase.hpp"
+#include "roco/controllers/adaptees/FailproofControllerAdapteeInterface.hpp"
 
 namespace roco {
 
-//! Fail-proof Controller (Adaptee) Implementation
+//! Fail-proof Controller
 /*! Derive this class and implement your own fail-proof controller.
  *
  */

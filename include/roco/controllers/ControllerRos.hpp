@@ -33,7 +33,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     Controller.hpp
+* @file     ControllerRos.hpp
 * @author   Christian Gehring, Gabriel Hottiger
 * @date     Dec, 2014
 * @note     Restructured, June 2016
@@ -42,29 +42,46 @@
 #pragma once
 
 // Roco
-#include <roco/controllers/Controller.hpp>
-#include <roco/controllers/ControllerExtensionInterface.hpp>
-#include <roco/controllers/adaptees/ControllerAdapteeInterface.hpp>
+#include "roco/controllers/Controller.hpp"
 
+// Ros
 #include <ros/node_handle.h>
-
 
 namespace roco {
 
-//! Controller (Adaptee) Implementation
-/*! Derive this class and implement your own controller.
+//! Controller Ros
+/*! Derive this class and implement your own ros controller.
  *
  */
   template<typename State_, typename Command_>
   class ControllerRos: virtual public Controller<State_, Command_> {
+
    public:
+    //! Default constructor
     ControllerRos():nh_() { }
+
+    //! Default destructor
     virtual ~ControllerRos() { }
 
-    ros::NodeHandle getNodeHandle() { return nh_; }
-    void setNodeHandle(ros::NodeHandle nodeHandle) { nh_ = nodeHandle; }
+    /*! Get the ros node handle associated with this controller.
+     * @returns the ros nodehandle
+     */
+    ros::NodeHandle getNodeHandle()
+    {
+      return nh_;
+    }
+
+    /*! Set the ros node handle associated with this controller.
+      * @param nodeHandle  the ros nodehandle to be set
+      */
+    void setNodeHandle(ros::NodeHandle nodeHandle)
+    {
+      nh_ = nodeHandle;
+    }
 
    private:
+    // ros node handle
     ros::NodeHandle nh_;
+
   };
 }

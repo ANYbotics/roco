@@ -42,7 +42,7 @@
 #pragma once
 
 // roco
-#include <roco/controllers/adapters/ControllerAdapterInterface.hpp>
+#include "roco/controllers/adapters/ControllerAdapterInterface.hpp"
 
 namespace roco {
 
@@ -55,11 +55,15 @@ class EmergencyControllerAdapterInterface: virtual public ControllerAdapterInter
  public:
 
   //! Empty constructor
-  EmergencyControllerAdapterInterface() {};
-  //! Empty constructor
-  virtual ~EmergencyControllerAdapterInterface() {};
+  EmergencyControllerAdapterInterface() { }
 
-  //! Fast initialization of the controller
+  //! Empty constructor
+  virtual ~EmergencyControllerAdapterInterface() { }
+
+  /*! Adapts the adaptees initializeFast(dt) function.
+   * @param dt  time step [s]
+   * @returns true if successful
+   */
   virtual bool initializeControllerFast(double dt) = 0;
 
 };

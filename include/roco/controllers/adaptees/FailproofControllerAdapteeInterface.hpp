@@ -51,9 +51,10 @@ class FailproofControllerAdapteeInterface
 {
  public:
   //! Empty constructor
-  FailproofControllerAdapteeInterface() {};
+  FailproofControllerAdapteeInterface() { }
+
   //! Empty destructor
-  virtual ~FailproofControllerAdapteeInterface() {};
+  virtual ~FailproofControllerAdapteeInterface() { }
 
  protected:
   /*! Use this method instead of the constructor to create objects.

@@ -51,9 +51,10 @@ class ControllerAdapteeInterface
 {
  public:
   //! Empty constructor
-  ControllerAdapteeInterface() {};
+  ControllerAdapteeInterface() { }
+
   //! Empty destructor
-  virtual ~ControllerAdapteeInterface() {};
+  virtual ~ControllerAdapteeInterface() { }
 
  protected:
   /*! Use this method instead of the constructor to create objects.

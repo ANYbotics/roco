@@ -51,41 +51,75 @@ namespace roco {
 
 //!  Abstract interface class for extending controller functionality.
 /*!
- *   This will be implemented in the adapter.
+ * This methods should be implemented by the adapter.
  */
 class ControllerExtensionInterface
 {
  public:
   //! Empty constructor
   ControllerExtensionInterface() {};
+
   //! Empty destructor
   virtual ~ControllerExtensionInterface() {};
 
-  //! Indicates if the real robot is controller or only a simulated version.
+  /*! Indicates if the real robot is controller or only a simulated version.
+   * @returns true if real robot
+   */
   virtual bool isRealRobot() const = 0;
 
-  //! Set controller time
+  /*! Gets the controller time
+   * @returns controller time
+   */
   virtual const time::Time& getTime() const = 0;
-  //! Get controller time
+
+  /*! Sets the controller time
+   * @param time  controller time
+   */
   virtual void setTime(const time::Time& time) = 0;
 
-  //! Indicates if command is checked against its limits
+  /*! Indicates if command is checked against its limits
+   * @returns true iff command is checked
+   */
   virtual bool isCheckingCommand() const = 0;
-  //! Set if command is checked against its limits
+
+  /*! Set if command is checked against its limits
+   * @param isChecking  flag indicating whether command should be checked against limits
+   */
   virtual void setIsCheckingCommand(bool isChecking) = 0;
 
-  //! Indicates if state is checked against its limits
+  /*! Indicates if state is checked against its limits
+   * @returns true iff state is checked
+   */
   virtual bool isCheckingState() const = 0;
-  //! Set if state is checked against its limits
+
+  /*! Set if state is checked against its limits
+   * @param isChecking  flag indicating whether state should be checked against limits
+   */
   virtual void setIsCheckingState(bool isChecking) = 0;
 
-  //! Add a worker to the worker queue via options
+  /*! Add a worker to the worker queue via options
+   * @param options  worker options (priority, timestep, ...)
+   * @returns worker handle for the added worker
+   */
   virtual roco::WorkerHandle addWorker(const roco::WorkerOptions& options) = 0;
-  //! Add a worker to the worker queue
+
+  /*! Add a worker to the worker queue
+   * @param worker  worker to be added
+   * @returns worker handle for the added worker
+   */
   virtual roco::WorkerHandle addWorker(roco::Worker& worker) = 0;
-  //! Start a given worker
+
+  /*! Start a given worker
+   * @param workerHandle  handle to the worker to be started
+   * @returns true iff was started successfully
+   */
   virtual bool startWorker(const roco::WorkerHandle& workerHandle) = 0;
-  //! Cancel a given worker
+
+  /*! Cancel a given worker
+   * @param workerHandle  handle to the worker to be cancelled
+   * @param block  flag indicating whether this should block until thread can be joined (default = false)
+   * @returns true iff was cancelled successfully
+   */
   virtual bool cancelWorker(const roco::WorkerHandle& workerHandle, bool block=false) = 0;
 
 };

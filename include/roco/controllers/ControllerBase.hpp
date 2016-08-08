@@ -41,11 +41,13 @@
 
 #pragma once
 
-// boost
-#include <boost/thread.hpp>
-
 // STL
 #include <string>
+#include <atomic>
+#include <memory>
+
+// Boost
+#include <boost/thread/shared_mutex.hpp>
 
 namespace roco {
 
@@ -83,8 +85,12 @@ class ControllerBase: public Interfaces_... {
   //! @returns true if the controller is running.
   bool isRunning() const;
 
-  /*!
-   * Sets state and command with mutexes.
+  /*! Set state and command of the controller with according mutexes
+   * @param state         the state of the robot.
+   * @param mutexState    mutex of the robot state
+   * @param command       the command container
+   * @param mutexCommand  mutex of the command container
+   * This method should be implemented by the adapter.
    */
   virtual void setStateAndCommand(std::shared_ptr<State> state,
                                   std::shared_ptr<boost::shared_mutex> mutexState,
@@ -121,13 +127,13 @@ class ControllerBase: public Interfaces_... {
   std::string name_;
 
   //! Indicates if the controller is created.
-  boost::atomic<bool> isCreated_;
+  std::atomic_bool isCreated_;
 
   //! Indicates if the controller is initialized.
-  boost::atomic<bool> isInitialized_;
+  std::atomic_bool isInitialized_;
 
   //! Indicates if the controller is running.
-  boost::atomic<bool> isRunning_;
+  std::atomic_bool isRunning_;
 
 };
 

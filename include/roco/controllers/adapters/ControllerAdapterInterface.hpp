@@ -55,38 +55,60 @@ class ControllerAdapterInterface
  public:
 
   //! Empty constructor
-  ControllerAdapterInterface() {};
-  //! Empty constructor
-  virtual ~ControllerAdapterInterface() {};
+  ControllerAdapterInterface() { }
 
-  //! Create controller procedure
+  //! Empty constructor
+  virtual ~ControllerAdapterInterface() { }
+
+  /*! Adapts the adaptees create(dt) function.
+   * @param dt  time step [s]
+   * @returns true if successful
+   */
   virtual bool createController(double dt) = 0;
-  //! Initialize controller procedure
+
+  /*! Adapts the adaptees initialize(dt) function.
+   * @param dt  time step [s]
+   * @returns true if successful
+   */
   virtual bool initializeController(double dt) = 0;
-  //! Advance controller procedure
+
+  /*! Adapts the adaptees advance(dt) function.
+   * @param dt  time step [s]
+   * @returns true if successful
+   */
   virtual bool advanceController(double dt) = 0;
-  //! Cleanup controller procedure
-  virtual bool cleanupController() = 0;
-  //! Reset controller procedure
+
+  /*! Adapts the adaptees reset(dt) function.
+   * @param dt  time step [s]
+   * @returns true if successful
+   */
   virtual bool resetController(double dt) = 0;
-  //! Stop controller procedure
-  virtual bool stopController() = 0;
-  //! Prepare stop controller procedure
+
+  /*! Adapts the adaptees prestop(dt) function.
+   * @returns true if successful
+   */
   virtual bool preStopController() = 0;
 
-  //! Get the controller name
+  /*! Adapts the adaptees stop(dt) function.
+   * @returns true if successful
+   */
+  virtual bool stopController() = 0;
+
+  /*! Adapts the adaptees cleanup() function.
+   * @returns true if successful
+   */
+  virtual bool cleanupController() = 0;
+
+  /*! This function gets the name of the controller.
+   * @returns controller name
+   */
   virtual const std::string& getControllerName() const = 0;
 
-  //! Indicates if the controller is initialized
+  /*! This function indicates whether the controller was initialized.
+   * @returns true iff controller is initialized
+   */
   virtual bool isControllerInitialized() const = 0;
 
-  //! Indicates if the controller is initializing at the moment
-  virtual bool isInitializing() const = 0;
-
-  //! Indicates if the controller is stopping at the moment
-  virtual bool isStopping() const = 0;
-
-  //! TODO add more functionality
 };
 
 } /* namespace roco */

@@ -42,13 +42,13 @@
 #pragma once
 
 // Roco
-#include <roco/controllers/ControllerBase.hpp>
-#include <roco/controllers/ControllerExtensionInterface.hpp>
-#include <roco/controllers/adaptees/ControllerAdapteeInterface.hpp>
+#include "roco/controllers/ControllerBase.hpp"
+#include "roco/controllers/ControllerExtensionInterface.hpp"
+#include "roco/controllers/adaptees/ControllerAdapteeInterface.hpp"
 
 namespace roco {
 
-//! Controller (Adaptee) Implementation
+//! Controller
 /*! Derive this class and implement your own controller.
  *
  */

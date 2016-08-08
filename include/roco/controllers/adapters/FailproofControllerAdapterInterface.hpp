@@ -41,6 +41,7 @@
 
 #pragma once
 
+// STL
 #include <string>
 
 namespace roco {
@@ -54,20 +55,31 @@ class FailproofControllerAdapterInterface
  public:
 
   //! Empty constructor
-  FailproofControllerAdapterInterface() {};
+  FailproofControllerAdapterInterface() { }
+
   //! Empty constructor
-  virtual ~FailproofControllerAdapterInterface() {};
+  virtual ~FailproofControllerAdapterInterface() { }
 
-  //! Create controller procedure
+  /*! Adapts the adaptees create(dt) function.
+   * @param dt  time step [s]
+   * @returns true if successful
+   */
   virtual bool createController(double dt) = 0;
-  //! Advance controller procedure
-  virtual void advanceController(double dt) = 0;
-  //! Cleanup controller procedure
-  virtual bool cleanupController() = 0;
-  //! Get controller name
-  virtual const std::string& getControllerName() const = 0;
 
-  //! TODO add more functionality
+  /*! Adapts the adaptees advance(dt) function.
+   * @param dt  time step [s]
+   */
+  virtual void advanceController(double dt) = 0;
+
+  /*! Adapts the adaptees cleanup() function.
+   * @returns true if successful
+   */
+  virtual bool cleanupController() = 0;
+
+  /*! This function gets the name of the controller.
+   * @returns controller name
+   */
+  virtual const std::string& getControllerName() const = 0;
 
 };
 
