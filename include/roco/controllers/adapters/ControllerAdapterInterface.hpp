@@ -99,6 +99,11 @@ class ControllerAdapterInterface
    */
   virtual bool cleanupController() = 0;
 
+  /*! Sets if the real robot is controlled or only a simulated version.
+   * @param flag indicating robot type
+   */
+  virtual void setIsRealRobot(bool isRealRobot) = 0;
+
   /*! This function gets the name of the controller.
    * @returns controller name
    */
