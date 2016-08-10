@@ -33,11 +33,11 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerAdapterInterface.hpp
-* @author   Christian Gehring, Gabriel Hottiger
-* @date     Dec, 2014
-* @note     Restructured, June 2016
-*/
+ * @file     ControllerAdapterInterface.hpp
+ * @author   Christian Gehring, Gabriel Hottiger
+ * @date     Dec, 2014
+ * @note     Restructured, June 2016
+ */
 
 #pragma once
 
@@ -113,6 +113,19 @@ class ControllerAdapterInterface
    * @returns true iff controller is initialized
    */
   virtual bool isControllerInitialized() const = 0;
+
+  /*! This function indicates whether the controller is being stopped
+   * @returns true iff controller is being stopped
+   */
+  virtual bool isBeingStopped() const = 0;
+
+  /*! This function indicates whether the controller is being stopped
+   * @returns true iff controller is being stopped
+   */
+  virtual void setIsBeingStopped(bool isBeeingStopped) = 0;
+
+
+
 
 };
 
