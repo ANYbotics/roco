@@ -76,6 +76,15 @@ class ControllerBase: public Interfaces_... {
    */
   virtual void setName(std::string& name);
 
+  /*! @returns the parameter path
+   */
+  virtual const std::string& getParameterPath() const;
+
+  /*! Sets the parameter path
+   * @param path
+   */
+  virtual void setParameterPath(std::string& path);
+
   //! @returns true if the controller is initialized.
   bool isInitialized() const;
 
@@ -125,6 +134,9 @@ class ControllerBase: public Interfaces_... {
  protected:
   //! Name of the controller
   std::string name_;
+
+  //! Path of the parameters
+  std::string parameterPath_;
 
   //! Indicates if the controller is created.
   std::atomic_bool isCreated_;

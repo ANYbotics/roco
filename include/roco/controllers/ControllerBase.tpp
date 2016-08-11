@@ -44,6 +44,7 @@ namespace roco {
 template<typename State_, typename Command_, class ...Interfaces_>
 ControllerBase<State_, Command_, Interfaces_...>::ControllerBase():
   name_(""),
+  parameterPath_(""),
   isCreated_(false),
   isInitialized_(false),
   isRunning_(false)
@@ -65,6 +66,16 @@ const std::string& ControllerBase<State_, Command_, Interfaces_...>::getName() c
 template<typename State_, typename Command_, class... Interfaces_>
 void ControllerBase<State_, Command_, Interfaces_...>::setName(std::string& name) {
   name_ = name;
+}
+
+template<typename State_, typename Command_, class... Interfaces_>
+const std::string& ControllerBase<State_, Command_, Interfaces_...>::getParameterPath() const {
+  return parameterPath_;
+}
+
+template<typename State_, typename Command_, class... Interfaces_>
+void ControllerBase<State_, Command_, Interfaces_...>::setParameterPath(std::string& parameterPath) {
+  parameterPath_ = parameterPath;
 }
 
 template<typename State_, typename Command_, class... Interfaces_>
