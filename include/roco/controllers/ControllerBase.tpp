@@ -64,7 +64,7 @@ const std::string& ControllerBase<State_, Command_, Interfaces_...>::getName() c
 }
 
 template<typename State_, typename Command_, class... Interfaces_>
-void ControllerBase<State_, Command_, Interfaces_...>::setName(std::string& name) {
+void ControllerBase<State_, Command_, Interfaces_...>::setName(const std::string& name) {
   name_ = name;
 }
 
@@ -74,7 +74,7 @@ const std::string& ControllerBase<State_, Command_, Interfaces_...>::getParamete
 }
 
 template<typename State_, typename Command_, class... Interfaces_>
-void ControllerBase<State_, Command_, Interfaces_...>::setParameterPath(std::string& parameterPath) {
+void ControllerBase<State_, Command_, Interfaces_...>::setParameterPath(const std::string& parameterPath) {
   parameterPath_ = parameterPath;
 }
 
