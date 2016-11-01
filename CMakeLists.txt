@@ -14,30 +14,18 @@ project(roco)
 find_package(Boost REQUIRED COMPONENTS thread)
 
 # Find Catkin
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED COMPONENTS message_logger)
 find_package(Boost REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIRS})
 
-if(DEFINED ENV{ROS_DISTRO})
-    message(STATUS "Building for ros.")
-    catkin_package(
-     INCLUDE_DIRS include
-     LIBRARIES roco
-     CATKIN_DEPENDS roscpp
-     DEPENDS Boost
-     CFG_EXTRAS roco.cmake 
-    )
-    add_definitions(-DUSE_ROS)
-else()
-    catkin_package(
-     INCLUDE_DIRS include
-     LIBRARIES roco
-     CATKIN_DEPENDS 
-     DEPENDS Boost
-     CFG_EXTRAS roco.cmake 
-    )
-endif()
+catkin_package(
+ INCLUDE_DIRS include
+ LIBRARIES roco
+ CATKIN_DEPENDS message_logger
+ DEPENDS Boost
+)
+
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 add_definitions(--std=c++11)

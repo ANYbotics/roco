@@ -41,7 +41,7 @@
 
 #include "roco/workers/Worker.hpp"
 
-#include <roco/log/log_messages.hpp>
+#include <message_logger/message_logger.hpp>
 #include <boost/bind.hpp>
 
 
@@ -63,7 +63,7 @@ Worker::~Worker() {
 bool Worker::start()
 {
   if (workerStartCallback_.empty()) {
-    ROCO_WARN("Callback function to start worker is empty!");
+    MELO_WARN("Callback function to start worker is empty!");
     return false;
   }
   return workerStartCallback_(handle_);
@@ -72,7 +72,7 @@ bool Worker::start()
 bool Worker::cancel(bool block)
 {
   if (workerCancelCallback_.empty()) {
-    ROCO_WARN("Callback function to cancel worker is empty!");
+    MELO_WARN("Callback function to cancel worker is empty!");
     return false;
   }
   return workerCancelCallback_(handle_, block);
