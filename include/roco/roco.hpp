@@ -42,3 +42,4 @@
 #pragma once
 
 #include <roco/controllers/Controller.hpp>
+#include <roco/log/log_messages.hpp>
