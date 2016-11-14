@@ -74,7 +74,7 @@ namespace roco {
     /*! Set the ros node handle associated with this controller.
       * @param nodeHandle  the ros nodehandle to be set
       */
-    void setNodeHandle(ros::NodeHandle nodeHandle)
+    void setNodeHandle(const ros::NodeHandle& nodeHandle)
     {
       nh_ = nodeHandle;
     }
