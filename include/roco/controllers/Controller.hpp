@@ -34,114 +34,24 @@
  */
 /*!
 * @file     Controller.hpp
-* @author   Christian Gehring
+* @author   Christian Gehring, Gabriel Hottiger
 * @date     Dec, 2014
-* @brief
+* @note     Restructured, June 2016
 */
 
 #pragma once
 
-#include "roco/controllers/ControllerInterface.hpp"
-#include <boost/thread.hpp>
-
-#include <string>
+// Roco
+#include "roco/controllers/ControllerBase.hpp"
+#include "roco/controllers/ControllerExtensionInterface.hpp"
+#include "roco/controllers/adaptees/ControllerAdapteeInterface.hpp"
 
 namespace roco {
-namespace controllers {
 
-//! Controller Implementation
+//! Controller
 /*! Derive this class and implement your own controller.
  *
  */
-template<typename State_, typename Command_>
-class Controller: virtual public ControllerInterface {
- public:
-  //! Typedef of the state of the robot.
-  typedef State_ State;
-  //! Typedef of the command of the robot.
-  typedef Command_ Command;
- public:
-  Controller(const std::string& name);
-  virtual ~Controller();
-
-  /*! @returns the name of the controller
-   */
-  virtual const std::string& getName() const;
-
-  /*! Sets the name of the controller.
-   * @param name
-   */
-  virtual void setName(std::string& name);
-
-  //! @returns true if the controller is initialized.
-  bool isInitialized() const;
-
-  //! @returns true if the controller has been created.
-  bool isCreated() const;
-
-  //! @returns true if the controller is running.
-  bool isRunning() const;
-
-  /*! @returns the state of the robot.
-   * This method should be implemented by the adapter.
-   */
-  virtual const State& getState() const = 0;
-
-  /*! @returns a mutex to protect access to the state.
-   */
-  virtual boost::shared_mutex& getStateMutex() = 0;
-
-  /*! @returns the command.
-   * This method should be implemented by the adapter.
-   */
-  virtual const Command& getCommand() const = 0;
-
-  /*! @returns a mutex to protect access to the command.
-   */
-  virtual boost::shared_mutex& getCommandMutex() = 0;
-
-  /*! @returns the command.
-   * This method should be implemented by the adapter.
-   */
-  virtual Command& getCommand() = 0;
- protected:
-  /*! Use this method instead of the constructor to create objects.
-   * This method is only called once during the whole lifetime of the controller.
-   * @param dt  time step [s]
-   * @returns true if successful
-   */
-  virtual bool create(double dt) = 0;
-
-  /*! This initializes the controller before the advance method is called.
-   * @param dt  time step [s]
-   * @returns true if successful
-   */
-  virtual bool initialize(double dt) = 0;
-  virtual bool advance(double dt) = 0;
-  virtual bool reset(double dt) = 0;
-  virtual bool cleanup() = 0;
-  virtual bool change() = 0;
-
-  virtual bool stop() { return true; }
-
-  virtual bool preStop() { return true; }
-
- protected:
-  //! Name of the controller
-  std::string name_;
-
-  //! Indicates if the controller is created.
-  boost::atomic<bool> isCreated_;
-
-  //! Indicates if the controller is initialized.
-  boost::atomic<bool> isInitialized_;
-
-  //! Indicates if the controller is running.
-  boost::atomic<bool> isRunning_;
-
-};
-
-} /* namespace controllers */
-} /* namespace roco */
-
-#include "Controller.tpp"
+  template<typename State_, typename Command_>
+  using Controller = ControllerBase<State_, Command_, ControllerAdapteeInterface, ControllerExtensionInterface>;
+}

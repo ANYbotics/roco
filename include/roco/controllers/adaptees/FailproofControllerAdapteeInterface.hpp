@@ -33,63 +33,49 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerAdapterInterface.hpp
-* @author   Christian Gehring
-* @date     Dec, 2014
-* @brief
-*/
+ * @file     FailproofControllerAdapteeInterface.hpp
+ * @author   Christian Gehring, Gabriel Hottiger
+ * @date     Dec, 2014
+ * @note     Restructured, June 2016
+ */
 
 #pragma once
 
-#include <roco/time/Time.hpp>
-#include <roco/workers/WorkerOptions.hpp>
-#include <roco/workers/WorkerHandle.hpp>
-#include <roco/workers/Worker.hpp>
-
 namespace roco {
-namespace controllers {
 
-
-//! Abstract interface class for controller adapters.
+//!  Abstract interface class for fail-proof controller adaptees.
 /*!
- * Derive this class and implement your own controller adapter.
+ *   This interface is used in the fail-proof controller implementation.
  */
-class ControllerAdapterInterface
+class FailproofControllerAdapteeInterface
 {
  public:
-  ControllerAdapterInterface();
-  virtual ~ControllerAdapterInterface();
+  //! Empty constructor
+  FailproofControllerAdapteeInterface() { }
 
-  virtual bool createController(double dt) = 0;
-  virtual bool initializeController(double dt) = 0;
-  virtual bool advanceController(double dt) = 0;
-  virtual bool cleanupController() = 0;
-  virtual bool resetController(double dt) = 0;
-  virtual bool changeController() = 0;
-  virtual bool stopController() = 0;
-  virtual bool preStopController() = 0;
+  //! Empty destructor
+  virtual ~FailproofControllerAdapteeInterface() { }
 
-  virtual const time::Time& getTime() const = 0;
-  virtual void setTime(const time::Time& time) = 0;
+ protected:
+  /*! Use this method instead of the constructor to create objects.
+   * This method is only called once during the whole lifetime of the controller.
+   * @param dt  time step [s]
+   * @returns true if successful
+   */
+  virtual bool create(double dt) = 0;
 
-  virtual bool isCheckingCommand() const = 0;
-  virtual void setIsCheckingCommand(bool isChecking) = 0;
+  /*! This advances the controller. Can never fail!!!
+   * @param dt  time step [s]
+   */
+  virtual void advance(double dt) = 0;
 
-  virtual bool isCheckingState() const = 0;
-  virtual void setIsCheckingState(bool isChecking) = 0;
-
-  //! @returns true if the real robot is controlled.
-  virtual bool isRealRobot() const = 0;
-  virtual void setIsRealRobot(bool isRealRobot) = 0;
-
-  virtual WorkerHandle addWorker(const WorkerOptions& options) = 0;
-  virtual WorkerHandle addWorker(Worker& worker) = 0;
-  virtual bool startWorker(const WorkerHandle& workerHandle) = 0;
-  virtual bool cancelWorker(const WorkerHandle& workerHandle, bool block=false) = 0;
+  /*! Use this method instead of the destructor to destroy objects.
+   * This method is only called once at the end of the lifetime of the controller.
+   * @param dt  time step [s]
+   * @returns true if successful
+   */
+  virtual bool cleanup() = 0;
 
 };
 
-} /* namespace controllers */
 } /* namespace roco */
-
-

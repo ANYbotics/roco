@@ -1,7 +1,7 @@
 /**********************************************************************
  * Software License Agreement (BSD License)
  *
- * Copyright (c) 2014, Christian Gehring, C. Dario Bellicoso
+ * Copyright (c) 2014, Christian Gehring
  * All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -33,50 +33,55 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     Worker.cpp
-* @author   Christian Gehring, C. Dario Bellicoso
-* @date     Aug 27, 2015
-* @brief
+* @file     ControllerRos.hpp
+* @author   Christian Gehring, Gabriel Hottiger
+* @date     Dec, 2014
+* @note     Restructured, June 2016
 */
 
-#include "roco/workers/Worker.hpp"
+#pragma once
 
-#include <roco/log/log_messages.hpp>
-#include <boost/bind.hpp>
+// Roco
+#include "roco/controllers/Controller.hpp"
 
+// Ros
+#include <ros/node_handle.h>
 
 namespace roco {
 
-Worker::Worker(const std::string& workerName)
-    : options_(),
-      handle_(workerName)
-{
-  options_.name_ = workerName;
-  options_.callback_ = boost::bind(&WorkerInterface::work, this, _1);
+//! Controller Ros
+/*! Derive this class and implement your own ros controller.
+ *
+ */
+  template<typename State_, typename Command_>
+  class ControllerRos: virtual public Controller<State_, Command_> {
 
+   public:
+    //! Default constructor
+    ControllerRos():nh_() { }
+
+    //! Default destructor
+    virtual ~ControllerRos() { }
+
+    /*! Get the ros node handle associated with this controller.
+     * @returns the ros nodehandle
+     */
+    ros::NodeHandle getNodeHandle()
+    {
+      return nh_;
+    }
+
+    /*! Set the ros node handle associated with this controller.
+      * @param nodeHandle  the ros nodehandle to be set
+      */
+    void setNodeHandle(const ros::NodeHandle& nodeHandle)
+    {
+      nh_ = nodeHandle;
+    }
+
+   private:
+    // ros node handle
+    ros::NodeHandle nh_;
+
+  };
 }
-
-Worker::~Worker() {
-
-}
-
-bool Worker::start()
-{
-  if (workerStartCallback_.empty()) {
-    ROCO_WARN("Callback function to start worker is empty!");
-    return false;
-  }
-  return workerStartCallback_(handle_);
-}
-
-bool Worker::cancel(bool block)
-{
-  if (workerCancelCallback_.empty()) {
-    ROCO_WARN("Callback function to cancel worker is empty!");
-    return false;
-  }
-  return workerCancelCallback_(handle_, block);
-}
-
-
-} // namespace roco

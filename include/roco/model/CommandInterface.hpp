@@ -1,7 +1,7 @@
 /**********************************************************************
  * Software License Agreement (BSD License)
  *
- * Copyright (c) 2014, Christian Gehring
+ * Copyright (c) 2016, Gabriel Hottiger
  * All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -33,58 +33,28 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     Controller.tpp
-* @author   Christian Gehring
-* @date     Dec, 2014
+* @file     CommandInterface.hpp
+* @author   Gabriel Hottiger
+* @date     Jun, 2016
 * @brief
 */
 
+#pragma once
 
 namespace roco {
-namespace controllers {
 
+  class CommandInterface {
 
-template<typename State_, typename Command_>
-Controller<State_, Command_>::Controller(const std::string& name):
-  name_(name),
-  isCreated_(false),
-  isInitialized_(false),
-  isRunning_(false)
-{
+   public:
+    //! Empty Constructor
+    CommandInterface() {};
 
-}
+    //! Empty Destructor
+    virtual ~CommandInterface() {};
 
-template<typename State_, typename Command_>
-Controller<State_, Command_>::~Controller()
-{
+    //! Interface functions
+    virtual bool limitCommand() = 0;
+
+  };
 
 }
-
-template<typename State_, typename Command_>
-const std::string& Controller<State_, Command_>::getName() const {
-  return name_;
-}
-
-template<typename State_, typename Command_>
-void Controller<State_, Command_>::setName(std::string& name) {
-  name_ = name;
-}
-
-template<typename State_, typename Command_>
-bool Controller<State_, Command_>::isInitialized() const {
-  return isInitialized_;
-}
-
-template<typename State_, typename Command_>
-bool Controller<State_, Command_>::isCreated() const {
-  return isCreated_;
-}
-
-template<typename State_, typename Command_>
-bool Controller<State_, Command_>::isRunning() const {
-  return isRunning_;
-}
-
-
-} /* namespace controllers */
-} /* namespace roco */

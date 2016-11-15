@@ -33,68 +33,39 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerInterface.hpp
-* @author   Christian Gehring
+* @file     EmergencyControllerAdapterInterface.hpp
+* @author   Christian Gehring, Gabriel Hottiger
 * @date     Dec, 2014
-* @brief
+* @note     Restructured, June 2016
 */
+
 #pragma once
 
-#include <string>
-#include <roco/time/Time.hpp>
-#include <roco/common/assert_macros.hpp>
-#include <roco/log/log_messages.hpp>
-#include <roco/workers/WorkerOptions.hpp>
-#include <roco/workers/WorkerHandle.hpp>
-#include <roco/workers/Worker.hpp>
+// roco
+#include "roco/controllers/adapters/ControllerAdapterInterface.hpp"
 
 namespace roco {
-namespace controllers {
 
-
-//! Abstract interface class for controllers.
-/*!
+/*! Abstract interface class for emergency controller adapters.
  *
+ *  Derive this class and implement your own emergency controller adapter.
  */
-
-class ControllerInterface
+class EmergencyControllerAdapterInterface: virtual public ControllerAdapterInterface
 {
  public:
-  ControllerInterface() {};
-  virtual ~ControllerInterface() {};
 
-  virtual const std::string& getName() const = 0;
-  virtual void setName(std::string& name) = 0;
+  //! Empty constructor
+  EmergencyControllerAdapterInterface() { }
 
-  virtual bool isInitialized() const = 0;
-  virtual bool isCreated() const = 0;
-  virtual bool isRunning() const = 0;
-  virtual bool isRealRobot() const = 0;
+  //! Empty constructor
+  virtual ~EmergencyControllerAdapterInterface() { }
 
-  virtual bool createController(double dt) = 0;
-  virtual bool initializeController(double dt) = 0;
-  virtual bool advanceController(double dt) = 0;
-  virtual bool cleanupController() = 0;
-  virtual bool resetController(double dt) = 0;
-  virtual bool changeController() = 0;
-  virtual bool stopController() = 0;
-  virtual bool preStopController() = 0;
-
-  virtual const time::Time& getTime() const = 0;
-  virtual void setTime(const time::Time& time) = 0;
-
-  virtual bool isCheckingCommand() const = 0;
-  virtual void setIsCheckingCommand(bool isChecking) = 0;
-
-  virtual bool isCheckingState() const = 0;
-  virtual void setIsCheckingState(bool isChecking) = 0;
-
-  virtual roco::WorkerHandle addWorker(const roco::WorkerOptions& options) = 0;
-  virtual roco::WorkerHandle addWorker(roco::Worker& worker) = 0;
-  virtual bool startWorker(const roco::WorkerHandle& workerHandle) = 0;
-  virtual bool cancelWorker(const roco::WorkerHandle& workerHandle, bool block=false) = 0;
+  /*! Adapts the adaptees initializeFast(dt) function.
+   * @param dt  time step [s]
+   * @returns true if successful
+   */
+  virtual bool initializeControllerFast(double dt) = 0;
 
 };
 
-} /* namespace controllers */
 } /* namespace roco */
