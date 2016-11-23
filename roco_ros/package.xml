@@ -9,6 +9,7 @@
   <author email="gehrinch@ethz.ch">Christian Gehring</author>
   <buildtool_depend>catkin</buildtool_depend>
   <depend>roscpp</depend>
+  <depend>roco</depend>
   <depend>message_logger</depend>
   <build_export_depend>boost</build_export_depend>
 </package>

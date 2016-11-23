@@ -15,3 +15,4 @@
 #include "roco/controllers/ControllerBase.hpp"
 #include "roco/controllers/Controller.hpp"
 #include "roco/controllers/FailproofController.hpp"
+#include "roco/controllers/ControllerTuple.hpp"
