@@ -8,17 +8,13 @@
 #
 #-------------------------------------------------------------------------------
 cmake_minimum_required (VERSION 2.8)
-
 project(roco)
-
-find_package(Boost REQUIRED COMPONENTS thread)
 
 # Find Catkin
 find_package(catkin REQUIRED COMPONENTS message_logger)
 find_package(Boost REQUIRED)
 
-include_directories(${Boost_INCLUDE_DIRS})
-
+# Catkin package definition
 catkin_package(
  INCLUDE_DIRS include
  LIBRARIES roco
@@ -26,33 +22,35 @@ catkin_package(
  DEPENDS Boost
 )
 
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+# Build
 add_definitions(--std=c++11)
 
-include_directories(include)
-include_directories(${catkin_INCLUDE_DIRS})
-include_directories(${Boost_INCLUDE_DIRS})
-
-add_library(roco SHARED 
-    src/time/Time.cpp  
-    src/time/TimeStd.cpp  
-    src/workers/Worker.cpp
+include_directories(
+  include
+  ${catkin_INCLUDE_DIRS}
+  ${Boost_INCLUDE_DIRS}
 )
 
-target_link_libraries(roco ${catkin_LIBRARIES})
-target_link_libraries(roco ${Boost_LIBRARIES})
+add_library(roco SHARED
+    src/time/Time.cpp
+    src/time/TimeStd.cpp
+    src/workers/Worker.cpp
+)
+set_property(TARGET roco PROPERTY POSITION_INDEPENDENT_CODE ON)
+
+target_link_libraries(roco
+  ${catkin_LIBRARIES}
+  ${Boost_LIBRARIES}
+)
 
 # Add Doxygen documentation
 if (BUILD_DOC)
 add_subdirectory(doc/doxygen)
 endif (BUILD_DOC)
 
-
 if (BUILD_EXAMPLE)
 add_subdirectory(example example)
 endif()
-
 
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}

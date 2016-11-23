@@ -15,6 +15,3 @@
 #include "roco/controllers/ControllerBase.hpp"
 #include "roco/controllers/Controller.hpp"
 #include "roco/controllers/FailproofController.hpp"
-
-//! Ros specific
-#include "roco/controllers/ControllerRos.hpp"

@@ -47,9 +47,9 @@
 // Ros
 #include <ros/node_handle.h>
 
-namespace roco {
+namespace roco_ros {
 
-//! Controller Ros
+//! Controller Rosd
 /*! Derive this class and implement your own ros controller.
  *
  */

@@ -1,0 +1,29 @@
+#-------------------------------------------------------------------------------
+# Robotic Systems Lab
+# ETH Zurich
+#
+# Author(s): Gabriel Hottiger
+# email    : gabriel.hottiger@mavt.ethz.ch
+# Date     : Nov-2016
+#
+#-------------------------------------------------------------------------------
+cmake_minimum_required (VERSION 2.8)
+project(roco_ros)
+
+# Find catkin
+find_package(catkin REQUIRED COMPONENTS message_logger roscpp)
+find_package(Boost REQUIRED)
+
+# Catkin package definition
+catkin_package(
+ INCLUDE_DIRS include
+ LIBRARIES
+ CATKIN_DEPENDS message_logger roscpp
+ DEPENDS Boost
+)
+
+# Install
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+  PATTERN ".svn" EXCLUDE
+)
