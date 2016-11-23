@@ -45,7 +45,7 @@
 #include "roco/controllers/ControllerTupleBase.hpp"
 
 // roco_ros
-#include "roco/controllers/ControllerRos.hpp"
+#include "roco_ros/controllers/ControllerRos.hpp"
 
 namespace roco_ros {
 
