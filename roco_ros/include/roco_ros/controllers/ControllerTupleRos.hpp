@@ -1,7 +1,7 @@
 /**********************************************************************
  * Software License Agreement (BSD License)
  *
- * Copyright (c) 2014, Christian Gehring, C. Dario Bellicoso
+ * Copyright (c) 2016, Gabriel Hottiger
  * All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -14,7 +14,7 @@
  *     copyright notice, this list of conditions and the following
  *     disclaimer in the documentation and/or other materials provided
  *     with the distribution.
- *   * Neither the name of Autonomous Systems Lab nor ETH Zurich
+ *   * Neither the name of Robotic Systems Lab nor ETH Zurich
  *     nor the names of its contributors may be used to endorse or
  *     promote products derived from this software without specific
  *     prior written permission.
@@ -32,51 +32,24 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
+
 /*!
-* @file     Worker.cpp
-* @author   Christian Gehring, C. Dario Bellicoso
-* @date     Aug 27, 2015
-* @brief
-*/
+ * @file	ControllerTupleRos.hpp
+ * @author	Gabriel Hottiger
+ * @date	Aug 15, 2016
+ */
 
-#include "roco/workers/Worker.hpp"
+#pragma once
 
-#include <roco/log/log_messages.hpp>
-#include <boost/bind.hpp>
+// roco
+#include "roco/controllers/ControllerTupleBase.hpp"
 
+// roco_ros
+#include "roco_ros/controllers/ControllerRos.hpp"
 
-namespace roco {
+namespace roco_ros {
 
-Worker::Worker(const std::string& workerName)
-    : options_(),
-      handle_(workerName)
-{
-  options_.name_ = workerName;
-  options_.callback_ = boost::bind(&WorkerInterface::work, this, _1);
+template <typename State_, typename Command_, typename... Controllers_>
+using ControllerTupleRos = roco::ControllerTupleBase< roco_ros::ControllerRos<State_, Command_>, State_, Command_, Controllers_... >;
 
 }
-
-Worker::~Worker() {
-
-}
-
-bool Worker::start()
-{
-  if (workerStartCallback_.empty()) {
-    ROCO_WARN("Callback function to start worker is empty!");
-    return false;
-  }
-  return workerStartCallback_(handle_);
-}
-
-bool Worker::cancel(bool block)
-{
-  if (workerCancelCallback_.empty()) {
-    ROCO_WARN("Callback function to cancel worker is empty!");
-    return false;
-  }
-  return workerCancelCallback_(handle_, block);
-}
-
-
-} // namespace roco
