@@ -41,5 +41,5 @@
 
 #pragma once
 
-#include <roco/controllers/Controller.hpp>
+#include <roco/controllers/controllers.hpp>
 
