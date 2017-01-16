@@ -16,10 +16,12 @@ find_package(Boost REQUIRED)
 
 # Catkin package definition
 catkin_package(
- INCLUDE_DIRS include
- LIBRARIES roco
- CATKIN_DEPENDS message_logger
- DEPENDS Boost
+  INCLUDE_DIRS include
+  LIBRARIES roco
+  CATKIN_DEPENDS 
+    message_logger
+  DEPENDS 
+    boost
 )
 
 # Build
