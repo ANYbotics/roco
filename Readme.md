@@ -20,9 +20,6 @@ Date: Dec. 2014
 
 In order to install, clone the latest version from this repository into your catkin workspace and compile the packages.
 
-### Dependencies
-* **[message_logger](https://bitbucket.org/leggedrobotics/message_logger):** Message logger
-
 ## Bugs & Feature Requests
 
 Please report bugs and request features using the [Issue Tracker](https://github.com/ethz-asl/ros_best_practices/issues).
