@@ -66,7 +66,15 @@ namespace roco_ros {
     /*! Get the ros node handle associated with this controller.
      * @returns the ros nodehandle
      */
-    ros::NodeHandle getNodeHandle()
+    ros::NodeHandle getNodeHandle() const
+    {
+      return nh_;
+    }
+
+    /*! Get the ros node handle associated with this controller.
+     * @returns the ros nodehandle
+     */
+    ros::NodeHandle& getNodeHandle()
     {
       return nh_;
     }
