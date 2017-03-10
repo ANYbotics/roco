@@ -41,9 +41,13 @@
 
 #pragma once
 
+// roco
+#include "roco/controllers/ControllerStateInterface.hpp"
+
 // STL
 #include <algorithm>
 #include <exception>
+#include <initializer_list>
 
 namespace roco {
 
@@ -145,6 +149,27 @@ class ControllerTupleBase: virtual public Base_, public Controllers_ ...
     catch(ControllerTupleException& e) {
       return false;
     }
+    return true;
+  }
+
+  virtual bool swap(double dt, const std::unique_ptr<ControllerStateInterface>& swapState)
+  {
+    try {
+      std::initializer_list<bool> list = {(Controllers_::swap(dt, swapState)?true:throw(myex))...};
+    }
+    catch(ControllerTupleException& e) {
+      return false;
+    }
+    return true;
+  }
+
+  virtual bool getSwapState(std::unique_ptr<ControllerStateInterface>& swapState)
+  {
+    unsigned int i = 0;
+    const std::size_t nrControllers = sizeof...(Controllers_);
+    ControllerStateTuple* tupleState = new roco::ControllerStateTuple(nrControllers);
+    auto list = {(Controllers_::getSwapState(tupleState->getSwapState(i++)))...};
+    swapState.reset(std::move(tupleState));
     return true;
   }
 

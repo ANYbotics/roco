@@ -41,8 +41,12 @@
 
 #pragma once
 
+// roco
+#include "roco/controllers/ControllerStateInterface.hpp"
+
 // STL
 #include <string>
+#include <memory>
 
 namespace roco {
 
@@ -98,6 +102,18 @@ class ControllerAdapterInterface
    * @returns true if successful
    */
   virtual bool cleanupController() = 0;
+
+  /*! Adapts the adaptees swap() function.
+   * @param dt  time step [s]
+   * @param state  state of the previous controller
+   * @returns true if successful
+   */
+  virtual bool swapController(double dt, const std::unique_ptr<ControllerStateInterface>& swapState) = 0;
+
+  /*! Use this method to get the state of the controller. Must be thread-safe parallel to advance.
+   * @returns state
+   */
+  virtual bool getControllerSwapState(std::unique_ptr<ControllerStateInterface>& swapState) = 0;
 
   /*! Sets if the real robot is controlled or only a simulated version.
    * @param flag indicating robot type

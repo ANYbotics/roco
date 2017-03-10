@@ -41,6 +41,12 @@
 
 #pragma once
 
+// roco
+#include "roco/controllers/ControllerStateInterface.hpp"
+
+// STL
+#include <memory>
+
 namespace roco {
 
 //!   Abstract interface class for controller adaptees.
@@ -96,10 +102,26 @@ class ControllerAdapteeInterface
 
   /*! Use this method instead of the destructor to destroy objects.
    * This method is only called once at the end of the lifetime of the controller.
-   * @param dt  time step [s]
    * @returns true if successful
    */
   virtual bool cleanup() = 0;
+
+  /*! Use this method to swap from another controller.
+   * @param dt  time step [s]
+   * @param state  State received from the previous controller
+   * @returns true if successful
+   */
+  virtual bool swap(double dt, const std::unique_ptr<ControllerStateInterface>& swapState) {
+    return initialize(dt);
+  }
+
+  /*! Use this method to get the state of the controller. Must be thread-safe parallel to advance.
+   * @returns state
+   */
+  virtual bool getSwapState(std::unique_ptr<ControllerStateInterface>& swapState) {
+    swapState.reset( new ControllerStateDummy() );
+    return true;
+  }
 
 };
 
