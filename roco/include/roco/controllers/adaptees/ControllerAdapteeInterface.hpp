@@ -42,10 +42,8 @@
 #pragma once
 
 // roco
-#include "roco/controllers/ControllerStateInterface.hpp"
-
-// STL
-#include <memory>
+#include "roco/controllers/ControllerSwapStateInterface.hpp"
+#include "roco/controllers/ControllerSwapStateDummy.hpp"
 
 namespace roco {
 
@@ -107,19 +105,21 @@ class ControllerAdapteeInterface
   virtual bool cleanup() = 0;
 
   /*! Use this method to swap from another controller.
+   * Default: Initialized to controller with initialize(dt)!
    * @param dt  time step [s]
    * @param state  State received from the previous controller
    * @returns true if successful
    */
-  virtual bool swap(double dt, const std::unique_ptr<ControllerStateInterface>& swapState) {
+  virtual bool swap(double dt, const ControllerSwapStateInterfacePtr& swapState) {
     return initialize(dt);
   }
 
   /*! Use this method to get the state of the controller. Must be thread-safe parallel to advance.
+   * Default: Returns the dummy state, which implements simple comparison operators.
    * @returns state
    */
-  virtual bool getSwapState(std::unique_ptr<ControllerStateInterface>& swapState) {
-    swapState.reset( new ControllerStateDummy() );
+  virtual bool getSwapState(ControllerSwapStateInterfacePtr& swapState) {
+    swapState.reset( new ControllerSwapStateDummy() );
     return true;
   }
 
