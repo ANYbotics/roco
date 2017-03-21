@@ -20,5 +20,4 @@
 
 //! Swap States
 #include "roco/controllers/ControllerSwapStateInterface.hpp"
-#include "roco/controllers/ControllerSwapStateDummy.hpp"
 #include "roco/controllers/ControllerTupleSwapState.hpp"
