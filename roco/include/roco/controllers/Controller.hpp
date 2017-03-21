@@ -53,5 +53,30 @@ namespace roco {
  *
  */
   template<typename State_, typename Command_>
-  using Controller = ControllerBase<State_, Command_, ControllerAdapteeInterface, ControllerExtensionInterface>;
+  class Controller: virtual public ControllerBase<State_, Command_, ControllerAdapteeInterface, ControllerExtensionInterface> {
+   public:
+    Controller() { }
+    virtual ~Controller() { }
+
+    /*! Use this method to swap from another controller.
+     * Default: initialize or reset
+     * @param dt  time step [s]
+     * @param state  State received from the previous controller
+     * @returns true if successful
+     */
+    virtual bool swap(double dt, const ControllerSwapStateInterfacePtr& swapState) {
+      return this->isInitialized() ? this->reset(dt) : this->initialize(dt);
+    }
+
+    /*! Use this method to get the state of the controller. Must be thread-safe parallel to advance.
+     * Default: sets nullptr
+     * @param   swapState reference to state to be set
+     * @returns true if successful
+     */
+    virtual bool getSwapState(ControllerSwapStateInterfacePtr& swapState) {
+      swapState.reset( nullptr );
+      return true;
+    }
+
+  };
 }
