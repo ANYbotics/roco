@@ -21,7 +21,7 @@ catkin_package(
   CATKIN_DEPENDS 
     message_logger
   DEPENDS 
-    boost
+    Boost
 )
 
 # Build
