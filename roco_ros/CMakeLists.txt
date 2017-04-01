@@ -28,7 +28,7 @@ catkin_package(
     roco 
     roscpp
   DEPENDS 
-    boost
+    Boost
 )
 
 # Install
