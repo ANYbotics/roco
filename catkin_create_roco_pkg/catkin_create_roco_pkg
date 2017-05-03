@@ -93,14 +93,14 @@ class CreateRocoPkg:
             "}" \
             if self.is_emergency else "")
 
-        plugin_include = ("// rocoma_plugin \n#include \"rocoma_plugin/rocoma_plugin.hpp\"" if self.is_plugin else "")
+        plugin_include = ("\n// rocoma_plugin \n#include \"rocoma_plugin/rocoma_plugin.hpp\"" if self.is_plugin else "")
         plugin_class = ("Emergency" if self.is_emergency else "") + "Controller" + \
                        ("Ros" if self.is_ros else "") + "PluginInterface"
-        plugin_macro = "ROCOMA_EXPORT_" + ("EMERGENCY_" if self.is_emergency else "") + "CONTROLLER" + \
+        plugin_macro = "\n// export controller plugin\nROCOMA_EXPORT_" + ("EMERGENCY_" if self.is_emergency else "") + "CONTROLLER" + \
                        ("_ROS" if self.is_ros else "") + "( " + "\n  " + self.class_name + ",\n  " + \
                        self.state_package + "::" + self.state_name + ",\n  " + \
                        self.command_package + "::" + self.command_name + ",\n  " + \
-                       self.namespace + "::" + self.class_name + "\n" + " );"
+                       self.namespace + "::" + self.class_name + "\n" + " );\n"
         plugin_export =  "<rocoma_plugin plugin=\"${prefix}/rocoma_plugin.xml\"/>"
 
         if not self.is_plugin:

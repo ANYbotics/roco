@@ -8,12 +8,8 @@
 
 // ${pkg_name}
 #include "${pkg_name}/${file_name}.h"
-
 ${plugin_include}
-
-// export controller plugin
 ${plugin_macro}
-
 namespace ${namespace} {
 
 ${class_name}::${class_name}()
