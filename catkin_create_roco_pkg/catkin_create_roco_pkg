@@ -12,7 +12,7 @@ from string import Template
 class CreateRocoPkg:
     def __init__(self, name, dependencies, path, class_name, namespace,
                  state_package, state_name, command_package, command_name,
-                 file_name, author, email):
+                 is_ros, is_emergency, is_plugin, file_name, author, email):
 
         self.pkg_name = name
         self.dependencies = dependencies
@@ -57,6 +57,15 @@ class CreateRocoPkg:
         else:
             self.email = 'todo@todo.com'
 
+        self.is_ros = is_ros
+        self.is_emergency = is_emergency
+        self.is_plugin = is_plugin
+
+        if self.is_ros:
+            self.dependencies.append("roco_ros")
+        if self.is_plugin:
+            self.dependencies.append("rocoma_plugin")
+
         dependencies_1 = ""
         dependencies_2 = ""
         dependencies_xml = ""
@@ -64,6 +73,40 @@ class CreateRocoPkg:
             dependencies_1 += "  " + item + "\n"
             dependencies_2 += "    " + item + "\n"
             dependencies_xml += "  <depend>" + item + "</depend>\n"
+
+        base_class_package = ("roco_ros" if self.is_ros else "roco")
+        base_class = base_class_package + "::Controller" + ("Ros" if self.is_ros else "")
+
+        additional_inheritance = (", public roco::EmergencyControllerAdapteeInterface" \
+            if self.is_emergency else "")
+        additional_functions_header = \
+            ("  /**\n" \
+             "   * @brief Initialize controller " + self.class_name + " fast. (computation time << dt)" +  "\n" \
+             "   * @param dt  Controller time step\n" \
+             "   */\n" \
+             "  virtual bool initializeFast(double dt);\n" \
+            if self.is_emergency else "")
+
+        additional_functions_source = \
+            ("bool " + self.class_name + "::initializeFast(double dt) {\n" \
+            "  return true; \n" \
+            "}" \
+            if self.is_emergency else "")
+
+        plugin_include = ("// rocoma_plugin \n#include \"rocoma_plugin/rocoma_plugin.hpp\"" if self.is_plugin else "")
+        plugin_class = ("Emergency" if self.is_emergency else "") + "Controller" + \
+                       ("Ros" if self.is_ros else "") + "PluginInterface"
+        plugin_macro = "ROCOMA_EXPORT_" + ("EMERGENCY_" if self.is_emergency else "") + "CONTROLLER" + \
+                       ("_ROS" if self.is_ros else "") + "( " + "\n  " + self.class_name + ",\n  " + \
+                       self.state_package + "::" + self.state_name + ",\n  " + \
+                       self.command_package + "::" + self.command_name + ",\n  " + \
+                       self.namespace + "::" + self.class_name + "\n" + " );"
+        plugin_export =  "<rocoma_plugin plugin=\"${prefix}/rocoma_plugin.xml\"/>"
+
+        if not self.is_plugin:
+            plugin_include = ""
+            plugin_macro = ""
+            plugin_export = ""
 
         self.template_fill = {'class_name': self.class_name,
                               'namespace': self.namespace,
@@ -78,7 +121,16 @@ class CreateRocoPkg:
                               'dependencies_2': dependencies_2,
                               'dependencies_xml': dependencies_xml,
                               'pkg_name': self.pkg_name,
-                              'date': time.strftime("%d/%m/%Y")}
+                              'date': time.strftime("%d/%m/%Y"),
+                              'plugin_class': plugin_class,
+                              'plugin_macro': plugin_macro,
+                              'plugin_export': plugin_export,
+                              'plugin_include': plugin_include,
+                              'base_class_package': base_class_package,
+                              'base_class': base_class,
+                              'additional_inheritance': additional_inheritance,
+                              'additional_functions_header': additional_functions_header,
+                              'additional_functions_source': additional_functions_source}
 
         self.path = os.path.join(self.path_root, self.pkg_name)
         self.path_src = os.path.join(self.path, 'src')
@@ -86,8 +138,9 @@ class CreateRocoPkg:
 
         template_name = "roco_pkg_template"
         files = []
-        files.append((os.path.join(self.path, 'rocoma_plugin.xml'),
-                      os.path.join(template_name, 'rocoma_plugin.xml')))
+        if self.is_plugin:
+            files.append((os.path.join(self.path, 'rocoma_plugin.xml'),
+                          os.path.join(template_name, 'rocoma_plugin.xml')))
         files.append((os.path.join(self.path, 'package.xml'),
                       os.path.join(template_name, 'package.xml')))
         files.append((os.path.join(self.path, 'CMakeLists.txt'),
@@ -166,6 +219,18 @@ if __name__ == '__main__':
     parser.add_argument('--command_name',
                         action='append',
                         help='Rename the roco command name (default = RocoCommand)')
+    parser.add_argument('--is_ros',
+                        dest='is_ros',
+                        action='store_true',
+                        help='Controller has ros functionalities')
+    parser.add_argument('--no_plugin',
+                        dest='no_plugin',
+                        action='store_true',
+                        help='Controller is a rocoma plugin')
+    parser.add_argument('--is_emergency',
+                        dest='is_emergency',
+                        action='store_true',
+                        help='Controller is an emergency controller')
     parser.add_argument('-f', '--file_name',
                         action='append',
                         help='Rename the files .cpp/.h/.ui (default = class '
@@ -182,4 +247,5 @@ if __name__ == '__main__':
                        args.class_name, args.namespace,
                        args.state_package, args.state_name,
                        args.command_package, args.command_package,
+                       args.is_ros, args.is_emergency, not args.no_plugin,
                        args.file_name, args.author, args.email)

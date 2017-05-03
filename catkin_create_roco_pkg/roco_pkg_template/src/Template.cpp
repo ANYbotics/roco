@@ -1,14 +1,18 @@
+/*!
+* @file 	  ${file_name}.cpp
+* @author   ${author}
+* @date		  ${date}
+* @version 	1.0
+* @brief    A controller that ...
+*/
+
 // ${pkg_name}
 #include "${pkg_name}/${file_name}.h"
 
-// rocoma_plugin
-#include "rocoma_plugin/rocoma_plugin.hpp"
+${plugin_include}
 
 // export controller plugin
-ROCOMA_EXPORT_CONTROLLER(${class_name},
-                         ${state_package}::${state_name},
-                         ${command_package}::${command_name},
-                         ${namespace}::${class_name});
+${plugin_macro}
 
 namespace ${namespace} {
 
@@ -59,5 +63,7 @@ bool ${class_name}::stop() {
 bool ${class_name}::cleanup() {
   return true;
 }
+
+${additional_functions_source}
 
 } /* namespace ${namespace} */

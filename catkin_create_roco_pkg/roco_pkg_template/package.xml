@@ -12,10 +12,9 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <depend>roco</depend>
-  <depend>rocoma_plugin</depend>
 ${dependencies_xml}
 
   <export>
-    <rocoma_plugin plugin="$${prefix}/rocoma_plugin.xml"/>
+    ${plugin_export}
   </export>
 </package>

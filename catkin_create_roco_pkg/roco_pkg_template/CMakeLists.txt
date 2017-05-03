@@ -4,8 +4,7 @@ project(${pkg_name})
 # Load catkin and all dependencies required for this package
 find_package(catkin REQUIRED COMPONENTS
   roco
-  rocoma_plugin
-  ${dependencies_1}
+${dependencies_1}
 )
 
 # Flags
@@ -16,8 +15,7 @@ catkin_package(
   LIBRARIES $${PROJECT_NAME}
   CATKIN_DEPENDS
     roco
-    rocoma_plugin
-    ${dependencies_2}
+${dependencies_2}
 )
 
 include_directories(include
@@ -25,7 +23,7 @@ include_directories(include
 )
 
 add_library($${PROJECT_NAME}
-  src/${class_name}.cpp
+  src/${file_name}.cpp
 )
 
 target_link_libraries($${PROJECT_NAME}
