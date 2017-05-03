@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library path="lib/lib${pkg_name}">
+  <class type="${class_name}" base_class_type="rocoma_plugin::ControllerPluginInterface<${state_package}::${state_name}, ${command_package}::${command_name}>">
+  </class>
+</library>

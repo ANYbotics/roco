@@ -1,0 +1,185 @@
+#!/usr/bin/env python
+
+import argparse
+import sys
+import os
+import stat
+import time
+
+from string import Template
+
+
+class CreateRocoPkg:
+    def __init__(self, name, dependencies, path, class_name, namespace,
+                 state_package, state_name, command_package, command_name,
+                 file_name, author, email):
+
+        self.pkg_name = name
+        self.dependencies = dependencies
+        if path is not None:
+            self.path_root = os.path.abspath(path[0])
+        else:
+            self.path_root = ''
+        if class_name is not None:
+            self.class_name = class_name[0]
+        else:
+            self.class_name = 'MyController'
+        if namespace is not None:
+            self.namespace = namespace[0]
+        else:
+            self.namespace = self.pkg_name
+        if state_package is not None:
+            self.state_package = state_package[0]
+        else:
+            self.state_package = self.pkg_name
+        if state_name is not None:
+            self.state_name = state_name[0]
+        else:
+            self.state_name = "RocoState"
+        if command_package is not None:
+            self.command_package = command_package[0]
+        else:
+            self.command_package = self.state_package
+        if command_name is not None:
+            self.command_name = command_name[0]
+        else:
+            self.command_name = "RocoCommand"
+        if file_name is not None:
+            self.file_name = file_name[0]
+        else:
+            self.file_name = self.class_name
+        if author is not None:
+            self.author = author[0]
+        else:
+            self.author = 'todo'
+        if email is not None:
+            self.email = email[0]
+        else:
+            self.email = 'todo@todo.com'
+
+        dependencies_1 = ""
+        dependencies_2 = ""
+        dependencies_xml = ""
+        for item in self.dependencies:
+            dependencies_1 += "  " + item + "\n"
+            dependencies_2 += "    " + item + "\n"
+            dependencies_xml += "  <depend>" + item + "</depend>\n"
+
+        self.template_fill = {'class_name': self.class_name,
+                              'namespace': self.namespace,
+                              'state_package': self.state_package,
+                              'state_name': self.state_name,
+                              'command_package': self.command_package,
+                              'command_name': self.command_name,
+                              'file_name': self.file_name,
+                              'author': self.author,
+                              'email': self.email,
+                              'dependencies_1': dependencies_1,
+                              'dependencies_2': dependencies_2,
+                              'dependencies_xml': dependencies_xml,
+                              'pkg_name': self.pkg_name,
+                              'date': time.strftime("%d/%m/%Y")}
+
+        self.path = os.path.join(self.path_root, self.pkg_name)
+        self.path_src = os.path.join(self.path, 'src')
+        self.path_include = os.path.join(self.path, 'include', self.pkg_name)
+
+        template_name = "roco_pkg_template"
+        files = []
+        files.append((os.path.join(self.path, 'rocoma_plugin.xml'),
+                      os.path.join(template_name, 'rocoma_plugin.xml')))
+        files.append((os.path.join(self.path, 'package.xml'),
+                      os.path.join(template_name, 'package.xml')))
+        files.append((os.path.join(self.path, 'CMakeLists.txt'),
+                      os.path.join(template_name, 'CMakeLists.txt')))
+        files.append((os.path.join(self.path_src, self.file_name + '.cpp'),
+                      os.path.join(template_name, 'src','Template.cpp')))
+        files.append((os.path.join(self.path_include, self.file_name + '.h'),
+                      os.path.join(template_name, 'include', template_name,
+                                   'Template.h')))
+        # generate directory tree
+        self.mkdir()
+        # generate files
+        for t in files:
+            self.apply_template(t)
+
+    def mkdir(self):
+        if os.path.exists(self.path):
+            print('package ' + self.pkg_name + ' exist already!')
+            sys.exit(0)
+
+        if not os.path.exists(self.path):
+            os.makedirs(self.path)
+        if not os.path.exists(self.path_src):
+            os.makedirs(self.path_src)
+        if not os.path.exists(self.path_include):
+            os.makedirs(self.path_include)
+
+    def apply_template(self, path_tuple):
+        try:
+            file_out = open(path_tuple[0], 'w')
+        except (OSError, IOError) as os_io_error:
+            print('could not create ' + path_tuple[0])
+            print(os_io_error)
+            sys.exit(0)
+
+        if path_tuple[1] is None:
+            file_out.close()
+            return
+
+        file_in = open(path_tuple[1])
+        template = Template(file_in.read())
+        file_out.write(template.substitute(self.template_fill))
+        file_out.close()
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description='Creates a new catkin roco controller package',
+        epilog='')
+    parser.add_argument('name',
+                        nargs=1,
+                        help='The name for the package')
+    parser.add_argument('dependencies',
+                        nargs='*',
+                        help='Catkin package Dependencies')
+    parser.add_argument('-p', '--path',
+                        action='append',
+                        help='The path into which the package should be '
+                             'generated')
+    parser.add_argument('-c', '--class_name',
+                        action='append',
+                        help='Give the controller class a custom name '
+                             '(default = MyController)')
+    parser.add_argument('-n', '--namespace',
+                        action='append',
+                        help='Rename the namespace (default = package name)')
+    parser.add_argument('--state_package',
+                        action='append',
+                        help='Rename the roco state package (default = package name)')
+    parser.add_argument('--state_name',
+                        action='append',
+                        help='Rename the roco state name (default = RocoState)')
+    parser.add_argument('--command_package',
+                        action='append',
+                        help='Rename the roco command package (default = state package name)')
+    parser.add_argument('--command_name',
+                        action='append',
+                        help='Rename the roco command name (default = RocoCommand)')
+    parser.add_argument('-f', '--file_name',
+                        action='append',
+                        help='Rename the files .cpp/.h/.ui (default = class '
+                             'name)')
+    parser.add_argument('-a', '--author',
+                        action='append',
+                        help='Author in package.xml')
+    parser.add_argument('-e', '--email',
+                        action='append',
+                        help='Email address in package.xml')
+    args = parser.parse_args()
+
+    rqt = CreateRocoPkg(args.name[0], args.dependencies, args.path,
+                       args.class_name, args.namespace,
+                       args.state_package, args.state_name,
+                       args.command_package, args.command_package,
+                       args.file_name, args.author, args.email)

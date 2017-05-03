@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package format="2">
+  <name>${pkg_name}</name>
+  <version>0.3.10</version>
+  <description>${pkg_name} provides a robot controller that ...</description>
+
+  <maintainer email="${email}">${author}</maintainer>
+  <license>TODO</license>
+  <!-- <url type="website">http://www.bla.com</url> -->
+  <author email="${email}">${author}</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roco</depend>
+  <depend>rocoma_plugin</depend>
+${dependencies_xml}
+
+  <export>
+    <rocoma_plugin plugin="$${prefix}/rocoma_plugin.xml"/>
+  </export>
+</package>
