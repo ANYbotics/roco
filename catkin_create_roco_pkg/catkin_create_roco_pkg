@@ -246,6 +246,6 @@ if __name__ == '__main__':
     rqt = CreateRocoPkg(args.name[0], args.dependencies, args.path,
                        args.class_name, args.namespace,
                        args.state_package, args.state_name,
-                       args.command_package, args.command_package,
+                       args.command_package, args.command_name,
                        args.is_ros, args.is_emergency, not args.no_plugin,
                        args.file_name, args.author, args.email)
