@@ -33,58 +33,36 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     Controller.hpp
-* @author   Christian Gehring, Gabriel Hottiger
-* @date     Dec, 2014
-* @note     Restructured, June 2016
-*/
+ * @file     SharedModuleInterface.hpp
+ * @author   Gabriel Hottiger
+ * @date     Aug, 2017
+ */
 
 #pragma once
 
-// Roco
-#include "roco/controllers/ControllerBase.hpp"
-#include "roco/controllers/ControllerExtensionInterface.hpp"
-#include "roco/controllers/adaptees/ControllerAdapteeInterface.hpp"
+#include <memory>
 
 namespace roco {
 
-//! Controller
-/*! Derive this class and implement your own controller.
- *
+//!   Interface class for shared modules.
+/*!
+ *   This interface can be used to share a module between different roco controllers. The implementer is responsible
+ *   for thread safety.
  */
-  template<typename State_, typename Command_>
-  class Controller: virtual public ControllerBase<State_, Command_, ControllerAdapteeInterface, ControllerExtensionInterface> {
-   public:
-    Controller() { }
-    virtual ~Controller() { }
+class SharedModuleInterface
+{
+ public:
+  //! Empty constructor
+  SharedModuleInterface() { }
 
-    /*! Use this method to swap from another controller.
-     * Default: initialize or reset
-     * @param dt  time step [s]
-     * @param state  State received from the previous controller
-     * @returns true if successful
-     */
-    virtual bool swap(double dt, const ControllerSwapStateInterfacePtr& swapState) {
-      return this->isInitialized() ? this->reset(dt) : this->initialize(dt);
-    }
+  //! Empty destructor
+  virtual ~SharedModuleInterface() { }
 
-    /*! Use this method to get the state of the controller. Must be thread-safe parallel to advance.
-     * Default: sets nullptr
-     * @param   swapState reference to state to be set
-     * @returns true if successful
-     */
-    virtual bool getSwapState(ControllerSwapStateInterfacePtr& swapState) {
-      swapState.reset( nullptr );
-      return true;
-    }
+  //! @return name of the module
+  virtual const std::string & getName() = 0;
+};
 
-    /*! Use this method to set a shared module to the controller.
-     * Default: do nothing
-     * @param   module reference to module to be set
-     */
-    virtual void addSharedModule(SharedModuleInterfacePtr& module) {
-      return;
-    }
+using SharedModuleInterfacePtr = std::unique_ptr<SharedModuleInterface>;
 
-  };
-}
+
+} /* namespace roco */
