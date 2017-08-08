@@ -82,7 +82,7 @@ namespace roco {
      * Default: do nothing
      * @param   module reference to module to be set
      */
-    virtual void addSharedModule(SharedModuleInterfacePtr& module) {
+    virtual void addSharedModule(const SharedModuleInterfacePtr& module) {
       return;
     }
 
