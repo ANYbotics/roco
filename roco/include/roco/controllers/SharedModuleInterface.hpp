@@ -41,6 +41,7 @@
 #pragma once
 
 #include <memory>
+#include <mutex>
 
 namespace roco {
 
@@ -60,6 +61,13 @@ class SharedModuleInterface
 
   //! @return name of the module
   virtual const std::string & getName() const = 0;
+
+  //! @return mutex to lock shared module itself
+  std::mutex& acquireMutex() const { return sharedModuleMutex_; }
+
+ private:
+  mutable std::mutex sharedModuleMutex_;
+
 };
 
 using SharedModuleInterfacePtr = std::shared_ptr<SharedModuleInterface>;
