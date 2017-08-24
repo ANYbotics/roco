@@ -33,48 +33,66 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
- * @file     SharedModuleInterface.hpp
+ * @file     SharedModuleRos.hpp
  * @author   Gabriel Hottiger
  * @date     Aug, 2017
  */
 
 #pragma once
 
+#include "roco/controllers/SharedModule.hpp"
+
+#include "ros/ros.h"
+
 #include <memory>
-#include <mutex>
 
-namespace roco {
+namespace roco_ros {
 
-//!   Interface class for shared modules.
+//!   Interface class for ros shared modules.
 /*!
  *   This interface can be used to share a module between different roco controllers. The implementer is responsible
  *   for thread safety.
  */
-class SharedModuleInterface
+class SharedModuleRos: virtual public roco::SharedModule
 {
  public:
   //! Empty constructor
-  SharedModuleInterface() = default;
-
-  //! Name constructor
-  SharedModuleInterface(const std::string & name) : name_(name), sharedModuleMutex_() { }
+  SharedModuleRos() = default;
 
   //! Empty destructor
-  virtual ~SharedModuleInterface() = default;
+  virtual ~SharedModuleRos() = default;
 
-  //! @return name of the module
-  const std::string & getName() const { return name_; }
+  /*! Get the ros node handle associated with this shared module.
+   * @returns the ros nodehandle
+   */
+  ros::NodeHandle getNodeHandle() const
+  {
+    return nh_;
+  }
 
-  //! @return mutex to lock shared module itself
-  std::mutex& acquireMutex() const { return sharedModuleMutex_; }
+  /*! Get reference to the ros node handle associated with this shared module.
+   * @returns the ros nodehandle
+   */
+  ros::NodeHandle& getNodeHandle()
+  {
+    return nh_;
+  }
 
- protected:
-  const std::string name_;
-  mutable std::mutex sharedModuleMutex_;
+  /*! Set the ros node handle associated with this shared module.
+    * @param nodeHandle  the ros nodehandle to be set
+    */
+  void setNodeHandle(const ros::NodeHandle& nodeHandle)
+  {
+    nh_ = nodeHandle;
+  }
+
+ private:
+  // ros node handle
+  ros::NodeHandle nh_;
 
 };
 
-using SharedModuleInterfacePtr = std::shared_ptr<SharedModuleInterface>;
+using SharedModuleRosPtr = std::shared_ptr<SharedModuleRos>;
 
 
 } /* namespace roco */

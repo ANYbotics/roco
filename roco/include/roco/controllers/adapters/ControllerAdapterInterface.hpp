@@ -43,7 +43,7 @@
 
 // roco
 #include "roco/controllers/ControllerSwapStateInterface.hpp"
-#include "roco/controllers/SharedModuleInterface.hpp"
+#include "roco/controllers/SharedModule.hpp"
 
 // STL
 #include <string>
@@ -118,7 +118,7 @@ class ControllerAdapterInterface
   /*! Use this method to set a shared module to the controller.
    * @param   module reference to module to be set
    */
-  virtual void addControllerSharedModule(const SharedModuleInterfacePtr& module) = 0;
+  virtual void addControllerSharedModule(const SharedModulePtr& module) = 0;
 
   /*! Sets if the real robot is controlled or only a simulated version.
    * @param flag indicating robot type

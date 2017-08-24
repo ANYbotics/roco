@@ -23,4 +23,4 @@
 #include "roco/controllers/ControllerTupleSwapState.hpp"
 
 //! Shared Modules
-#include "roco/controllers/SharedModuleInterface.hpp"
+#include "roco/controllers/SharedModule.hpp"
