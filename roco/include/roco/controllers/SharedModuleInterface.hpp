@@ -54,18 +54,22 @@ class SharedModuleInterface
 {
  public:
   //! Empty constructor
-  SharedModuleInterface() { }
+  SharedModuleInterface() = default;
+
+  //! Name constructor
+  SharedModuleInterface(const std::string & name) : name_(name), sharedModuleMutex_() { }
 
   //! Empty destructor
-  virtual ~SharedModuleInterface() { }
+  virtual ~SharedModuleInterface() = default;
 
   //! @return name of the module
-  virtual const std::string & getName() const = 0;
+  const std::string & getName() const { return name_; }
 
   //! @return mutex to lock shared module itself
   std::mutex& acquireMutex() const { return sharedModuleMutex_; }
 
- private:
+ protected:
+  const std::string name_;
   mutable std::mutex sharedModuleMutex_;
 
 };
