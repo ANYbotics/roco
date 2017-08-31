@@ -33,58 +33,66 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     Controller.hpp
-* @author   Christian Gehring, Gabriel Hottiger
-* @date     Dec, 2014
-* @note     Restructured, June 2016
-*/
+ * @file     SharedModuleRos.hpp
+ * @author   Gabriel Hottiger
+ * @date     Aug, 2017
+ */
 
 #pragma once
 
-// Roco
-#include "roco/controllers/ControllerBase.hpp"
-#include "roco/controllers/ControllerExtensionInterface.hpp"
-#include "roco/controllers/adaptees/ControllerAdapteeInterface.hpp"
+#include "roco/controllers/SharedModule.hpp"
 
-namespace roco {
+#include "ros/ros.h"
 
-//! Controller
-/*! Derive this class and implement your own controller.
- *
+#include <memory>
+
+namespace roco_ros {
+
+//!   Interface class for ros shared modules.
+/*!
+ *   This interface can be used to share a module between different roco controllers. The implementer is responsible
+ *   for thread safety.
  */
-  template<typename State_, typename Command_>
-  class Controller: virtual public ControllerBase<State_, Command_, ControllerAdapteeInterface, ControllerExtensionInterface> {
-   public:
-    Controller() { }
-    virtual ~Controller() { }
+class SharedModuleRos: virtual public roco::SharedModule
+{
+ public:
+  //! Empty constructor
+  SharedModuleRos() = default;
 
-    /*! Use this method to swap from another controller.
-     * Default: initialize or reset
-     * @param dt  time step [s]
-     * @param state  State received from the previous controller
-     * @returns true if successful
-     */
-    virtual bool swap(double dt, const ControllerSwapStateInterfacePtr& swapState) {
-      return this->isInitialized() ? this->reset(dt) : this->initialize(dt);
-    }
+  //! Empty destructor
+  virtual ~SharedModuleRos() = default;
 
-    /*! Use this method to get the state of the controller. Must be thread-safe parallel to advance.
-     * Default: sets nullptr
-     * @param   swapState reference to state to be set
-     * @returns true if successful
-     */
-    virtual bool getSwapState(ControllerSwapStateInterfacePtr& swapState) {
-      swapState.reset( nullptr );
-      return true;
-    }
+  /*! Get the ros node handle associated with this shared module.
+   * @returns the ros nodehandle
+   */
+  ros::NodeHandle getNodeHandle() const
+  {
+    return nh_;
+  }
 
-    /*! Use this method to set a shared module to the controller.
-     * Default: do nothing
-     * @param   module reference to module to be set
-     */
-    virtual void addSharedModule(const SharedModulePtr& module) {
-      return;
-    }
+  /*! Get reference to the ros node handle associated with this shared module.
+   * @returns the ros nodehandle
+   */
+  ros::NodeHandle& getNodeHandle()
+  {
+    return nh_;
+  }
 
-  };
-}
+  /*! Set the ros node handle associated with this shared module.
+    * @param nodeHandle  the ros nodehandle to be set
+    */
+  void setNodeHandle(const ros::NodeHandle& nodeHandle)
+  {
+    nh_ = nodeHandle;
+  }
+
+ private:
+  // ros node handle
+  ros::NodeHandle nh_;
+
+};
+
+using SharedModuleRosPtr = std::shared_ptr<SharedModuleRos>;
+
+
+} /* namespace roco */

@@ -21,3 +21,6 @@
 //! Swap States
 #include "roco/controllers/ControllerSwapStateInterface.hpp"
 #include "roco/controllers/ControllerTupleSwapState.hpp"
+
+//! Shared Modules
+#include "roco/controllers/SharedModule.hpp"

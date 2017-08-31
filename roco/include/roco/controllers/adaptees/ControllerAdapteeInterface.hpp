@@ -43,6 +43,7 @@
 
 // roco
 #include "roco/controllers/ControllerSwapStateInterface.hpp"
+#include "roco/controllers/SharedModule.hpp"
 
 namespace roco {
 
@@ -116,6 +117,10 @@ class ControllerAdapteeInterface
    */
   virtual bool getSwapState(ControllerSwapStateInterfacePtr& swapState) = 0;
 
+  /*! Use this method to set a shared module to the controller.
+   * @param   module reference to module to be set
+   */
+  virtual void addSharedModule(const SharedModulePtr& module) = 0;
 };
 
 } /* namespace roco */
