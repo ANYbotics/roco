@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package format="2">
+
   <name>${pkg_name}</name>
   <version>0.1.1</version>
   <description>${pkg_name} provides a robot controller that ...</description>
-
   <maintainer email="${email}">${author}</maintainer>
   <license>TODO</license>
-  <!-- <url type="website">http://www.bla.com</url> -->
   <author email="${email}">${author}</author>
 
   <buildtool_depend>catkin</buildtool_depend>
+  <depend>roco</depend>${dependencies_xml}${plugin_export}
 
-  <depend>roco</depend>
-${dependencies_xml}
-
-  <export>
-    ${plugin_export}
-  </export>
 </package>

@@ -8,14 +8,13 @@
 
 // ${pkg_name}
 #include "${pkg_name}/${file_name}.h"
-${plugin_include}
-${plugin_macro}
+
 namespace ${namespace} {
 
 ${class_name}::${class_name}()
     : Base()
 {
-  this->name_ = "${class_name}";
+  setName("${class_name}");
 }
 
 ${class_name}::~${class_name}() {
@@ -30,22 +29,12 @@ bool ${class_name}::initialize(double dt) {
   return true;
 }
 
-bool ${class_name}::swap(double dt, const roco::ControllerSwapStateInterfacePtr& swapState) {
-  // ${class_name}:: Call current class reset / initialize
-  return isInitialized() ? ${class_name}::reset(dt) : ${class_name}::initialize(dt);
-}
-
-bool ${class_name}::getSwapState(roco::ControllerSwapStateInterfacePtr& swapState) {
-  swapState.reset(nullptr);
+bool ${class_name}::advance(double dt) {
   return true;
 }
 
 bool ${class_name}::reset(double dt) {
   return ${class_name}::initialize(dt);
-}
-
-bool ${class_name}::advance(double dt) {
-  return true;
 }
 
 bool ${class_name}::preStop() {
@@ -59,6 +48,24 @@ bool ${class_name}::stop() {
 bool ${class_name}::cleanup() {
   return true;
 }
+
+bool ${class_name}::swap(double dt, const roco::ControllerSwapStateInterfacePtr& swapState) {
+  // ${class_name}:: Call current class reset / initialize
+  return isInitialized() ? ${class_name}::reset(dt) : ${class_name}::initialize(dt);
+}
+
+bool ${class_name}::getSwapState(roco::ControllerSwapStateInterfacePtr& swapState) {
+  swapState.reset(nullptr);
+  return true;
+}
+
+void ${class_name}::addSharedModule(const roco::SharedModulePtr& module) {
+  return;
+}
+
+
+
+
 
 ${additional_functions_source}
 

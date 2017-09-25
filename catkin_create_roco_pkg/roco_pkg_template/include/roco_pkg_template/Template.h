@@ -33,57 +33,67 @@ public:
   virtual ~${class_name}();
 
 protected:
-  /**
-   * @brief Create controller $class_name
-   * @param dt  Controller time step
-   */
-  virtual bool create(double dt);
 
+  /*! Use this method instead of the constructor to create objects.
+  * This method is only called once during the whole lifetime of the controller.
+  * @param dt  time step [s]
+  * @returns true if successful
+  */
+ virtual bool create(double dt);
 
-  /**
-   * @brief Initialize controller $class_name
-   * @param dt  Controller time step
-   */
-  virtual bool initialize(double dt);
+ /*! This initializes the controller before the advance method is called.
+  * @param dt  time step [s]
+  * @returns true if successful
+  */
+ virtual bool initialize(double dt);
 
-  /**
-   * @brief Swap from other controller to controller $class_name
-   * @param swapState  Unique ptr containing the state
-   */
-  virtual bool swap(double dt, const roco::ControllerSwapStateInterfacePtr& swapState);
+ /*! This advances the controller.
+  * @param dt  time step [s]
+  * @returns true if successful
+  */
+ virtual bool advance(double dt);
 
-  /**
-   * @brief Get state of controller $class_name
-   * @param swapState  Unique ptr for storing the state
-   */
-  virtual bool getSwapState(roco::ControllerSwapStateInterfacePtr& swapState);
+ /*! This resets the controller assuming it was already initialized once.
+  * @param dt  time step [s]
+  * @returns true if successful
+  */
+ virtual bool reset(double dt);
 
-  /**
-   * @brief Reset controller $class_name
-   * @param dt  Controller time step
-   */
-  virtual bool reset(double dt);
+ /*! This prepares the controller for a stop/switch. Unregister, delete everything that
+  *  is not essential to advance (e.g. ros communication)
+  * @returns true if successful
+  */
+ virtual bool preStop();
 
-  /**
-   * @brief Advance controller $class_name
-   * @param dt  Controller time step
-   */
-  virtual bool advance(double dt);
+ /*! This stops the controller. Kill everything that is not used when controller is not
+  *  advancing anymore. (E.g running threads etc.)
+  * @returns true if successful
+  */
+ virtual bool stop();
 
-  /**
-   * @brief Pre-Stop controller $class_name
-   */
-  virtual bool preStop();
+ /*! Use this method instead of the destructor to destroy objects.
+  * This method is only called once at the end of the lifetime of the controller.
+  * @returns true if successful
+  */
+ virtual bool cleanup();
 
-  /**
-   * @brief Stop controller $class_name
-   */
-  virtual bool stop();
+ /*! Use this method to swap from another controller.
+  * @param dt  time step [s]
+  * @param state  State received from the previous controller
+  * @returns true if successful
+  */
+ virtual bool swap(double dt, const roco::ControllerSwapStateInterfacePtr& swapState);
 
-  /**
-   * @brief Clean up $class_name
-   */
-  virtual bool cleanup();
+ /*! Use this method to get the state of the controller. Must be thread-safe parallel to advance.
+  * @param   swapState reference to state to be set
+  * @returns true if successful
+  */
+ virtual bool getSwapState(roco::ControllerSwapStateInterfacePtr& swapState);
+
+ /*! Use this method to set a shared module to the controller.
+  * @param   module reference to module to be set
+  */
+ virtual void addSharedModule(const roco::SharedModulePtr& module);
 
 ${additional_functions_header}
 };

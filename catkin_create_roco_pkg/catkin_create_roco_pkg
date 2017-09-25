@@ -70,9 +70,9 @@ class CreateRocoPkg:
         dependencies_2 = ""
         dependencies_xml = ""
         for item in self.dependencies:
-            dependencies_1 += "  " + item + "\n"
-            dependencies_2 += "    " + item + "\n"
-            dependencies_xml += "  <depend>" + item + "</depend>\n"
+            dependencies_1 += "\n  " + item
+            dependencies_2 += "\n    " + item
+            dependencies_xml += "\n  <depend>" + item + "</depend>"
 
         base_class_package = ("roco_ros" if self.is_ros else "roco")
         base_class = base_class_package + "::Controller" + ("Ros" if self.is_ros else "")
@@ -93,20 +93,25 @@ class CreateRocoPkg:
             "}" \
             if self.is_emergency else "")
 
-        plugin_include = ("\n// rocoma_plugin\n#include \"rocoma_plugin/rocoma_plugin.hpp\"" if self.is_plugin else "")
         plugin_class = ("Emergency" if self.is_emergency else "") + "Controller" + \
                        ("Ros" if self.is_ros else "") + "PluginInterface"
-        plugin_macro = "\n// export controller plugin\nROCOMA_EXPORT_" + ("EMERGENCY_" if self.is_emergency else "") + "CONTROLLER" + \
+        plugin_macro = "ROCOMA_EXPORT_" + \
+		                   ("EMERGENCY_" if self.is_emergency else "") + "CONTROLLER" + \
                        ("_ROS" if self.is_ros else "") + "(" + "\n  " + self.class_name + ",\n  " + \
                        self.state_package + "::" + self.state_name + ",\n  " + \
                        self.command_package + "::" + self.command_name + ",\n  " + \
-                       self.namespace + "::" + self.class_name + "\n" + " );\n"
-        plugin_export =  "<rocoma_plugin plugin=\"${prefix}/rocoma_plugin.xml\"/>"
+                       self.namespace + "::" + self.class_name + "\n" + ");"
+        plugin_export =  ("\n\n  <export>\n    <rocoma_plugin plugin=\"${prefix}/rocoma_plugin.xml\"/>\n  </export>" if self.is_plugin else "")
 
-        if not self.is_plugin:
-            plugin_include = ""
-            plugin_macro = ""
-            plugin_export = ""
+        plugin_cmake = ("\nadd_library(${PROJECT_NAME}_plugin\n" \
+                        "  src/" + self.pkg_name + "_plugin.cpp\n" \
+                        ")\n\n" \
+                        "target_link_libraries(${PROJECT_NAME}_plugin\n" \
+                        "  ${catkin_LIBRARIES}\n" \
+                        "  ${PROJECT_NAME}\n" \
+                        ")" if self.is_plugin else "")
+        
+        plugin_cmake_install =  (" ${PROJECT_NAME}_plugin" if self.is_plugin else "")
 
         self.template_fill = {'class_name': self.class_name,
                               'namespace': self.namespace,
@@ -125,7 +130,8 @@ class CreateRocoPkg:
                               'plugin_class': plugin_class,
                               'plugin_macro': plugin_macro,
                               'plugin_export': plugin_export,
-                              'plugin_include': plugin_include,
+                              'plugin_cmake': plugin_cmake,
+                              'plugin_cmake_install': plugin_cmake_install,
                               'base_class_package': base_class_package,
                               'base_class': base_class,
                               'additional_inheritance': additional_inheritance,
@@ -139,6 +145,8 @@ class CreateRocoPkg:
         template_name = "roco_pkg_template"
         files = []
         if self.is_plugin:
+            files.append((os.path.join(self.path_src, self.pkg_name + '_plugin.cpp'),
+                          os.path.join(template_name, 'src', 'roco_pkg_template_plugin.cpp')))
             files.append((os.path.join(self.path, 'rocoma_plugin.xml'),
                           os.path.join(template_name, 'rocoma_plugin.xml')))
         files.append((os.path.join(self.path, 'package.xml'),
@@ -148,8 +156,7 @@ class CreateRocoPkg:
         files.append((os.path.join(self.path_src, self.file_name + '.cpp'),
                       os.path.join(template_name, 'src','Template.cpp')))
         files.append((os.path.join(self.path_include, self.file_name + '.h'),
-                      os.path.join(template_name, 'include', template_name,
-                                   'Template.h')))
+                      os.path.join(template_name, 'include', template_name, 'Template.h')))
         # generate directory tree
         self.mkdir()
         # generate files
