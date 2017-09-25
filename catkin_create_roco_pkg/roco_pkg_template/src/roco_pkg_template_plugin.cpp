@@ -11,7 +11,7 @@
 #include "${command_package}/${command_name}.hpp"
 
 // ${pkg_name}
-#include "${pkg_name}/${file_name}.h"
+#include "${pkg_name}/${file_name}.hpp"
 
 // rocoma_plugin
 #include "rocoma_plugin/rocoma_plugin.hpp"

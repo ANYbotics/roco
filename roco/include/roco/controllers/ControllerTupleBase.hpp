@@ -169,9 +169,24 @@ class ControllerTupleBase: virtual public Base_, public Controllers_ ...
     unsigned int i = 0;
     const std::size_t nrControllers = sizeof...(Controllers_);
     ControllerTupleSwapState* tupleState = new roco::ControllerTupleSwapState(nrControllers);
-    auto list = {(Controllers_::getSwapState(tupleState->getSwapState(i++)))...};
-    swapState.reset(std::move(tupleState));
+
+    try {
+      std::initializer_list<bool> list = {(Controllers_::getSwapState(tupleState->getSwapState(i++))?true:throw(myex))...};
+      swapState.reset(std::move(tupleState));
+    }
+    catch(ControllerTupleException& e) {
+      swapState.reset();
+      return false;
+    }
+
     return true;
+  }
+
+  virtual bool addSharedModule(const roco::SharedModulePtr& module)
+  {
+    // It is sufficient for one of the controllers to accept the shared module
+    std::initializer_list<bool> list = {(Controllers_::addSharedModule(module))...};
+    return (std::find(list.begin(), list.end(), true) != list.end());
   }
 
 };

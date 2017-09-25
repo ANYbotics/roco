@@ -7,7 +7,7 @@
 */
 
 // ${pkg_name}
-#include "${pkg_name}/${file_name}.h"
+#include "${pkg_name}/${file_name}.hpp"
 
 namespace ${namespace} {
 
@@ -50,7 +50,7 @@ bool ${class_name}::cleanup() {
 }
 
 bool ${class_name}::swap(double dt, const roco::ControllerSwapStateInterfacePtr& swapState) {
-  // ${class_name}:: Call current class reset / initialize
+  // Call current class reset / initialize
   return isInitialized() ? ${class_name}::reset(dt) : ${class_name}::initialize(dt);
 }
 
@@ -59,13 +59,9 @@ bool ${class_name}::getSwapState(roco::ControllerSwapStateInterfacePtr& swapStat
   return true;
 }
 
-void ${class_name}::addSharedModule(const roco::SharedModulePtr& module) {
-  return;
+bool ${class_name}::addSharedModule(const roco::SharedModulePtr& module) {
+  return false;
 }
-
-
-
-
 
 ${additional_functions_source}
 

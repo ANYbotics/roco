@@ -81,9 +81,10 @@ namespace roco {
     /*! Use this method to set a shared module to the controller.
      * Default: do nothing
      * @param   module reference to module to be set
+     * @return  true if successful (default: false)
      */
-    virtual void addSharedModule(const SharedModulePtr& module) {
-      return;
+    virtual bool addSharedModule(const SharedModulePtr& module) {
+      return false;
     }
 
   };

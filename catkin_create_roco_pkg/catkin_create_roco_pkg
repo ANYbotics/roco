@@ -84,7 +84,7 @@ class CreateRocoPkg:
              "   * @brief Initialize controller " + self.class_name + " fast. (computation time << dt)" +  "\n" \
              "   * @param dt  Controller time step\n" \
              "   */\n" \
-             "  virtual bool initializeFast(double dt);\n" \
+             "  virtual bool initializeFast(double dt);\n\n" \
             if self.is_emergency else "")
 
         additional_functions_source = \
@@ -104,7 +104,7 @@ class CreateRocoPkg:
         plugin_export =  ("\n\n  <export>\n    <rocoma_plugin plugin=\"${prefix}/rocoma_plugin.xml\"/>\n  </export>" if self.is_plugin else "")
 
         plugin_cmake = ("\nadd_library(${PROJECT_NAME}_plugin\n" \
-                        "  src/" + self.pkg_name + "_plugin.cpp\n" \
+                        "  src/${PROJECT_NAME}_plugin.cpp\n" \
                         ")\n\n" \
                         "target_link_libraries(${PROJECT_NAME}_plugin\n" \
                         "  ${catkin_LIBRARIES}\n" \
@@ -155,8 +155,8 @@ class CreateRocoPkg:
                       os.path.join(template_name, 'CMakeLists.txt')))
         files.append((os.path.join(self.path_src, self.file_name + '.cpp'),
                       os.path.join(template_name, 'src','Template.cpp')))
-        files.append((os.path.join(self.path_include, self.file_name + '.h'),
-                      os.path.join(template_name, 'include', template_name, 'Template.h')))
+        files.append((os.path.join(self.path_include, self.file_name + '.hpp'),
+                      os.path.join(template_name, 'include', template_name, 'Template.hpp')))
         # generate directory tree
         self.mkdir()
         # generate files

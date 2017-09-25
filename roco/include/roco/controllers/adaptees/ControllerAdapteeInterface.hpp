@@ -119,8 +119,9 @@ class ControllerAdapteeInterface
 
   /*! Use this method to set a shared module to the controller.
    * @param   module reference to module to be set
+   * @returns true if successful
    */
-  virtual void addSharedModule(const SharedModulePtr& module) = 0;
+  virtual bool addSharedModule(const SharedModulePtr& module) = 0;
 };
 
 } /* namespace roco */
