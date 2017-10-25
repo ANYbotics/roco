@@ -16,7 +16,7 @@ Date: Dec. 2014
 
 ## Building
 
-[![Build Status](http://rsl-ci.ethz.ch/buildStatus/icon?job=roco)](http://rsl-ci.ethz.ch/job/roco/)
+[![Build Status](https://ci.leggedrobotics.com/buildStatus/icon?job=bitbucket_leggedrobotics/roco/master)](https://ci.leggedrobotics.com/job/bitbucket_leggedrobotics/job/roco/job/master/)
 
 In order to install, clone the latest version from this repository into your catkin workspace and compile the packages.
 
