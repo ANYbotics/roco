@@ -7,7 +7,7 @@ This library is used by the Robot Controller Manager [rocoma](https://bitbucket.
 
 [Documentation](http://docs.leggedrobotics.com/rocoma_doc/)
 
-The software has been tested under ROS Indigo and Ubuntu 14.04.
+The software has been tested under ROS Kinetic and Ubuntu 16.04.
 
 The source code is released under a [BSD 3-Clause license](LICENSE).
 
