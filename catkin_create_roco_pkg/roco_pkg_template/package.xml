@@ -2,7 +2,7 @@
 <package format="2">
 
   <name>${pkg_name}</name>
-  <version>0.1.1</version>
+  <version>0.1.2</version>
   <description>${pkg_name} provides a robot controller that ...</description>
   <maintainer email="${email}">${author}</maintainer>
   <license>TODO</license>
