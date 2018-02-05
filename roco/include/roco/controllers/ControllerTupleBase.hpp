@@ -80,6 +80,7 @@ class ControllerTupleBase: virtual public Base_, public Controllers_ ...
   {
     try {
       std::initializer_list<bool> list = {(Controllers_::create(dt)?true:throw(myex))...};
+      (void) list; // unused warning
     }
     catch(ControllerTupleException& e) {
       return false;
@@ -91,6 +92,7 @@ class ControllerTupleBase: virtual public Base_, public Controllers_ ...
   {
     try {
       std::initializer_list<bool> list = {(Controllers_::initialize(dt)?true:throw(myex))...};
+      (void) list; // unused warning
     }
     catch(ControllerTupleException& e) {
       return false;
@@ -102,6 +104,7 @@ class ControllerTupleBase: virtual public Base_, public Controllers_ ...
   {
     try {
       std::initializer_list<bool> list = {(Controllers_::reset(dt)?true:throw(myex))...};
+      (void) list; // unused warning
     }
     catch(ControllerTupleException& e) {
       return false;
@@ -113,6 +116,7 @@ class ControllerTupleBase: virtual public Base_, public Controllers_ ...
   {
     try {
       std::initializer_list<bool> list = {(Controllers_::advance(dt)?true:throw(myex))...};
+      (void) list; // unused warning
     }
     catch(ControllerTupleException& e) {
       return false;
@@ -124,6 +128,7 @@ class ControllerTupleBase: virtual public Base_, public Controllers_ ...
   {
     try {
       std::initializer_list<bool> list = {(Controllers_::preStop()?true:throw(myex))...};
+      (void) list; // unused warning
     }
     catch(ControllerTupleException& e) {
       return false;
@@ -135,6 +140,7 @@ class ControllerTupleBase: virtual public Base_, public Controllers_ ...
   {
     try {
       std::initializer_list<bool> list = {(Controllers_::stop()?true:throw(myex))...};
+      (void) list; // unused warning
     }
     catch(ControllerTupleException& e) {
       return false;
@@ -146,6 +152,7 @@ class ControllerTupleBase: virtual public Base_, public Controllers_ ...
   {
     try {
       std::initializer_list<bool> list = {(Controllers_::cleanup()?true:throw(myex))...};
+      (void) list; // unused warning
     }
     catch(ControllerTupleException& e) {
       return false;
@@ -157,6 +164,7 @@ class ControllerTupleBase: virtual public Base_, public Controllers_ ...
   {
     try {
       std::initializer_list<bool> list = {(Controllers_::swap(dt, swapState)?true:throw(myex))...};
+      (void) list; // unused warning
     }
     catch(ControllerTupleException& e) {
       return false;
@@ -172,6 +180,7 @@ class ControllerTupleBase: virtual public Base_, public Controllers_ ...
 
     try {
       std::initializer_list<bool> list = {(Controllers_::getSwapState(tupleState->getSwapState(i++))?true:throw(myex))...};
+      (void) list; // unused warning
       swapState.reset(std::move(tupleState));
     }
     catch(ControllerTupleException& e) {
