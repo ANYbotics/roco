@@ -64,7 +64,7 @@ class SharedModule
    * @param dt  time step [s]
    * @returns true if successful
    */
-  virtual bool create(double dt) { }
+  virtual bool create(double dt) { return true; }
 
   //! @return name of the module
   const std::string & getName() const { return name_; }
