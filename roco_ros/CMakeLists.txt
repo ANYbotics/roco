@@ -31,6 +31,8 @@ catkin_package(
     Boost
 )
 
+add_definitions(-std=c++11 -Wall -Werror)
+
 # Install
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
