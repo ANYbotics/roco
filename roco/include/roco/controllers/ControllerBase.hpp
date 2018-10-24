@@ -116,11 +116,6 @@ class ControllerBase: public Interfaces_... {
    */
   virtual boost::shared_mutex& getStateMutex() = 0;
 
-  /*! @returns the state of the robot.
-   * This method should be implemented by the adapter.
-   */
-  virtual State& getState() = 0;
-
   /*! @returns the command.
    * This method should be implemented by the adapter.
    */
