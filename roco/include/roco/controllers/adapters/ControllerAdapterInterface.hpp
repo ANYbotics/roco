@@ -54,15 +54,13 @@ namespace roco {
  *
  *  Derive this class and implement your own controller adapter.
  */
-class ControllerAdapterInterface
-{
+class ControllerAdapterInterface {
  public:
+  //! Empty constructor
+  ControllerAdapterInterface() = default;
 
   //! Empty constructor
-  ControllerAdapterInterface() { }
-
-  //! Empty constructor
-  virtual ~ControllerAdapterInterface() { }
+  virtual ~ControllerAdapterInterface() = default;
 
   /*! Adapts the adaptees create(dt) function.
    * @param dt  time step [s]
@@ -141,11 +139,20 @@ class ControllerAdapterInterface
    */
   virtual bool isBeingStopped() const = 0;
 
-  /*! This function indicates whether the controller is being stopped
-   * @returns true iff controller is being stopped
+  /*! This function sets whether the controller is being stopped
+   * @param isBeeingStopped flag indicating whether controller is being stopped
    */
   virtual void setIsBeingStopped(bool isBeeingStopped) = 0;
 
+  /*! This function indicates whether the controller is running (meaning it is the currently advanced controller)
+   * @returns true iff controller is being stopped
+   */
+  virtual bool isRunning() const = 0;
+
+  /*! This function sets whether the controller is running (meaning it is the currently advanced controller)
+   * @param isRunning flag indicating whether controller is running
+   */
+  virtual void setIsRunning(bool isRunning) = 0;
 };
 
 } /* namespace roco */
