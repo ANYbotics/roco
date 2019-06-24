@@ -16,8 +16,6 @@ Date: Dec. 2014
 
 ## Building
 
-[![Build Status](https://ci.leggedrobotics.com/buildStatus/icon?job=bitbucket_leggedrobotics/roco/master)](https://ci.leggedrobotics.com/job/bitbucket_leggedrobotics/job/roco/job/master/)
-
 In order to install, clone the latest version from this repository into your catkin workspace and compile the packages.
 
 ### Dependencies
