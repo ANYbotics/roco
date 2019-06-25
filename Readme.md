@@ -3,7 +3,7 @@
 ## Overview
 
 A C++ library that provides a common interface for robot controllers.
-This library is used by the Robot Controller Manager [rocoma](https://bitbucket.org/leggedrobotics/rocoma).
+This library is used by the Robot Controller Manager [rocoma](https://github.com/anybotics/rocoma).
 
 [Documentation](http://docs.leggedrobotics.com/rocoma_doc/)
 
@@ -19,8 +19,4 @@ Date: Dec. 2014
 In order to install, clone the latest version from this repository into your catkin workspace and compile the packages.
 
 ### Dependencies
-* **[message_logger](https://bitbucket.org/leggedrobotics/message_logger):** Message logger
-
-## Bugs & Feature Requests
-
-Please report bugs and request features using the [Issue Tracker](https://github.com/ethz-asl/ros_best_practices/issues).
+* **[message_logger](https://github.com/anybotics/message_logger):** Message logger
