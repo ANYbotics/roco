@@ -47,24 +47,21 @@ namespace roco {
 /*!
  *   This interface is used in the emergency controller implementation.
  */
-class EmergencyControllerAdapteeInterface
-{
+class EmergencyControllerAdapteeInterface {
  public:
-  //! Empty constructor
-  EmergencyControllerAdapteeInterface() { }
+  //! Default constructor
+  EmergencyControllerAdapteeInterface() = default;
 
-  //! Empty destructor
-  virtual ~EmergencyControllerAdapteeInterface() { }
+  //! Default destructor
+  virtual ~EmergencyControllerAdapteeInterface() = default;
 
  protected:
-
   /*! This initializes the controller before the advance method is called.
    *  This method has strong timing constraints and should finish fast (exec_time < dt).
    * @param dt  time step [s]
    * @returns true if successful
    */
   virtual bool initializeFast(double dt) = 0;
-
 };
 
 } /* namespace roco */

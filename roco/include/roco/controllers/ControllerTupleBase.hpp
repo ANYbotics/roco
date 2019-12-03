@@ -53,137 +53,111 @@
 namespace roco {
 
 template <typename Base_, typename State_, typename Command_, typename... Controllers_>
-class ControllerTupleBase: virtual public Base_, public Controllers_ ...
-{
+class ControllerTupleBase : virtual public Base_, public Controllers_... {
  public:
-
   // This allows returning directly when one of the controllers returns false
-  class ControllerTupleException: public std::exception
-  {
-    virtual const char* what() const throw()
-    {
-      return "Controller tuple exception!";
-    }
-  } myex;
+  class ControllerTupleException : public std::exception {
+    const char* what() const noexcept override { return "Controller tuple exception!"; }
+  };
 
-  ControllerTupleBase():
-    Base_(),
-    Controllers_()...
-  {
-  }
+ public:
+  //! Default constructor
+  ControllerTupleBase() : Base_(), Controllers_()... {}
 
-  virtual ~ControllerTupleBase() { }
+  //! Default destructor
+  ~ControllerTupleBase() override = default;
 
  protected:
-  //! Roco implementation
-  virtual bool create(double dt)
-  {
+  bool create(double dt) override {
     try {
-      std::initializer_list<bool> list = {(Controllers_::create(dt)?true:throw(myex))...};
-      (void) list; // unused warning
-    }
-    catch(ControllerTupleException& e) {
+      std::initializer_list<bool> list = {(Controllers_::create(dt) ? true : throw(myex_))...};
+      (void)list;  // unused warning
+    } catch (ControllerTupleException& e) {
       return false;
     }
     return true;
   }
 
-  virtual bool initialize(double dt)
-  {
+  bool initialize(double dt) override {
     try {
-      std::initializer_list<bool> list = {(Controllers_::initialize(dt)?true:throw(myex))...};
-      (void) list; // unused warning
-    }
-    catch(ControllerTupleException& e) {
+      std::initializer_list<bool> list = {(Controllers_::initialize(dt) ? true : throw(myex_))...};
+      (void)list;  // unused warning
+    } catch (ControllerTupleException& e) {
       return false;
     }
     return true;
   }
 
-  virtual bool reset(double dt)
-  {
+  bool reset(double dt) override {
     try {
-      std::initializer_list<bool> list = {(Controllers_::reset(dt)?true:throw(myex))...};
-      (void) list; // unused warning
-    }
-    catch(ControllerTupleException& e) {
+      std::initializer_list<bool> list = {(Controllers_::reset(dt) ? true : throw(myex_))...};
+      (void)list;  // unused warning
+    } catch (ControllerTupleException& e) {
       return false;
     }
     return true;
   }
 
-  virtual bool advance(double dt)
-  {
+  bool advance(double dt) override {
     try {
-      std::initializer_list<bool> list = {(Controllers_::advance(dt)?true:throw(myex))...};
-      (void) list; // unused warning
-    }
-    catch(ControllerTupleException& e) {
+      std::initializer_list<bool> list = {(Controllers_::advance(dt) ? true : throw(myex_))...};
+      (void)list;  // unused warning
+    } catch (ControllerTupleException& e) {
       return false;
     }
     return true;
   }
 
-  virtual bool preStop()
-  {
+  bool preStop() override {
     try {
-      std::initializer_list<bool> list = {(Controllers_::preStop()?true:throw(myex))...};
-      (void) list; // unused warning
-    }
-    catch(ControllerTupleException& e) {
+      std::initializer_list<bool> list = {(Controllers_::preStop() ? true : throw(myex_))...};
+      (void)list;  // unused warning
+    } catch (ControllerTupleException& e) {
       return false;
     }
     return true;
   }
 
-  virtual bool stop()
-  {
+  bool stop() override {
     try {
-      std::initializer_list<bool> list = {(Controllers_::stop()?true:throw(myex))...};
-      (void) list; // unused warning
-    }
-    catch(ControllerTupleException& e) {
+      std::initializer_list<bool> list = {(Controllers_::stop() ? true : throw(myex_))...};
+      (void)list;  // unused warning
+    } catch (ControllerTupleException& e) {
       return false;
     }
     return true;
   }
 
-  virtual bool cleanup()
-  {
+  bool cleanup() override {
     try {
-      std::initializer_list<bool> list = {(Controllers_::cleanup()?true:throw(myex))...};
-      (void) list; // unused warning
-    }
-    catch(ControllerTupleException& e) {
+      std::initializer_list<bool> list = {(Controllers_::cleanup() ? true : throw(myex_))...};
+      (void)list;  // unused warning
+    } catch (ControllerTupleException& e) {
       return false;
     }
     return true;
   }
 
-  virtual bool swap(double dt, const ControllerSwapStateInterfacePtr& swapState)
-  {
+  bool swap(double dt, const ControllerSwapStateInterfacePtr& swapState) override {
     try {
-      std::initializer_list<bool> list = {(Controllers_::swap(dt, swapState)?true:throw(myex))...};
-      (void) list; // unused warning
-    }
-    catch(ControllerTupleException& e) {
+      std::initializer_list<bool> list = {(Controllers_::swap(dt, swapState) ? true : throw(myex_))...};
+      (void)list;  // unused warning
+    } catch (ControllerTupleException& e) {
       return false;
     }
     return true;
   }
 
-  virtual bool getSwapState(ControllerSwapStateInterfacePtr& swapState)
-  {
+  bool getSwapState(ControllerSwapStateInterfacePtr& swapState) override {
     unsigned int i = 0;
     const std::size_t nrControllers = sizeof...(Controllers_);
-    ControllerTupleSwapState* tupleState = new roco::ControllerTupleSwapState(nrControllers);
+    auto* tupleState = new roco::ControllerTupleSwapState(nrControllers);
 
     try {
-      std::initializer_list<bool> list = {(Controllers_::getSwapState(tupleState->getSwapState(i++))?true:throw(myex))...};
-      (void) list; // unused warning
+      std::initializer_list<bool> list = {(Controllers_::getSwapState(tupleState->getSwapState(i++)) ? true : throw(myex_))...};
+      (void)list;  // unused warning
       swapState.reset(std::move(tupleState));
-    }
-    catch(ControllerTupleException& e) {
+    } catch (ControllerTupleException& e) {
       swapState.reset();
       return false;
     }
@@ -191,13 +165,14 @@ class ControllerTupleBase: virtual public Base_, public Controllers_ ...
     return true;
   }
 
-  virtual bool addSharedModule(const roco::SharedModulePtr& module)
-  {
+  bool addSharedModule(const roco::SharedModulePtr& module) override {
     // It is sufficient for one of the controllers to accept the shared module
     std::initializer_list<bool> list = {(Controllers_::addSharedModule(module))...};
     return (std::find(list.begin(), list.end(), true) != list.end());
   }
 
+ private:
+  ControllerTupleException myex_;
 };
 
-} /* namespace rocoma */
+}  // namespace roco

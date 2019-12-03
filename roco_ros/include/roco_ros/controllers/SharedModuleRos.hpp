@@ -53,8 +53,7 @@ namespace roco_ros {
  *   This interface can be used to share a module between different roco controllers. The implementer is responsible
  *   for thread safety.
  */
-class SharedModuleRos: virtual public roco::SharedModule
-{
+class SharedModuleRos : virtual public roco::SharedModule {
  public:
   //! Empty constructor
   SharedModuleRos() = default;
@@ -65,34 +64,23 @@ class SharedModuleRos: virtual public roco::SharedModule
   /*! Get the ros node handle associated with this shared module.
    * @returns the ros nodehandle
    */
-  ros::NodeHandle getNodeHandle() const
-  {
-    return nh_;
-  }
+  ros::NodeHandle getNodeHandle() const { return nh_; }
 
   /*! Get reference to the ros node handle associated with this shared module.
    * @returns the ros nodehandle
    */
-  ros::NodeHandle& getNodeHandle()
-  {
-    return nh_;
-  }
+  ros::NodeHandle& getNodeHandle() { return nh_; }
 
   /*! Set the ros node handle associated with this shared module.
-    * @param nodeHandle  the ros nodehandle to be set
-    */
-  void setNodeHandle(const ros::NodeHandle& nodeHandle)
-  {
-    nh_ = nodeHandle;
-  }
+   * @param nodeHandle  the ros nodehandle to be set
+   */
+  void setNodeHandle(const ros::NodeHandle& nodeHandle) { nh_ = nodeHandle; }
 
  private:
   // ros node handle
   ros::NodeHandle nh_;
-
 };
 
 using SharedModuleRosPtr = std::shared_ptr<SharedModuleRos>;
 
-
-} /* namespace roco */
+}  // namespace roco_ros

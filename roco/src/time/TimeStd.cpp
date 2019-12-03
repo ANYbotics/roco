@@ -66,14 +66,14 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 /*!
-* @file     TimeStd.cpp
-* @author   Christian Gehring
-* @date     Dec, 2014
-* @brief
-*/
+ * @file     TimeStd.cpp
+ * @author   Christian Gehring
+ * @date     Dec, 2014
+ * @brief
+ */
 #include "roco/time/TimeStd.hpp"
 #include <boost/math/special_functions/round.hpp>
-#include <iomanip> // std::setw
+#include <iomanip>  // std::setw
 
 #include <chrono>
 #include <cstdint>
@@ -81,50 +81,34 @@
 namespace roco {
 namespace time {
 
-TimeStd::TimeStd():
-    sec_(0),
-    nsec_(0)
-{
-
-}
-TimeStd::TimeStd(uint32_t sec, uint32_t nsec) : sec_(sec), nsec_(nsec)
-{
+TimeStd::TimeStd(uint32_t sec, uint32_t nsec) : sec_(sec), nsec_(nsec) {
   normalizeSecNSec(sec_, nsec_);
 }
 
-TimeStd::TimeStd(uint64_t t) {
-  fromNSec(t);
+TimeStd::TimeStd(uint64_t nanoseconds) {
+  fromNSec(nanoseconds);
 }
 
-TimeStd::TimeStd(double t)
-{
-  fromSec(t);
+TimeStd::TimeStd(double seconds) {
+  fromSec(seconds);
 }
 
-TimeStd::TimeStd(const Time& time) : TimeStd(time.getSec(), time.getNSec()) {
+TimeStd::TimeStd(const Time& time) : TimeStd(time.getSec(), time.getNSec()) {}
 
-}
-
-TimeStd::~TimeStd()
-{
-
-}
-
-TimeStd& TimeStd::from(uint32_t sec, uint32_t nsec) {
+TimeStd& TimeStd::from(uint32_t /*sec*/, uint32_t /*nsec*/) {
   normalizeSecNSec(sec_, nsec_);
   return *this;
 }
 
-TimeStd& TimeStd::fromSec(double t) {
-  sec_ = (uint32_t)floor(t);
-  nsec_ = (uint32_t)boost::math::round((t-sec_) * 1e9);
+Time& TimeStd::fromSec(double t) {
+  sec_ = static_cast<uint32_t>(floor(t));
+  nsec_ = static_cast<uint32_t>(boost::math::round((t - sec_) * 1e9));
   return *this;
 }
 
-
-TimeStd& TimeStd::fromNSec(uint64_t t) {
-  sec_  = (int32_t)(t / 1000000000);
-  nsec_ = (int32_t)(t % 1000000000);
+Time& TimeStd::fromNSec(uint64_t t) {
+  sec_ = static_cast<uint32_t>((t / 1000000000));
+  nsec_ = static_cast<uint32_t>((t % 1000000000));
 
   normalizeSecNSec(sec_, nsec_);
 
@@ -139,9 +123,8 @@ uint32_t TimeStd::getNSec() const {
   return nsec_;
 }
 
-
 double TimeStd::toSec() const {
-  return (double)sec_ + 1e-9*(double)nsec_;
+  return static_cast<double>(sec_) + 1e-9 * static_cast<double>(nsec_);
 }
 
 TimeStd& TimeStd::operator=(const Time& time) {
@@ -156,19 +139,18 @@ TimeStd& TimeStd::operator=(const TimeStd& rhs) {
   return *this;
 }
 
-TimeStd TimeStd::operator+(const TimeStd& rhs) const
-{
-  int64_t sec_sum  = (int64_t)sec_  + (int64_t)rhs.getSec();
-  int64_t nsec_sum = (int64_t)nsec_ + (int64_t)rhs.getNSec();
+TimeStd TimeStd::operator+(const TimeStd& rhs) const {
+  int64_t sec_sum = static_cast<int64_t>(sec_) + static_cast<int64_t>(rhs.getSec());
+  int64_t nsec_sum = static_cast<int64_t>(nsec_) + static_cast<int64_t>(rhs.getNSec());
 
   // Throws an exception if we go out of 32-bit range
   normalizeSecNSecUnsigned(sec_sum, nsec_sum);
 
   // now, it's safe to downcast back to uint32 bits
-  return TimeStd((uint32_t)sec_sum, (uint32_t)nsec_sum);
+  return TimeStd(static_cast<uint32_t>(sec_sum), static_cast<uint32_t>(nsec_sum));
 }
 
-TimeStd& TimeStd::operator+=(const TimeStd& rhs){
+TimeStd& TimeStd::operator+=(const TimeStd& rhs) {
   *this = *this + rhs;
   return *this;
 }
@@ -177,31 +159,32 @@ TimeStd TimeStd::operator+(double t) const {
   return *this + TimeStd(t);
 }
 
-TimeStd& TimeStd::operator+=(double t){
+TimeStd& TimeStd::operator+=(double t) {
   *this = *this + TimeStd(t);
   return *this;
 }
 
-TimeStd& TimeStd::operator-=(const TimeStd &rhs) {
+TimeStd& TimeStd::operator-=(const TimeStd& rhs) {
   *this += (-rhs);
   return *this;
 }
 
-TimeStd TimeStd::operator-(const TimeStd &rhs) const {
-  return TimeStd((int32_t)sec_ -  (int32_t)rhs.getSec(),
-                  (int32_t)nsec_ - (int32_t)rhs.getNSec());
+TimeStd TimeStd::operator-(const TimeStd& rhs) const {
+  return TimeStd(static_cast<int32_t>(sec_) - static_cast<int32_t>(rhs.getSec()),
+                 static_cast<int32_t>(nsec_) - static_cast<int32_t>(rhs.getNSec()));
 }
 
 TimeStd TimeStd::operator-() const {
-  return TimeStd(-sec_ , -nsec_);
+  return TimeStd(-sec_, -nsec_);
 }
 
 void TimeStd::normalizeSecNSec(uint64_t& sec, uint64_t& nsec) const {
   uint64_t nsec_part = nsec % 1000000000UL;
   uint64_t sec_part = nsec / 1000000000UL;
 
-  if (sec_part > UINT_MAX)
+  if (sec_part > UINT_MAX) {
     throw std::runtime_error("Time is out of dual 32-bit range");
+  }
 
   sec += sec_part;
   nsec = nsec_part;
@@ -213,37 +196,34 @@ void TimeStd::normalizeSecNSec(uint32_t& sec, uint32_t& nsec) const {
 
   normalizeSecNSec(sec64, nsec64);
 
-  sec = (uint32_t)sec64;
-  nsec = (uint32_t)nsec64;
+  sec = static_cast<uint32_t>(sec64);
+  nsec = static_cast<uint32_t>(nsec64);
 }
-
 
 void TimeStd::normalizeSecNSecUnsigned(int64_t& sec, int64_t& nsec) const {
   int64_t nsec_part = nsec;
   int64_t sec_part = sec;
 
-  while (nsec_part >= 1000000000L)
-  {
+  while (nsec_part >= 1000000000L) {
     nsec_part -= 1000000000L;
     ++sec_part;
   }
-  while (nsec_part < 0)
-  {
+  while (nsec_part < 0) {
     nsec_part += 1000000000L;
     --sec_part;
   }
 
-  if (sec_part < 0 || sec_part > INT_MAX)
+  if (sec_part < 0 || sec_part > INT_MAX) {
     throw std::runtime_error("Time is out of dual 32-bit range");
+  }
 
   sec = sec_part;
   nsec = nsec_part;
 }
 
-
 Time& TimeStd::setNow() {
-    *this = now();
-    return *this;
+  *this = now();
+  return *this;
 }
 
 TimeStd TimeStd::now() {
@@ -252,11 +232,10 @@ TimeStd TimeStd::now() {
   return TimeStd(timestamp);
 }
 
-
 std::ostream& operator<<(std::ostream& out, const TimeStd& rhs) {
   out << rhs.sec_ << "." << std::setw(9) << std::setfill('0') << rhs.nsec_;
   return out;
 }
 
 } /* namespace time */
-} /* namespace robotControllers */
+}  // namespace roco

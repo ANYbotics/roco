@@ -33,18 +33,18 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerBase.hpp
-* @author   Christian Gehring, Gabriel Hottiger
-* @date     Dec, 2014
-* @note     Restructured, June 2016
-*/
+ * @file     ControllerBase.hpp
+ * @author   Christian Gehring, Gabriel Hottiger
+ * @date     Dec, 2014
+ * @note     Restructured, June 2016
+ */
 
 #pragma once
 
 // STL
-#include <string>
 #include <atomic>
 #include <memory>
+#include <string>
 
 // Boost
 #include <boost/thread/shared_mutex.hpp>
@@ -55,17 +55,19 @@ namespace roco {
 /*! This controller can implement 0-n interfaces using a variadic template.
  *
  */
-template<typename State_, typename Command_, class... Interfaces_>
-class ControllerBase: public Interfaces_... {
+template <typename State_, typename Command_, class... Interfaces_>
+class ControllerBase : public Interfaces_... {
  public:
   //! Typedef of the state of the robot.
-  typedef State_ State;
+  using State = State_;
   //! Typedef of the command of the robot.
-  typedef Command_ Command;
+  using Command = Command_;
 
  public:
+  //! Default constructor
   ControllerBase();
-  virtual ~ControllerBase();
+  //! Default destructor
+  ~ControllerBase() override = default;
 
   /*! @returns the name of the controller
    */
@@ -101,10 +103,8 @@ class ControllerBase: public Interfaces_... {
    * @param mutexCommand  mutex of the command container
    * This method should be implemented by the adapter.
    */
-  virtual void setStateAndCommand(std::shared_ptr<State> state,
-                                  std::shared_ptr<boost::shared_mutex> mutexState,
-                                  std::shared_ptr<Command> command,
-                                  std::shared_ptr<boost::shared_mutex> mutexCommand) = 0;
+  virtual void setStateAndCommand(std::shared_ptr<State> state, std::shared_ptr<boost::shared_mutex> mutexState,
+                                  std::shared_ptr<Command> command, std::shared_ptr<boost::shared_mutex> mutexCommand) = 0;
 
   /*! @returns the state of the robot.
    * This method should be implemented by the adapter.
@@ -146,7 +146,6 @@ class ControllerBase: public Interfaces_... {
 
   //! Indicates if the controller is running.
   std::atomic_bool isRunning_;
-
 };
 
 } /* namespace roco */

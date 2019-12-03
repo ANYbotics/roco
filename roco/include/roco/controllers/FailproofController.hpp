@@ -33,11 +33,11 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     FailproofController.hpp
-* @author   Christian Gehring, Gabriel Hottiger
-* @date     Dec, 2014
-* @note     Restructured, June 2016
-*/
+ * @file     FailproofController.hpp
+ * @author   Christian Gehring, Gabriel Hottiger
+ * @date     Dec, 2014
+ * @note     Restructured, June 2016
+ */
 
 #pragma once
 
@@ -51,6 +51,6 @@ namespace roco {
 /*! Derive this class and implement your own fail-proof controller.
  *
  */
-  template<typename State_, typename Command_>
-  using FailproofController = ControllerBase<State_, Command_, FailproofControllerAdapteeInterface>;
-}
+template <typename State_, typename Command_>
+using FailproofController = ControllerBase<State_, Command_, FailproofControllerAdapteeInterface>;
+}  // namespace roco

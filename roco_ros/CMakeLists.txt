@@ -1,40 +1,48 @@
-#-------------------------------------------------------------------------------
-# Robotic Systems Lab
-# ETH Zurich
-#
-# Author(s): Gabriel Hottiger
-# email    : ghottiger@anybotics.com
-# Date     : Nov-2016
-#
-#-------------------------------------------------------------------------------
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required(VERSION 3.5.1)
 project(roco_ros)
 
-# Find catkin
-find_package(catkin REQUIRED COMPONENTS
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD 11)
+add_compile_options(-Wall -Wextra -Wpedantic)
+
+set(CATKIN_PACKAGE_DEPENDENCIES
   message_logger
   roco
   roscpp
 )
 
-find_package(Boost REQUIRED)
+find_package(catkin REQUIRED
+  COMPONENTS
+    ${CATKIN_PACKAGE_DEPENDENCIES}
+)
 
-# Catkin package definition
+###################################
+## catkin specific configuration ##
+###################################
+
 catkin_package(
-  INCLUDE_DIRS include
+  INCLUDE_DIRS
+    include
   LIBRARIES
   CATKIN_DEPENDS
-    message_logger
-    roco
-    roscpp
-  DEPENDS
-    Boost
+    ${CATKIN_PACKAGE_DEPENDENCIES}
 )
 
-add_definitions(-std=c++11 -Wall -Werror)
+#############
+## Install ##
+#############
 
-# Install
-install(DIRECTORY include/${PROJECT_NAME}/
+install(
+  DIRECTORY
+    include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-  PATTERN ".svn" EXCLUDE
 )
+
+#################
+## Clang Tools ##
+#################
+
+find_package(cmake_clang_tools QUIET)
+if(cmake_clang_tools_FOUND)
+  add_default_clang_tooling()
+endif(cmake_clang_tools_FOUND)

@@ -33,35 +33,25 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     Worker.cpp
-* @author   Christian Gehring, C. Dario Bellicoso
-* @date     Aug 27, 2015
-* @brief
-*/
+ * @file     Worker.cpp
+ * @author   Christian Gehring, C. Dario Bellicoso
+ * @date     Aug 27, 2015
+ * @brief
+ */
 
 #include "roco/workers/Worker.hpp"
 
-#include <message_logger/message_logger.hpp>
 #include <boost/bind.hpp>
-
+#include <message_logger/message_logger.hpp>
 
 namespace roco {
 
-Worker::Worker(const std::string& workerName)
-    : options_(),
-      handle_(workerName)
-{
+Worker::Worker(const std::string& workerName) : options_(), handle_(workerName) {
   options_.name_ = workerName;
   options_.callback_ = boost::bind(&WorkerInterface::work, this, _1);
-
 }
 
-Worker::~Worker() {
-
-}
-
-bool Worker::start()
-{
+bool Worker::start() {
   if (workerStartCallback_.empty()) {
     MELO_WARN("Callback function to start worker is empty!");
     return false;
@@ -69,8 +59,7 @@ bool Worker::start()
   return workerStartCallback_(handle_);
 }
 
-bool Worker::cancel(bool block)
-{
+bool Worker::cancel(bool block) {
   if (workerCancelCallback_.empty()) {
     MELO_WARN("Callback function to cancel worker is empty!");
     return false;
@@ -78,5 +67,4 @@ bool Worker::cancel(bool block)
   return workerCancelCallback_(handle_, block);
 }
 
-
-} // namespace roco
+}  // namespace roco

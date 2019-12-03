@@ -1,65 +1,113 @@
-#-------------------------------------------------------------------------------
-# Autonomous Systems Lab
-# ETH Zurich
-#
-# Author(s): Christian Gehring
-# email    : cgehring@anybotics.com
-# Date     : 1-Dec-2014
-#
-#-------------------------------------------------------------------------------
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required(VERSION 3.5.1)
 project(roco)
 
-# Find Catkin
-find_package(catkin REQUIRED COMPONENTS message_logger)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD 11)
+add_compile_options(-Wall -Wextra -Wpedantic)
+
+set(CATKIN_PACKAGE_DEPENDENCIES
+  message_logger
+)
+
+find_package(catkin REQUIRED
+  COMPONENTS
+    ${CATKIN_PACKAGE_DEPENDENCIES}
+)
+
 find_package(Boost REQUIRED)
 
-# Catkin package definition
+###################################
+## catkin specific configuration ##
+###################################
+
 catkin_package(
-  INCLUDE_DIRS include
-  LIBRARIES roco
+  INCLUDE_DIRS
+    include
+  LIBRARIES
+    ${PROJECT_NAME}
   CATKIN_DEPENDS
-    message_logger
+    ${CATKIN_PACKAGE_DEPENDENCIES}
   DEPENDS
     Boost
 )
 
-# Build
-add_definitions(-std=c++11 -Wall -Werror)
+###########
+## Build ##
+###########
 
 include_directories(
   include
-  ${catkin_INCLUDE_DIRS}
-  ${Boost_INCLUDE_DIRS}
+  SYSTEM
+    ${catkin_INCLUDE_DIRS}
+    ${Boost_INCLUDE_DIRS}
 )
 
-add_library(roco SHARED
-    src/time/Time.cpp
-    src/time/TimeStd.cpp
-    src/workers/Worker.cpp
+add_library(${PROJECT_NAME}
+  src/time/Time.cpp
+  src/time/TimeStd.cpp
+  src/workers/Worker.cpp
 )
-set_property(TARGET roco PROPERTY POSITION_INDEPENDENT_CODE ON)
 
-target_link_libraries(roco
+add_dependencies(${PROJECT_NAME}
+  ${catkin_EXPORTED_TARGETS}
+)
+
+target_link_libraries(${PROJECT_NAME}
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
 )
 
-# Add Doxygen documentation
-if (BUILD_DOC)
-add_subdirectory(doc/doxygen)
-endif (BUILD_DOC)
+#############
+## Install ##
+#############
 
-if (BUILD_EXAMPLE)
-add_subdirectory(example example)
-endif()
-
-install(DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-  PATTERN ".svn" EXCLUDE
-)
-install(TARGETS ${PROJECT_NAME}
+install(
+  TARGETS
+    ${PROJECT_NAME}
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
+
+install(
+  DIRECTORY
+    include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+)
+
+##########
+## Test ##
+##########
+
+if(CATKIN_ENABLE_TESTING)
+  # Find test dependencies
+  catkin_add_gtest(test_${PROJECT_NAME}
+    test/test_main.cpp
+    test/ControllerExample.cpp
+    test/ControllerTest.cpp
+    WORKING_DIRECTORY
+      ${PROJECT_SOURCE_DIR}/test
+  )
+
+  if(TARGET test_${PROJECT_NAME})
+    target_link_libraries(test_${PROJECT_NAME}
+      ${PROJECT_NAME}
+      ${catkin_LIBRARIES}
+    )
+
+    # Generate test coverage report
+    find_package(cmake_code_coverage QUIET)
+    if(cmake_code_coverage_FOUND)
+      add_gtest_coverage()
+    endif(cmake_code_coverage_FOUND)
+  endif()
+endif()
+
+#################
+## Clang Tools ##
+#################
+
+find_package(cmake_clang_tools QUIET)
+if(cmake_clang_tools_FOUND)
+  add_default_clang_tooling()
+endif(cmake_clang_tools_FOUND)

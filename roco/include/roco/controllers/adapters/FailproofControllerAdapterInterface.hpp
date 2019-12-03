@@ -33,11 +33,11 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     FailproofControllerAdapterInterface.hpp
-* @author   Christian Gehring, Gabriel Hottiger
-* @date     Dec, 2014
-* @note     Restructured, June 2016
-*/
+ * @file     FailproofControllerAdapterInterface.hpp
+ * @author   Christian Gehring, Gabriel Hottiger
+ * @date     Dec, 2014
+ * @note     Restructured, June 2016
+ */
 
 #pragma once
 
@@ -50,15 +50,13 @@ namespace roco {
  *
  *  Derive this class and implement your own fail-proof controller adapter.
  */
-class FailproofControllerAdapterInterface
-{
+class FailproofControllerAdapterInterface {
  public:
+  //! Default constructor
+  FailproofControllerAdapterInterface() = default;
 
-  //! Empty constructor
-  FailproofControllerAdapterInterface() { }
-
-  //! Empty constructor
-  virtual ~FailproofControllerAdapterInterface() { }
+  //! Default destructor
+  virtual ~FailproofControllerAdapterInterface() = default;
 
   /*! Adapts the adaptees create(dt) function.
    * @param dt  time step [s]
@@ -80,7 +78,6 @@ class FailproofControllerAdapterInterface
    * @returns controller name
    */
   virtual const std::string& getControllerName() const = 0;
-
 };
 
 } /* namespace roco */

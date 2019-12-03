@@ -33,44 +33,40 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     WorkerEventStd.hpp
-* @author   C. Dario Bellicoso, Christian Gehring
-* @date     Jun 18, 2015
-* @brief
-*/
+ * @file     WorkerEventStd.hpp
+ * @author   C. Dario Bellicoso, Christian Gehring
+ * @date     Jun 18, 2015
+ * @brief
+ */
 #pragma once
 
 #include <roco/time/TimeStd.hpp>
 #include <roco/workers/WorkerEvent.hpp>
 
 namespace roco {
-  /** \brief worker event
-    *
-    * This class is passed as a parameter to the worker event.
-    */
-  class WorkerEventStd: public WorkerEvent {
-  public:
-    /** \brief Default constructor
-      */
-    WorkerEventStd() {}
-    virtual~WorkerEventStd() {}
+/** \brief worker event
+ *
+ * This class is passed as a parameter to the worker event.
+ */
+class WorkerEventStd : public WorkerEvent {
+ public:
+  WorkerEventStd() = default;
+  ~WorkerEventStd() override = default;
 
-    time::Time& getExpectedCycleTime() {
-      return expectedCycleTime_;
-    }
+  time::Time& getExpectedCycleTime() override { return expectedCycleTime_; }
 
-    /** \brief The momentary, actual cycle time of the worker
-      */
-    time::Time& getActualCycleTime() {
-     return expectedCycleTime_;
-    }
-  protected:
-    /** \brief The expected cycle time of the worker
-      */
-    time::TimeStd expectedCycleTime_;
+  /** \brief The momentary, actual cycle time of the worker
+   */
+  time::Time& getActualCycleTime() override { return expectedCycleTime_; }
 
-    /** \brief The momentary, actual cycle time of the worker
-      */
-    time::TimeStd actualCycleTime_;
-  };
+ protected:
+  /** \brief The expected cycle time of the worker
+   */
+  time::TimeStd expectedCycleTime_;
+
+  /** \brief The momentary, actual cycle time of the worker
+   */
+  time::TimeStd actualCycleTime_;
 };
+
+}  // namespace roco

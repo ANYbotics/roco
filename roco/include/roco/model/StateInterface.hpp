@@ -33,28 +33,26 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     StateInterface.hpp
-* @author   Gabriel Hottiger
-* @date     Jun, 2016
-* @brief
-*/
+ * @file     StateInterface.hpp
+ * @author   Gabriel Hottiger
+ * @date     Jun, 2016
+ * @brief
+ */
 
 #pragma once
 
 namespace roco {
 
-  class StateInterface {
+class StateInterface {
+ public:
+  //! Empty Constructor
+  StateInterface() = default;
 
-   public:
-    //! Empty Constructor
-    StateInterface() {};
+  //! Empty Destructor
+  virtual ~StateInterface() = default;
 
-    //! Empty Destructor
-    virtual ~StateInterface() {};
+  //! Interface functions
+  virtual bool checkState() const = 0;
+};
 
-    //! Interface functions
-    virtual bool checkState() const = 0;
-
-  };
-
-}
+}  // namespace roco

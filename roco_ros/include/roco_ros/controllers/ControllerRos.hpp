@@ -33,11 +33,11 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerRos.hpp
-* @author   Christian Gehring, Gabriel Hottiger
-* @date     Dec, 2014
-* @note     Restructured, June 2016
-*/
+ * @file     ControllerRos.hpp
+ * @author   Christian Gehring, Gabriel Hottiger
+ * @date     Dec, 2014
+ * @note     Restructured, June 2016
+ */
 
 #pragma once
 
@@ -53,43 +53,32 @@ namespace roco_ros {
 /*! Derive this class and implement your own ros controller.
  *
  */
-  template<typename State_, typename Command_>
-  class ControllerRos: virtual public roco::Controller<State_, Command_> {
+template <typename State_, typename Command_>
+class ControllerRos : virtual public roco::Controller<State_, Command_> {
+ public:
+  //! Default constructor
+  ControllerRos() = default;
 
-   public:
-    //! Default constructor
-    ControllerRos():nh_() { }
+  //! Default destructor
+  ~ControllerRos() override = default;
 
-    //! Default destructor
-    virtual ~ControllerRos() { }
+  /*! Get the ros node handle associated with this controller.
+   * @returns the ros nodehandle
+   */
+  ros::NodeHandle getNodeHandle() const { return nh_; }
 
-    /*! Get the ros node handle associated with this controller.
-     * @returns the ros nodehandle
-     */
-    ros::NodeHandle getNodeHandle() const
-    {
-      return nh_;
-    }
+  /*! Get the ros node handle associated with this controller.
+   * @returns the ros nodehandle
+   */
+  ros::NodeHandle& getNodeHandle() { return nh_; }
 
-    /*! Get the ros node handle associated with this controller.
-     * @returns the ros nodehandle
-     */
-    ros::NodeHandle& getNodeHandle()
-    {
-      return nh_;
-    }
+  /*! Set the ros node handle associated with this controller.
+   * @param nodeHandle  the ros nodehandle to be set
+   */
+  void setNodeHandle(const ros::NodeHandle& nodeHandle) { nh_ = nodeHandle; }
 
-    /*! Set the ros node handle associated with this controller.
-      * @param nodeHandle  the ros nodehandle to be set
-      */
-    void setNodeHandle(const ros::NodeHandle& nodeHandle)
-    {
-      nh_ = nodeHandle;
-    }
-
-   private:
-    // ros node handle
-    ros::NodeHandle nh_;
-
-  };
-}
+ private:
+  // ros node handle
+  ros::NodeHandle nh_;
+};
+}  // namespace roco_ros

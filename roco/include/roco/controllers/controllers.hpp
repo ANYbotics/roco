@@ -12,11 +12,11 @@
 #include "roco/controllers/ControllerExtensionInterface.hpp"
 
 //! Controllers
-#include "roco/controllers/ControllerBase.hpp"
 #include "roco/controllers/Controller.hpp"
-#include "roco/controllers/FailproofController.hpp"
-#include "roco/controllers/ControllerTupleBase.hpp"
+#include "roco/controllers/ControllerBase.hpp"
 #include "roco/controllers/ControllerTuple.hpp"
+#include "roco/controllers/ControllerTupleBase.hpp"
+#include "roco/controllers/FailproofController.hpp"
 
 //! Swap States
 #include "roco/controllers/ControllerSwapStateInterface.hpp"

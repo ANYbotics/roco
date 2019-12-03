@@ -33,35 +33,73 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     Time.hpp
-* @author   Christian Gehring
-* @date     Dec, 2014
-* @brief
-*/
+ * @file     Time.hpp
+ * @author   Christian Gehring
+ * @date     Dec, 2014
+ * @brief
+ */
 #pragma once
 
 #include <cstdint>
+#include <iomanip>  // std::setw
 #include <ostream>
-#include <iomanip> // std::setw
 
 namespace roco {
 namespace time {
 
-
-class Time
-{
+class Time {
  public:
-  Time() {}
-  virtual ~Time() {}
-  virtual Time& fromSec(double t) = 0;
-  virtual Time& fromNSec(uint64_t t) = 0;
-  virtual double toSec() const = 0;
-  virtual uint32_t getSec() const = 0;
-  virtual uint32_t getNSec() const = 0;
-  friend std::ostream& operator<<(std::ostream& out, const Time& rhs);
-  virtual Time& setNow() = 0;
-};
+  //! Default constructor
+  Time() = default;
+  //! Default destructor
+  virtual ~Time() = default;
 
+  /**
+   * Create time object from seconds.
+   * @param t Time in seconds.
+   * @return Time object.
+   */
+  virtual Time& fromSec(double t) = 0;
+
+  /**
+   * Create time object from nanoseconds.
+   * @param t Time in nanoseconds.
+   * @return Time object.
+   */
+  virtual Time& fromNSec(uint64_t t) = 0;
+
+  /**
+   * Convert time object to seconds.
+   * @return Time in seconds
+   */
+  virtual double toSec() const = 0;
+
+  /**
+   * Get seconds component of the time.
+   * @return Seconds component of the time.
+   */
+  virtual uint32_t getSec() const = 0;
+
+  /**
+   * Get nanoseconds component of the time.
+   * @return Nanoseconds component of the time.
+   */
+  virtual uint32_t getNSec() const = 0;
+
+  /**
+   * Set time to current time.
+   * @return Time object.
+   */
+  virtual Time& setNow() = 0;
+
+  /**
+   * Output stream operator.
+   * @param out Output stream.
+   * @param rhs Time to print.
+   * @return Updated output stream.
+   */
+  friend std::ostream& operator<<(std::ostream& out, const Time& rhs);
+};
 
 } /* namespace time */
 } /* namespace roco */

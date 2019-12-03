@@ -43,9 +43,9 @@
 
 // ROCO
 #include "roco/time/Time.hpp"
-#include "roco/workers/WorkerOptions.hpp"
-#include "roco/workers/WorkerHandle.hpp"
 #include "roco/workers/Worker.hpp"
+#include "roco/workers/WorkerHandle.hpp"
+#include "roco/workers/WorkerOptions.hpp"
 
 namespace roco {
 
@@ -53,14 +53,13 @@ namespace roco {
 /*!
  * This methods should be implemented by the adapter.
  */
-class ControllerExtensionInterface
-{
+class ControllerExtensionInterface {
  public:
-  //! Empty constructor
-  ControllerExtensionInterface() {};
+  //! Default constructor
+  ControllerExtensionInterface() = default;
 
-  //! Empty destructor
-  virtual ~ControllerExtensionInterface() {};
+  //! Default destructor
+  virtual ~ControllerExtensionInterface() = default;
 
   /*! Indicates if the real robot is controller or only a simulated version.
    * @returns true if real robot
@@ -120,15 +119,16 @@ class ControllerExtensionInterface
    * @param block  flag indicating whether this should block until thread can be joined (default = false)
    * @returns true iff was stopped successfully
    */
-  virtual bool stopWorker(const roco::WorkerHandle& workerHandle, bool block=false) = 0;
+  virtual bool stopWorker(const roco::WorkerHandle& workerHandle, bool block) = 0;
+  bool stopWorker(const roco::WorkerHandle& workerHandle) { return stopWorker(workerHandle, false); }
 
   /*! Cancel a given worker
    * @param workerHandle  handle to the worker to be cancelled
    * @param block  flag indicating whether this should block until thread can be joined (default = false)
    * @returns true iff was cancelled successfully
    */
-  virtual bool cancelWorker(const roco::WorkerHandle& workerHandle, bool block=false) = 0;
-
+  virtual bool cancelWorker(const roco::WorkerHandle& workerHandle, bool block) = 0;
+  bool cancelWorker(const roco::WorkerHandle& workerHandle) { return cancelWorker(workerHandle, false); }
 };
 
 } /* namespace roco */

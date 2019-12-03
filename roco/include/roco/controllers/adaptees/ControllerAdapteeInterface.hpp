@@ -51,14 +51,13 @@ namespace roco {
 /*!
  *   This interface is used in the controller implementation.
  */
-class ControllerAdapteeInterface
-{
+class ControllerAdapteeInterface {
  public:
-  //! Empty constructor
-  ControllerAdapteeInterface() { }
+  //! Default constructor
+  ControllerAdapteeInterface() = default;
 
-  //! Empty destructor
-  virtual ~ControllerAdapteeInterface() { }
+  //! Default destructor
+  virtual ~ControllerAdapteeInterface() = default;
 
  protected:
   /*! Use this method instead of the constructor to create objects.

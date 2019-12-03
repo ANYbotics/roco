@@ -33,36 +33,33 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     WorkerEventInterface.hpp
-* @author   Christian Gehring, C. Dario Bellicoso
-* @date     Aug 27, 2015
-* @brief
-*/
+ * @file     WorkerEventInterface.hpp
+ * @author   Christian Gehring, C. Dario Bellicoso
+ * @date     Aug 27, 2015
+ * @brief
+ */
 #pragma once
-
 
 #include <roco/time/Time.hpp>
 
 namespace roco {
 
 /** \brief Worker event
-  *
-  * This class is passed as a parameter to the worker event.
-  */
+ *
+ * This class is passed as a parameter to the worker event.
+ */
 class WorkerEventInterface {
-public:
-  /** \brief Default constructor
-    */
-  WorkerEventInterface() {}
-  virtual ~WorkerEventInterface() {}
+ public:
+  WorkerEventInterface() = default;
+  virtual ~WorkerEventInterface() = default;
 
   /** \brief The expected cycle time of the worker
-    */
+   */
   virtual time::Time& getExpectedCycleTime() = 0;
 
   /** \brief The momentary, actual cycle time of the worker
-    */
+   */
   virtual time::Time& getActualCycleTime() = 0;
 };
 
-} // namespace roco
+}  // namespace roco

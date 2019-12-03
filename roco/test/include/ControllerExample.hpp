@@ -33,31 +33,30 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerExample.hpp
-* @author   Christian Gehring
-* @date     Dec, 2014
-* @brief
-*/
+ * @file     ControllerExample.hpp
+ * @author   Christian Gehring
+ * @date     Dec, 2014
+ * @brief
+ */
 #pragma once
 
 #include <roco/controllers/Controller.hpp>
 
 namespace roco {
-namespace controllers {
 
-class ControllerExample: public Controller<double, double>
-{
+class ControllerExample : public Controller<double, double> {
  public:
-  ControllerExample();
-  virtual ~ControllerExample();
-protected:
-  virtual bool create(double dt);
-  virtual bool initialize(double dt);
-  virtual bool advance(double dt);
-  virtual bool reset(double dt);
-  virtual bool cleanup();
-  virtual bool change();
+  ControllerExample() = default;
+  ~ControllerExample() override = default;
+
+ protected:
+  bool create(double dt) override;
+  bool initialize(double dt) override;
+  bool advance(double dt) override;
+  bool reset(double dt) override;
+  bool cleanup() override;
+  bool preStop() override;
+  bool stop() override;
 };
 
-} /* namespace controllers */
-} /* namespace robotControllers */
+}  // namespace roco

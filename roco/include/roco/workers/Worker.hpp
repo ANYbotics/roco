@@ -33,41 +33,35 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     Worker.hpp
-* @author   Christian Gehring, C. Dario Bellicoso
-* @date     Aug 27, 2015
-* @brief
-*/
+ * @file     Worker.hpp
+ * @author   Christian Gehring, C. Dario Bellicoso
+ * @date     Aug 27, 2015
+ * @brief
+ */
 #pragma once
 
+#include <roco/workers/WorkerHandle.hpp>
 #include <roco/workers/WorkerInterface.hpp>
 #include <roco/workers/WorkerOptions.hpp>
-#include <roco/workers/WorkerHandle.hpp>
-
 
 namespace roco {
 
-class Worker;
-typedef boost::function<bool(const roco::WorkerHandle& workerHandle)> WorkerStartCallback;
-typedef boost::function<bool(const roco::WorkerHandle& workerHandle, bool block)> WorkerCancelCallback;
+using WorkerStartCallback = boost::function<bool(const roco::WorkerHandle& workerHandle)>;
+using WorkerCancelCallback = boost::function<bool(const roco::WorkerHandle& workerHandle, bool block)>;
 
-
-class Worker: public WorkerInterface {
+class Worker : public WorkerInterface {
  public:
-  Worker(const std::string& workerName);
-  virtual ~Worker();
+  explicit Worker(const std::string& workerName);
+  ~Worker() override = default;
 
-  virtual bool start();
-  virtual bool cancel(bool block = false);
+  bool start() override;
+  bool cancel(bool block) override;
 
   WorkerStartCallback workerStartCallback_;
   WorkerCancelCallback workerCancelCallback_;
-
 
   WorkerOptions options_;
   WorkerHandle handle_;
 };
 
-
-
-} // namespace
+}  // namespace roco

@@ -33,28 +33,26 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     CommandInterface.hpp
-* @author   Gabriel Hottiger
-* @date     Jun, 2016
-* @brief
-*/
+ * @file     CommandInterface.hpp
+ * @author   Gabriel Hottiger
+ * @date     Jun, 2016
+ * @brief
+ */
 
 #pragma once
 
 namespace roco {
 
-  class CommandInterface {
+class CommandInterface {
+ public:
+  //! Empty Constructor
+  CommandInterface() = default;
 
-   public:
-    //! Empty Constructor
-    CommandInterface() {};
+  //! Empty Destructor
+  virtual ~CommandInterface() = default;
 
-    //! Empty Destructor
-    virtual ~CommandInterface() {};
+  //! Interface functions
+  virtual bool limitCommand() = 0;
+};
 
-    //! Interface functions
-    virtual bool limitCommand() = 0;
-
-  };
-
-}
+}  // namespace roco

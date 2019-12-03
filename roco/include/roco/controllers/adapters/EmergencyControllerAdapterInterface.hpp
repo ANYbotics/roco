@@ -33,11 +33,11 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     EmergencyControllerAdapterInterface.hpp
-* @author   Christian Gehring, Gabriel Hottiger
-* @date     Dec, 2014
-* @note     Restructured, June 2016
-*/
+ * @file     EmergencyControllerAdapterInterface.hpp
+ * @author   Christian Gehring, Gabriel Hottiger
+ * @date     Dec, 2014
+ * @note     Restructured, June 2016
+ */
 
 #pragma once
 
@@ -50,22 +50,19 @@ namespace roco {
  *
  *  Derive this class and implement your own emergency controller adapter.
  */
-class EmergencyControllerAdapterInterface: virtual public ControllerAdapterInterface
-{
+class EmergencyControllerAdapterInterface : virtual public ControllerAdapterInterface {
  public:
+  //! Default constructor
+  EmergencyControllerAdapterInterface() = default;
 
-  //! Empty constructor
-  EmergencyControllerAdapterInterface() { }
-
-  //! Empty constructor
-  virtual ~EmergencyControllerAdapterInterface() { }
+  //! Default destructor
+  ~EmergencyControllerAdapterInterface() override = default;
 
   /*! Adapts the adaptees initializeFast(dt) function.
    * @param dt  time step [s]
    * @returns true if successful
    */
   virtual bool initializeControllerFast(double dt) = 0;
-
 };
 
 } /* namespace roco */

@@ -50,13 +50,12 @@ namespace roco {
  *   This interface can be used to share a module between different roco controllers. The implementer is responsible
  *   for thread safety.
  */
-class SharedModule
-{
+class SharedModule {
  public:
-  //! Empty constructor
+  //! Default constructor
   SharedModule() = default;
 
-  //! Empty destructor
+  //! Default destructor
   virtual ~SharedModule() = default;
 
   /*! Use this method instead of the constructor to create objects.
@@ -64,13 +63,13 @@ class SharedModule
    * @param dt  time step [s]
    * @returns true if successful
    */
-  virtual bool create(double dt) { return true; }
+  virtual bool create(double /*dt*/) { return true; }
 
   //! @return name of the module
-  const std::string & getName() const { return name_; }
+  const std::string& getName() const { return name_; }
 
   //! @param name name of the module
-  void setName(const std::string & name) { name_ = name; }
+  void setName(const std::string& name) { name_ = name; }
 
   //! @returns the parameter path
   const std::string& getParameterPath() const { return parameterPath_; }
@@ -90,10 +89,8 @@ class SharedModule
   std::string parameterPath_;
   //! Mutex to protect the shared module (least granular lock)
   mutable std::mutex smMutex_;
-
 };
 
 using SharedModulePtr = std::shared_ptr<SharedModule>;
-
 
 } /* namespace roco */

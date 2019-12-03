@@ -66,11 +66,11 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 /*!
-* @file     TimeStd.hpp
-* @author   Christian Gehring
-* @date     Dec, 2014
-* @brief
-*/
+ * @file     TimeStd.hpp
+ * @author   Christian Gehring
+ * @date     Dec, 2014
+ * @brief
+ */
 #pragma once
 
 #include <cstdint>
@@ -79,46 +79,87 @@
 namespace roco {
 namespace time {
 
-class TimeStd: virtual public Time
-{
+class TimeStd : virtual public Time {
  public:
-  TimeStd();
+  //! Default constructor
+  TimeStd() = default;
+  /**
+   * Construct time from seconds and nanoseconds parts.
+   * @param sec Seconds.
+   * @param nsec Nanoseconds.
+   */
   TimeStd(uint32_t sec, uint32_t nsec);
-  TimeStd(const Time& time);
-  explicit TimeStd(uint64_t t);
-  explicit TimeStd(double t);
-  virtual ~TimeStd();
-  TimeStd& from(uint32_t sec, uint32_t nsec);
-  TimeStd& fromSec(double t);
-  TimeStd& fromNSec(uint64_t t);
-  virtual double toSec() const;
-  virtual uint32_t getSec() const;
-  virtual uint32_t getNSec() const;
-  TimeStd& operator=(const Time& time);
 
+  /**
+   * Construct time from nanoseconds.
+   * @param nanoseconds Time in nanoseconds.
+   */
+  explicit TimeStd(uint64_t nanoseconds);
+
+  /**
+   * Construct time from seconds.
+   * @param nanoseconds Time in seconds.
+   */
+  explicit TimeStd(double seconds);
+
+  //! Copy constructor
+  explicit TimeStd(const Time& time);
+
+  //! Default destructor
+  ~TimeStd() override = default;
+
+  // Operator overloads
+  TimeStd& operator=(const Time& time);
   TimeStd& operator=(const TimeStd& rhs);
   TimeStd operator+(const TimeStd& rhs) const;
-  TimeStd operator-(const TimeStd &rhs) const;
-  TimeStd  operator-() const;
+  TimeStd operator-(const TimeStd& rhs) const;
+  TimeStd operator-() const;
   TimeStd& operator+=(const TimeStd& rhs);
-  TimeStd& operator-=(const TimeStd &rhs);
-
+  TimeStd& operator-=(const TimeStd& rhs);
   TimeStd operator+(double t) const;
   TimeStd& operator+=(double t);
 
-  virtual Time& setNow();
+  /**
+   * Set time object from seconds and nanoseconds.
+   * @param sec Time seconds part.
+   * @param nsec Time nanoseconds part.
+   * @return Time object.
+   */
+  TimeStd& from(uint32_t sec, uint32_t nsec);
+
+  //! @copydoc Time::fromSec
+  Time& fromSec(double t) override;
+  //! @copydoc Time::fromNSec
+  Time& fromNSec(uint64_t t) override;
+  //! @copydoc Time::toSec
+  double toSec() const override;
+  //! @copydoc Time::getSec
+  uint32_t getSec() const override;
+  //! @copydoc Time::getNSec
+  uint32_t getNSec() const override;
+  //! @copydoc Time::setNow
+  Time& setNow() override;
+
+  //! Get current time.
   static TimeStd now();
 
-
+  /**
+   * Output stream operator.
+   * @param out Output stream.
+   * @param rhs Time to print.
+   * @return Updated output stream.
+   */
   friend std::ostream& operator<<(std::ostream& out, const TimeStd& rhs);
+
  protected:
   inline void normalizeSecNSec(uint64_t& sec, uint64_t& nsec) const;
   inline void normalizeSecNSec(uint32_t& sec, uint32_t& nsec) const;
   inline void normalizeSecNSecUnsigned(int64_t& sec, int64_t& nsec) const;
+
  protected:
-  uint32_t sec_;
-  uint32_t nsec_;
+  uint32_t sec_ = 0u;
+  uint32_t nsec_ = 0u;
 };
 
 } /* namespace time */
-} /* namespace robotControllers */
+}  // namespace roco

@@ -42,12 +42,12 @@
 #pragma once
 
 // roco
-#include "roco/controllers/ControllerTupleBase.hpp"
 #include "roco/controllers/Controller.hpp"
+#include "roco/controllers/ControllerTupleBase.hpp"
 
 namespace roco {
 
 template <typename State_, typename Command_, typename... Controllers_>
-using ControllerTuple = ControllerTupleBase< roco::Controller<State_, Command_>, State_, Command_, Controllers_... >;
+using ControllerTuple = ControllerTupleBase<roco::Controller<State_, Command_>, State_, Command_, Controllers_...>;
 
 }

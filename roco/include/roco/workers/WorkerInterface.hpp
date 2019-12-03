@@ -33,11 +33,11 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     WorkerInterface.hpp
-* @author   Christian Gehring, C. Dario Bellicoso
-* @date     Aug 27, 2015
-* @brief
-*/
+ * @file     WorkerInterface.hpp
+ * @author   Christian Gehring, C. Dario Bellicoso
+ * @date     Aug 27, 2015
+ * @brief
+ */
 
 #pragma once
 
@@ -48,13 +48,13 @@ namespace roco {
 
 class WorkerInterface {
  public:
-  WorkerInterface() {}
-  virtual ~WorkerInterface() {}
+  WorkerInterface() = default;
+  virtual ~WorkerInterface() = default;
 
-  virtual bool start() = 0;
-  virtual bool cancel(bool block=false) = 0;
   virtual bool work(const WorkerEvent& event) = 0;
-
+  virtual bool start() = 0;
+  virtual bool cancel(bool block) = 0;
+  bool cancel() { return cancel(false); }
 };
 
-} // namespace roco
+}  // namespace roco

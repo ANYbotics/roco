@@ -33,11 +33,11 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     Controller.hpp
-* @author   Christian Gehring, Gabriel Hottiger
-* @date     Dec, 2014
-* @note     Restructured, June 2016
-*/
+ * @file     Controller.hpp
+ * @author   Christian Gehring, Gabriel Hottiger
+ * @date     Dec, 2014
+ * @note     Restructured, June 2016
+ */
 
 #pragma once
 
@@ -52,40 +52,39 @@ namespace roco {
 /*! Derive this class and implement your own controller.
  *
  */
-  template<typename State_, typename Command_>
-  class Controller: virtual public ControllerBase<State_, Command_, ControllerAdapteeInterface, ControllerExtensionInterface> {
-   public:
-    Controller() { }
-    virtual ~Controller() { }
+template <typename State_, typename Command_>
+class Controller : virtual public ControllerBase<State_, Command_, ControllerAdapteeInterface, ControllerExtensionInterface> {
+ public:
+  //! Default constructor
+  Controller() = default;
+  //! Default destructor
+  ~Controller() override = default;
 
-    /*! Use this method to swap from another controller.
-     * Default: initialize or reset
-     * @param dt  time step [s]
-     * @param state  State received from the previous controller
-     * @returns true if successful
-     */
-    virtual bool swap(double dt, const ControllerSwapStateInterfacePtr& swapState) {
-      return this->isInitialized() ? this->reset(dt) : this->initialize(dt);
-    }
+  /*! Use this method to swap from another controller.
+   * Default: initialize or reset
+   * @param dt  time step [s]
+   * @param state  State received from the previous controller
+   * @returns true if successful
+   */
+  bool swap(double dt, const ControllerSwapStateInterfacePtr& /*swapState*/) override {
+    return this->isInitialized() ? this->reset(dt) : this->initialize(dt);
+  }
 
-    /*! Use this method to get the state of the controller. Must be thread-safe parallel to advance.
-     * Default: sets nullptr
-     * @param   swapState reference to state to be set
-     * @returns true if successful
-     */
-    virtual bool getSwapState(ControllerSwapStateInterfacePtr& swapState) {
-      swapState.reset( nullptr );
-      return true;
-    }
+  /*! Use this method to get the state of the controller. Must be thread-safe parallel to advance.
+   * Default: sets nullptr
+   * @param   swapState reference to state to be set
+   * @returns true if successful
+   */
+  bool getSwapState(ControllerSwapStateInterfacePtr& swapState) override {
+    swapState.reset(nullptr);
+    return true;
+  }
 
-    /*! Use this method to set a shared module to the controller.
-     * Default: do nothing
-     * @param   module reference to module to be set
-     * @return  true if successful (default: false)
-     */
-    virtual bool addSharedModule(const SharedModulePtr& module) {
-      return false;
-    }
-
-  };
-}
+  /*! Use this method to set a shared module to the controller.
+   * Default: do nothing
+   * @param   module reference to module to be set
+   * @return  true if successful (default: false)
+   */
+  bool addSharedModule(const SharedModulePtr& /*module*/) override { return false; }
+};
+}  // namespace roco

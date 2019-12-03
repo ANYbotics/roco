@@ -33,11 +33,11 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     WorkerHandle.hpp
-* @author   C. Dario Bellicoso, Christian Gehring
-* @date     Jun 18, 2015
-* @brief
-*/
+ * @file     WorkerHandle.hpp
+ * @author   C. Dario Bellicoso, Christian Gehring
+ * @date     Jun 18, 2015
+ * @brief
+ */
 #pragma once
 
 #include <string>
@@ -45,16 +45,12 @@
 namespace roco {
 
 class WorkerHandle {
-  public:
-    WorkerHandle() {}
-    WorkerHandle(const std::string & name):
-      name_(name)
-    {
+ public:
+  WorkerHandle() = default;
+  explicit WorkerHandle(std::string name) : name_(std::move(name)) {}
+  virtual ~WorkerHandle() = default;
 
-    }
-    virtual ~WorkerHandle() {}
-
-    std::string name_;
+  std::string name_;
 };
 
-}
+}  // namespace roco

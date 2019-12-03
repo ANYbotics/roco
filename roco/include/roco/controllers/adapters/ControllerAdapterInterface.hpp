@@ -56,10 +56,10 @@ namespace roco {
  */
 class ControllerAdapterInterface {
  public:
-  //! Empty constructor
+  //! Default constructor
   ControllerAdapterInterface() = default;
 
-  //! Empty constructor
+  //! Default destructor
   virtual ~ControllerAdapterInterface() = default;
 
   /*! Adapts the adaptees create(dt) function.

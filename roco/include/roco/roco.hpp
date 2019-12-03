@@ -33,13 +33,12 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     Controller.hpp
-* @author   Christian Gehring
-* @date     Dec, 2014
-* @note     Restructured, June 2016
-*/
+ * @file     Controller.hpp
+ * @author   Christian Gehring
+ * @date     Dec, 2014
+ * @note     Restructured, June 2016
+ */
 
 #pragma once
 
 #include <roco/controllers/controllers.hpp>
-

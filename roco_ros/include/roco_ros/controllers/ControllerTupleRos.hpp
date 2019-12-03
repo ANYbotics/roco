@@ -50,6 +50,6 @@
 namespace roco_ros {
 
 template <typename State_, typename Command_, typename... Controllers_>
-using ControllerTupleRos = roco::ControllerTupleBase< roco_ros::ControllerRos<State_, Command_>, State_, Command_, Controllers_... >;
+using ControllerTupleRos = roco::ControllerTupleBase<roco_ros::ControllerRos<State_, Command_>, State_, Command_, Controllers_...>;
 
 }

@@ -33,35 +33,26 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     WorkerOptions.hpp
-* @author   Christian Gehring, C. Dario Bellicoso
-* @date     Aug 27, 2015
-* @brief
-*/
+ * @file     WorkerOptions.hpp
+ * @author   Christian Gehring, C. Dario Bellicoso
+ * @date     Aug 27, 2015
+ * @brief
+ */
 #pragma once
 
+#include <boost/function.hpp>
 #include <roco/workers/WorkerEvent.hpp>
 #include <string>
-#include <boost/function.hpp>
 
 namespace roco {
 
-typedef boost::function<bool(const WorkerEvent&)> WorkerCallback;
+using WorkerCallback = boost::function<bool(const WorkerEvent&)>;
 
-class WorkerOptions
-{
-
+class WorkerOptions {
  public:
-  WorkerOptions()
-      : frequency_(1.0),
-        autostart_(false),
-        synchronous_(false),
-        callback_(0),
-        priority_(0),
-        name_("")
-  { }
+  WorkerOptions() : frequency_(1.0), autostart_(false), synchronous_(false), callback_(), priority_(0), name_("") {}
 
-  virtual ~WorkerOptions() { }
+  virtual ~WorkerOptions() = default;
 
   double frequency_;
   bool autostart_;
@@ -69,7 +60,6 @@ class WorkerOptions
   WorkerCallback callback_;
   int priority_;
   std::string name_;
-
 };
 
-}
+}  // namespace roco

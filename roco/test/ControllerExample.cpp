@@ -33,45 +33,49 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     example_main.cpp
-* @author   Christian Gehring
-* @date     Dec, 2014
-* @brief
-*/
-
-#include "ControllerAdapterExample.hpp"
-#include "ControllerExample.hpp"
-
+ * @file     ControllerExample.cpp
+ * @author   Christian Gehring
+ * @date     Dec, 2014
+ * @brief
+ */
+#include "include/ControllerExample.hpp"
 #include <iostream>
+#include <stdexcept>
 
-int main(int argc, char** argv) {
-  using namespace roco::controllers;
-  double dt = 0.1;
+namespace roco {
 
-  std::string test{"hello"};
-  ROCO_INFO_STREAM(test);
-//  ROCO_ERROR("test %lf", 0.1);
-
-  double state = 0.0;
-  double command = 0.0;
-  ControllerAdapterExample<ControllerExample> controller(state, command);
-
-  std::cout << controller.getName() << std::endl;
-  if (!controller.createController(dt)) {
-    std::cout << "Could not create controller!\n";
-  }
-  if (!controller.initializeController(dt)) {
-    std::cout << "Could not initialize controller!\n";
-  }
-  for (int i=0; i<5; i++) {
-    if (!controller.advanceController(dt)) {
-      std::cout << "Could not advance controller!\n";
-    }
-  }
-
-  if (!controller.cleanupController()) {
-    std::cout << "Could not cleanup controller!\n";
-  }
-
-  return 0;
+bool ControllerExample::create(double /*dt*/) {
+  return true;
 }
+
+bool ControllerExample::initialize(double /*dt*/) {
+  //  throw std::runtime_error("ControllerTest: could not init\n");
+  return true;
+}
+
+bool ControllerExample::advance(double /*dt*/) {
+  //  ROCO_FATAL("uuups");
+  std::cout << "time: " << getTime().toSec() << std::endl;
+  std::cout << "state: " << getState() << std::endl;
+  getCommand() = 2.0;
+  std::cout << "command: " << getCommand() << std::endl;
+  return true;
+}
+
+bool ControllerExample::cleanup() {
+  return true;
+}
+
+bool ControllerExample::reset(double /*dt*/) {
+  return true;
+}
+
+bool ControllerExample::preStop() {
+  return true;
+}
+
+bool ControllerExample::stop() {
+  return true;
+}
+
+} /* namespace roco */

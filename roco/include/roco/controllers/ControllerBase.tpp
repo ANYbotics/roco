@@ -33,62 +33,49 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerBase.hpp
-* @author   Christian Gehring, Gabriel Hottiger
-* @date     Dec, 2014
-* @note     Restructured, June 2016
-*/
+ * @file     ControllerBase.hpp
+ * @author   Christian Gehring, Gabriel Hottiger
+ * @date     Dec, 2014
+ * @note     Restructured, June 2016
+ */
 
 namespace roco {
 
-template<typename State_, typename Command_, class ...Interfaces_>
-ControllerBase<State_, Command_, Interfaces_...>::ControllerBase():
-  name_(""),
-  parameterPath_(""),
-  isCreated_(false),
-  isInitialized_(false),
-  isRunning_(false)
-{
+template <typename State_, typename Command_, class... Interfaces_>
+ControllerBase<State_, Command_, Interfaces_...>::ControllerBase()
+    : name_(""), parameterPath_(""), isCreated_(false), isInitialized_(false), isRunning_(false) {}
 
-}
-
-template<typename State_, typename Command_, class... Interfaces_>
-ControllerBase<State_, Command_, Interfaces_...>::~ControllerBase()
-{
-
-}
-
-template<typename State_, typename Command_, class... Interfaces_>
+template <typename State_, typename Command_, class... Interfaces_>
 const std::string& ControllerBase<State_, Command_, Interfaces_...>::getName() const {
   return name_;
 }
 
-template<typename State_, typename Command_, class... Interfaces_>
+template <typename State_, typename Command_, class... Interfaces_>
 void ControllerBase<State_, Command_, Interfaces_...>::setName(const std::string& name) {
   name_ = name;
 }
 
-template<typename State_, typename Command_, class... Interfaces_>
+template <typename State_, typename Command_, class... Interfaces_>
 const std::string& ControllerBase<State_, Command_, Interfaces_...>::getParameterPath() const {
   return parameterPath_;
 }
 
-template<typename State_, typename Command_, class... Interfaces_>
+template <typename State_, typename Command_, class... Interfaces_>
 void ControllerBase<State_, Command_, Interfaces_...>::setParameterPath(const std::string& parameterPath) {
   parameterPath_ = parameterPath;
 }
 
-template<typename State_, typename Command_, class... Interfaces_>
+template <typename State_, typename Command_, class... Interfaces_>
 bool ControllerBase<State_, Command_, Interfaces_...>::isInitialized() const {
   return isInitialized_;
 }
 
-template<typename State_, typename Command_, class... Interfaces_>
+template <typename State_, typename Command_, class... Interfaces_>
 bool ControllerBase<State_, Command_, Interfaces_...>::isCreated() const {
   return isCreated_;
 }
 
-template<typename State_, typename Command_, class... Interfaces_>
+template <typename State_, typename Command_, class... Interfaces_>
 bool ControllerBase<State_, Command_, Interfaces_...>::isRunning() const {
   return isRunning_;
 }

@@ -47,14 +47,13 @@ namespace roco {
 /*!
  *   This interface is used in the fail-proof controller implementation.
  */
-class FailproofControllerAdapteeInterface
-{
+class FailproofControllerAdapteeInterface {
  public:
-  //! Empty constructor
-  FailproofControllerAdapteeInterface() { }
+  //! Default constructor
+  FailproofControllerAdapteeInterface() = default;
 
-  //! Empty destructor
-  virtual ~FailproofControllerAdapteeInterface() { }
+  //! Default destructor
+  virtual ~FailproofControllerAdapteeInterface() = default;
 
  protected:
   /*! Use this method instead of the constructor to create objects.
@@ -75,7 +74,6 @@ class FailproofControllerAdapteeInterface
    * @returns true if successful
    */
   virtual bool cleanup() = 0;
-
 };
 
 } /* namespace roco */

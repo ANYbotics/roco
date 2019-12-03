@@ -33,61 +33,38 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 /*!
-* @file     ControllerExample.cpp
-* @author   Christian Gehring
-* @date     Dec, 2014
-* @brief
-*/
-#include "ControllerExample.hpp"
-#include <stdexcept>
+ * @file     example_main.cpp
+ * @author   Christian Gehring
+ * @date     Dec, 2014
+ * @brief
+ */
+
+#include "include/ControllerAdapterExample.hpp"
+#include "include/ControllerExample.hpp"
+
 #include <iostream>
 
-namespace roco {
-namespace controllers {
+#include <gtest/gtest.h>
 
-ControllerExample::ControllerExample():Controller(std::string{"ControllerExample"})
-{
+TEST(RocoController, testInterface) {  // NOLINT
+  double dt = 0.1;
 
+  auto state = std::make_shared<double>(0.0);
+  auto stateMutex = std::make_shared<boost::shared_mutex>();
+  auto command = std::make_shared<double>(0.0);
+  auto commandMutex = std::make_shared<boost::shared_mutex>();
+
+  roco::ControllerAdapterExample<roco::ControllerExample> controller;
+  controller.setStateAndCommand(state, stateMutex, command, commandMutex);
+
+  std::cout << controller.getName() << std::endl;
+  ASSERT_TRUE(controller.createController(dt));
+
+  ASSERT_TRUE(controller.initializeController(dt));
+
+  for (int i = 0; i < 5; ++i) {
+    ASSERT_TRUE(controller.advanceController(dt));
+  }
+
+  ASSERT_TRUE(controller.cleanupController());
 }
-
-ControllerExample::~ControllerExample()
-{
-}
-
-bool ControllerExample::create(double dt)
-{
- return true;
-}
-
-bool ControllerExample::initialize(double dt)
-{
-//  throw std::runtime_error("ControllerTest: could not init\n");
-  return true;
-}
-
-bool ControllerExample::advance(double dt)
-{
-//  ROCO_FATAL("uuups");
-  std::cout << "time: " << getTime().toSec() << std::endl;
-  std::cout << "state: " << getState() << std::endl;
-  getCommand() = 2.0;
-  std::cout << "command: " << getCommand() << std::endl;
-  return true;
-}
-
-bool ControllerExample::cleanup()
-{
-  return true;
-}
-
-bool ControllerExample::reset(double dt)
-{
-  return true;
-}
-
-bool ControllerExample::change() {
-  return true;
-}
-
-} /* namespace controllers */
-} /* namespace roco */
