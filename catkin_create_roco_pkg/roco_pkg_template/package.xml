@@ -5,6 +5,7 @@
   <version>0.3.0</version>
   <description>${pkg_name} provides a robot controller that ...</description>
   <maintainer email="${email}">${author}</maintainer>
+  <maintainer email="N/A">N/A</maintainer>
   <license>TODO</license>
   <author email="${email}">${author}</author>
 
