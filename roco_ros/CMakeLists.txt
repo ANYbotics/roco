@@ -9,12 +9,12 @@ set(CATKIN_PACKAGE_DEPENDENCIES
   message_logger
   roco
   roscpp
-)
+  )
 
 find_package(catkin REQUIRED
   COMPONENTS
-    ${CATKIN_PACKAGE_DEPENDENCIES}
-)
+  ${CATKIN_PACKAGE_DEPENDENCIES}
+  )
 
 ###################################
 ## catkin specific configuration ##
@@ -22,10 +22,10 @@ find_package(catkin REQUIRED
 
 catkin_package(
   INCLUDE_DIRS
-    include
+  include
   LIBRARIES
   CATKIN_DEPENDS
-    ${CATKIN_PACKAGE_DEPENDENCIES}
+  ${CATKIN_PACKAGE_DEPENDENCIES}
 )
 
 #############
@@ -34,7 +34,7 @@ catkin_package(
 
 install(
   DIRECTORY
-    include/${PROJECT_NAME}/
+  include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
 

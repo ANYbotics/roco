@@ -11,7 +11,7 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <build_depend>cmake_clang_tools</build_depend>
+<!--   <build_depend>cmake_clang_tools</build_depend> -->
 
   <depend>message_logger</depend>
   <depend>roco</depend>
